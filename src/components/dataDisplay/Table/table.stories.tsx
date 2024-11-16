@@ -3,7 +3,7 @@ import { CustomTable } from "./custom/CustomTable";
 
 import { columns } from "./columns";
 
-const data = [
+export const dataTable = [
   {
     id: "TASK-8782",
     title:
@@ -802,7 +802,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    data,
+    data: dataTable,
     columns,
   },
 };
