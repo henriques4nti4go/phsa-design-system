@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -33,12 +33,16 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   callback?: (data: TableState) => void;
+  renderToolbar?: (table: any) => React.ReactNode;
+  renderPagination?: (table: any) => React.ReactNode;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   callback = () => {},
+  renderToolbar = () => null,
+  renderPagination = () => null,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -83,6 +87,7 @@ export function DataTable<TData, TValue>({
   return (
     <div className="space-y-4">
       {/* <DataTableToolbar table={table} /> */}
+      {renderToolbar(table)}
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -133,6 +138,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
+      {renderPagination(table)}
       {/* <DataTablePagination table={table} /> */}
     </div>
   );

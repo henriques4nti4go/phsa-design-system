@@ -1,4 +1,7 @@
-import { Sheet as SheetComponent, SheetContent } from "@/components/ui/sheet";
+import {
+  Sheet as SheetComponent,
+  SheetContent,
+} from "../../../components/ui/sheet";
 import { PropsWithChildren } from "react";
 
 export type SheetProps = typeof SheetComponent &

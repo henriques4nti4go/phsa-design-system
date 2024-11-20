@@ -6,7 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogProps as DialogComponentProps,
-} from "@/components/ui/dialog";
+} from "../../../components/ui/dialog";
 import { PropsWithChildren } from "react";
 
 export type DialogProps = DialogComponentProps &

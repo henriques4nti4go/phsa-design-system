@@ -47,7 +47,6 @@ export const InputForm: StoryObj<InputFormProps> = {
           className="w-2/3 space-y-6"
         >
           <InputFormComponent
-            control={form.control}
             name="username"
             label="Username"
             placeholder="Enter your username"

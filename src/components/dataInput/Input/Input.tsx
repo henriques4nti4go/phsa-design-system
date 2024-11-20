@@ -1,15 +1,17 @@
+import { useFormContext } from "react-hook-form";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from "../../../components/ui/form";
 import {
   Input as InputComponent,
   InputProps as InputComponentProps,
 } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
+import { useMemo } from "react";
 
 export type InputProps = InputComponentProps & {
   label?: string;
@@ -25,11 +27,15 @@ export function Input({ label, ...props }: InputProps) {
 }
 
 export type InputFormProps = InputProps & {
-  control: any;
   name: string;
 };
 
-export function InputForm({ control, name, label, ...rest }: InputFormProps) {
+export function InputForm({ name, label, ...rest }: InputFormProps) {
+  const form = useFormContext();
+  const control = useMemo(() => form?.control, [form]);
+
+  if (!control) return <></>;
+
   return (
     <FormField
       control={control}

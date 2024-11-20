@@ -1,4 +1,4 @@
-import { PropsWithChildren } from "react";
+import React from "react";
 import {
   Card as CardComponent,
   CardContent,
@@ -8,10 +8,11 @@ import {
   CardTitle,
 } from "../../../components/ui/card";
 
-export type CardProps = PropsWithChildren & {
-  title: string;
+export type CardProps = {
+  title?: string;
   description?: string;
-  footer?: () => React.ReactNode;
+  footer?: () => React.ReactNode | JSX.Element;
+  children?: React.ReactNode | JSX.Element;
 };
 
 export const Card = ({
@@ -23,7 +24,7 @@ export const Card = ({
   return (
     <CardComponent>
       <CardHeader>
-        <CardTitle>{title}</CardTitle>
+        {title && <CardTitle>{title}</CardTitle>}
         {description && <CardDescription>{description}</CardDescription>}
       </CardHeader>
       {children && <CardContent>{children}</CardContent>}
