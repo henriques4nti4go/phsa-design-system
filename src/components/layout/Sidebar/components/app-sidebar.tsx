@@ -21,7 +21,7 @@ import {
   SidebarRail,
 } from "../../../ui/sidebar";
 import { TeamSwitcher } from "./team-switcher";
-import { NavMain } from "./nav-main";
+import { Menus } from "./menus";
 import { NavProjects } from "./nav-projects";
 import { NavUser } from "./nav-user";
 
@@ -155,7 +155,8 @@ const data = {
   ],
 };
 
-export type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
+export type AppSidebarProps = {
+  footer?: () => React.ReactNode;
   user?: {
     email?: string;
     name?: string;
@@ -169,7 +170,7 @@ export type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
     title: string;
     url: string;
     icon: React.ElementType;
-    isActive: true;
+    isActive?: true;
     items: [
       {
         title: string;
@@ -190,7 +191,12 @@ export type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
 export function AppSidebar({
   navbar = [],
   user = {},
-  enterprise = {},
+  enterprise = {
+    name: "Acme Inc",
+    logo: GalleryVerticalEnd,
+    plan: "Enterprise",
+  },
+  footer,
   ...props
 }: AppSidebarProps) {
   return (
@@ -199,12 +205,12 @@ export function AppSidebar({
         <TeamSwitcher teams={enterprise} />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={navbar} />
-        {/* <NavProjects projects={data.projects} /> */}
+        <Menus items={navbar} />
       </SidebarContent>
-      <SidebarFooter>
+      {footer && <SidebarFooter>{footer()}</SidebarFooter>}
+      {/* <SidebarFooter>
         <NavUser user={user} />
-      </SidebarFooter>
+      </SidebarFooter> */}
       <SidebarRail />
     </Sidebar>
   );

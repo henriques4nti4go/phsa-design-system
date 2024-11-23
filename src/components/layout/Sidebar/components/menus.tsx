@@ -9,7 +9,7 @@ import {
 } from "../../../ui/sidebar";
 import React from "react";
 
-export function NavMain({
+export function Menus({
   items,
 }: {
   items: {
