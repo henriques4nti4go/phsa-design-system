@@ -41,7 +41,7 @@ export const Select = ({
     <div className="w-full">
       {label && <Label htmlFor={rest.id}>{label}</Label>}
       <SelectShadcn {...rest} onValueChange={onChange} defaultValue={value}>
-        <SelectTrigger className="w-[180px]">
+        <SelectTrigger>
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>

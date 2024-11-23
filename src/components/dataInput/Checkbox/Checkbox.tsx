@@ -21,9 +21,7 @@ export const Checkbox = ({ children, ...props }: CheckboxProps) => {
   return (
     <div className="flex items-center space-x-2">
       <CheckboxShadcn {...props} />
-      {children && (
-        <Label htmlFor={props.id}>Accept terms and conditions</Label>
-      )}
+      {children && <Label htmlFor={props.id}>{children}</Label>}
     </div>
   );
 };
