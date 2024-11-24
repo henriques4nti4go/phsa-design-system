@@ -1,4 +1,3 @@
-import { useFormContext } from "react-hook-form";
 import { Label } from "../../../components/ui/label";
 import {
   Select as SelectShadcn,
@@ -8,14 +7,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../../components/ui/select";
-import { useMemo } from "react";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "../form";
+
+import { FormContainer } from "../form/Form";
 
 export type SelectProps = Omit<SelectShadcnProps, "onValueChange"> & {
   options: {
@@ -61,24 +54,31 @@ export type SelectFormProps = SelectProps & {
 };
 
 export function SelectForm({ name, label, ...rest }: SelectFormProps) {
-  const form = useFormContext();
-  const control = useMemo(() => form?.control, [form]);
-
-  if (!control) return <></>;
-
   return (
-    <FormField
-      control={control}
+    <FormContainer
       name={name}
-      render={({ field }) => (
-        <FormItem>
-          {label && <FormLabel>{label}</FormLabel>}
-          <FormControl>
-            <Select {...rest} {...field} />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}
+      label={label}
+      render={(props) => <Select {...rest} {...props} />}
     />
   );
+  // const form = useFormContext();
+  // const control = useMemo(() => form?.control, [form]);
+
+  // if (!control) return <></>;
+
+  // return (
+  //   <FormField
+  //     control={control}
+  //     name={name}
+  //     render={({ field }) => (
+  //       <FormItem>
+  //         {label && <FormLabel>{label}</FormLabel>}
+  //         <FormControl>
+  //           <Select {...rest} {...field} />
+  //         </FormControl>
+  //         <FormMessage />
+  //       </FormItem>
+  //     )}
+  //   />
+  // );
 }

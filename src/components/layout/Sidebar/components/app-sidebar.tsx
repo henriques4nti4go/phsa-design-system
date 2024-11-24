@@ -208,9 +208,6 @@ export function AppSidebar({
         <Menus items={navbar} />
       </SidebarContent>
       {footer && <SidebarFooter>{footer()}</SidebarFooter>}
-      {/* <SidebarFooter>
-        <NavUser user={user} />
-      </SidebarFooter> */}
       <SidebarRail />
     </Sidebar>
   );

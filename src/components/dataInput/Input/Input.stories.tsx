@@ -40,6 +40,7 @@ export const InputForm: StoryObj<InputFormProps> = {
     function onSubmit(data: any) {
       console.log(data);
     }
+
     return (
       <Form {...form}>
         <form

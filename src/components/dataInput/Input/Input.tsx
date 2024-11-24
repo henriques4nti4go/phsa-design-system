@@ -12,6 +12,7 @@ import {
 } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
 import { useMemo } from "react";
+import { FormContainer } from "../form/Form";
 
 export type InputProps = InputComponentProps & {
   label?: string;
@@ -34,7 +35,13 @@ export function InputForm({ name, label, ...rest }: InputFormProps) {
   const form = useFormContext();
   const control = useMemo(() => form?.control, [form]);
 
-  if (!control) return <></>;
+  return (
+    <FormContainer
+      name={name}
+      label={label}
+      render={(props) => <Input {...rest} {...props} />}
+    />
+  );
 
   return (
     <FormField
