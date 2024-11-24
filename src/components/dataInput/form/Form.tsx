@@ -34,7 +34,7 @@ export const FormContainer = ({
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem>
+        <FormItem className={className}>
           <FormItem className={className}>
             {label && <FormLabel>{label}</FormLabel>}
             <FormControl>{render && render(field)}</FormControl>

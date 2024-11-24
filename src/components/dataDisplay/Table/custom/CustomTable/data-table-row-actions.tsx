@@ -22,12 +22,17 @@ import { labels } from "./data";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
+  options: {
+    action: (row: Row<TData>) => void;
+    label: string;
+  }[];
 }
 
 export function DataTableRowActions<TData>({
   row,
+  options,
 }: DataTableRowActionsProps<TData>) {
-  const task = taskSchema.parse(row.original);
+  // const task = taskSchema.parse(row.original);
 
   return (
     <DropdownMenu>
@@ -41,7 +46,12 @@ export function DataTableRowActions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem>Edit</DropdownMenuItem>
+        {options.map(({ action, label }, index) => (
+          <DropdownMenuItem key={index} onClick={() => action(row)}>
+            {label}
+          </DropdownMenuItem>
+        ))}
+        {/* <DropdownMenuItem>Edit</DropdownMenuItem>
         <DropdownMenuItem>Make a copy</DropdownMenuItem>
         <DropdownMenuItem>Favorite</DropdownMenuItem>
         <DropdownMenuSeparator />
@@ -61,7 +71,7 @@ export function DataTableRowActions<TData>({
         <DropdownMenuItem>
           Delete
           <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
-        </DropdownMenuItem>
+        </DropdownMenuItem> */}
       </DropdownMenuContent>
     </DropdownMenu>
   );

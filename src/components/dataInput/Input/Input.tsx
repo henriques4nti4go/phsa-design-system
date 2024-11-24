@@ -20,9 +20,9 @@ export type InputProps = InputComponentProps & {
 
 export function Input({ label, ...props }: InputProps) {
   return (
-    <div className="grid w-full  items-center gap-1.5">
+    <div className="grid w-full items-center gap-1.5">
       {label && <Label htmlFor={props.id}>{label}</Label>}
-      <InputComponent {...props} />
+      <InputComponent {...props} className="" />
     </div>
   );
 }
@@ -39,7 +39,7 @@ export function InputForm({ name, label, ...rest }: InputFormProps) {
     <FormContainer
       name={name}
       label={label}
-      render={(props) => <Input {...rest} {...props} />}
+      render={(props) => <Input {...props} {...rest} />}
     />
   );
 

@@ -36,7 +36,7 @@ export function CheckboxForm({ name, children, ...rest }: CheckboxFormProps) {
       name={name}
       label={children as string}
       render={(props) => <Checkbox {...props} id={rest.id} />}
-      className="flex flex-row-reverse items-start"
+      className="flex flex-row-reverse items-center gap-2 space-y-0"
     />
   );
 

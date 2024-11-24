@@ -196,6 +196,28 @@ export const columns: ColumnDef<Task>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <DataTableRowActions row={row} />,
+    cell: ({ row }) => (
+      <DataTableRowActions
+        row={row}
+        options={[
+          {
+            action: () => alert("Edit"),
+            label: "Edit",
+          },
+          {
+            action: () => alert("Make a copy"),
+            label: "Make a copy",
+          },
+          {
+            action: () => alert("Favorite"),
+            label: "Favorite",
+          },
+          {
+            action: () => alert("Delete"),
+            label: "Delete",
+          },
+        ]}
+      />
+    ),
   },
 ];
