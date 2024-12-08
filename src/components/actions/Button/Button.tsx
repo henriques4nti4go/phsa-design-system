@@ -1,3 +1,4 @@
+import { RefObject } from "react";
 import { Spinner } from "../../../components/feedback";
 import {
   Button as ButtonShadcn,
@@ -6,6 +7,7 @@ import {
 
 export type ButtonProps = ButtonPropsShadcn & {
   loading?: boolean;
+  ref?: RefObject<HTMLButtonElement>;
 };
 export const Button = ({
   children,

@@ -5,6 +5,7 @@ import {
   Input,
   InputFormProps,
   InputForm as InputFormComponent,
+  InputMaskForm,
 } from "./Input";
 import { useForm } from "react-hook-form";
 import { Form } from "../../../components/ui/form";
@@ -51,6 +52,37 @@ export const InputForm: StoryObj<InputFormProps> = {
             name="username"
             label="Username"
             placeholder="Enter your username"
+          />
+          <Button type="submit">Submit</Button>
+        </form>
+      </Form>
+    );
+  },
+};
+
+export const PatternInput: StoryObj<InputFormProps> = {
+  render: () => {
+    const form = useForm({
+      defaultValues: {
+        cardNumber: "1231231",
+      },
+    });
+
+    function onSubmit(data: any) {
+      console.log(data);
+    }
+
+    return (
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className=" space-y-6 w-[300px]"
+        >
+          <InputMaskForm
+            name="cardNumber"
+            label="Card number"
+            placeholder="Enter your card number"
+            mask="+4\9 99 999 99"
           />
           <Button type="submit">Submit</Button>
         </form>

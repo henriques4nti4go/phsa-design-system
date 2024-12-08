@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { Label } from "../../../components/ui/label";
 import {
   Select as SelectShadcn,
@@ -21,19 +22,28 @@ export type SelectProps = Omit<SelectShadcnProps, "onValueChange"> & {
   id?: string;
   onChange?: (value: string) => void;
   value?: string;
+  onChangeCallback?: (value: string) => void;
 };
 export const Select = ({
   options,
   placeholder,
   label,
   onChange = () => {},
+  onChangeCallback = () => {},
   value,
   ...rest
 }: SelectProps) => {
+  const onSelect = useCallback(
+    (value: string) => {
+      onChange(value);
+      onChangeCallback(value);
+    },
+    [onChange, onChangeCallback]
+  );
   return (
-    <div className="w-full">
+    <div className="flex-1 w-full">
       {label && <Label htmlFor={rest.id}>{label}</Label>}
-      <SelectShadcn {...rest} onValueChange={onChange} defaultValue={value}>
+      <SelectShadcn {...rest} onValueChange={onSelect} defaultValue={value}>
         <SelectTrigger>
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
@@ -55,11 +65,13 @@ export type SelectFormProps = SelectProps & {
 
 export function SelectForm({ name, label, ...rest }: SelectFormProps) {
   return (
-    <FormContainer
-      name={name}
-      label={label}
-      render={(props) => <Select {...rest} {...props} />}
-    />
+    <div className="flex-1">
+      <FormContainer
+        name={name}
+        label={label}
+        render={(props) => <Select {...rest} {...props} />}
+      />
+    </div>
   );
   // const form = useFormContext();
   // const control = useMemo(() => form?.control, [form]);
