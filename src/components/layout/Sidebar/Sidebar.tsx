@@ -7,11 +7,11 @@ import { FooterSidebar } from "./components/footer-sidebar";
 
 export type SidebarProps = React.PropsWithChildren & AppSidebarProps;
 
-export const Sidebar = ({ children, ...rest }: React.PropsWithChildren) => {
+export const Sidebar = ({ children, ...rest }: SidebarProps) => {
   return (
     <SidebarProvider>
       <AppSidebar {...rest} />
-      <SidebarInset className="overflow-auto">
+      <SidebarInset className="overflow-auto bg-slate-50">
         <HeaderSidebar />
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">{children}</div>
         <FooterSidebar />

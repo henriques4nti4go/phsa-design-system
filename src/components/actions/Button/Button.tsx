@@ -1,24 +1,23 @@
-import { RefObject } from "react";
+import { forwardRef } from "react";
 import { Spinner } from "../../../components/feedback";
 import {
-  Button as ButtonShadcn,
-  ButtonProps as ButtonPropsShadcn,
+  Button as UIButton,
+  ButtonProps as UIButtonProps,
 } from "../../ui/button";
 
-export type ButtonProps = ButtonPropsShadcn & {
+export type ButtonProps = UIButtonProps & {
   loading?: boolean;
-  ref?: RefObject<HTMLButtonElement>;
 };
-export const Button = ({
-  children,
-  disabled,
-  loading,
-  ...rest
-}: ButtonProps) => {
-  return (
-    <ButtonShadcn {...rest} disabled={disabled || loading}>
-      {loading && <Spinner className="fill-white" />}
-      {children}
-    </ButtonShadcn>
-  );
-};
+
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ children, disabled, loading, ...rest }, ref) => {
+    return (
+      <UIButton {...rest} disabled={disabled || loading} ref={ref}>
+        {loading && <Spinner className="fill-white" />}
+        {children}
+      </UIButton>
+    );
+  }
+);
+
+Button.displayName = "Button";

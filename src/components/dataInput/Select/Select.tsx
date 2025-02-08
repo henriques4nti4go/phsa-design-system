@@ -24,6 +24,7 @@ export type SelectProps = Omit<SelectShadcnProps, "onValueChange"> & {
   value?: string;
   onChangeCallback?: (value: string) => void;
 };
+
 export const Select = ({
   options,
   placeholder,
@@ -43,7 +44,12 @@ export const Select = ({
   return (
     <div className="flex-1 w-full">
       {label && <Label htmlFor={rest.id}>{label}</Label>}
-      <SelectShadcn {...rest} onValueChange={onSelect} defaultValue={value}>
+      <SelectShadcn
+        {...rest}
+        onValueChange={onSelect}
+        defaultValue={value}
+        value={value}
+      >
         <SelectTrigger>
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
@@ -69,7 +75,9 @@ export function SelectForm({ name, label, ...rest }: SelectFormProps) {
       <FormContainer
         name={name}
         label={label}
-        render={(props) => <Select {...rest} {...props} />}
+        render={(props) => {
+          return <Select {...rest} {...props} />;
+        }}
       />
     </div>
   );

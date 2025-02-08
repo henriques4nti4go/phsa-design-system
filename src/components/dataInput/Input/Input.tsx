@@ -1,3 +1,4 @@
+"use client";
 import {
   Input as InputComponent,
   InputProps as InputComponentProps,
@@ -5,7 +6,7 @@ import {
 import { Label } from "../../../components/ui/label";
 import { FormContainer } from "../form/Form";
 import { PatternFormat, PatternFormatProps } from "react-number-format";
-import { IMaskMixin, useIMask } from "react-imask";
+import { useIMask, ReactMaskOpts } from "react-imask";
 
 export type InputProps = InputComponentProps & {
   label?: string;
@@ -60,14 +61,20 @@ export const PatternNumericInputForm = ({
 export type InputMaskProps = {
   label?: string;
   name: string;
-  mask: string | string[];
-  prepare?: (value: string) => string;
+  mask: ReactMaskOpts["mask"];
+  prepare?: ReactMaskOpts["prepare"];
 };
 
-export const InputMaskForm = ({ name, label, ...rest }: InputMaskProps) => {
-  const MaskedStyledInput = IMaskMixin(({ inputRef, ...props }) => (
-    <Input {...props} ref={inputRef} />
-  ));
+export const InputMaskForm = ({
+  name,
+  label,
+  prepare = (chars: string) => chars,
+  ...rest
+}: InputMaskProps) => {
+  const { ref, value } = useIMask({
+    mask: rest.mask,
+    prepare,
+  });
 
   return (
     <FormContainer
@@ -75,9 +82,14 @@ export const InputMaskForm = ({ name, label, ...rest }: InputMaskProps) => {
       label={label}
       className="flex-1"
       render={(props) => (
-        <MaskedStyledInput // Converte para maiúsculas
+        <Input
           {...props}
           {...rest}
+          ref={ref}
+          value={value} // Valor formatado
+          onChange={(e) => {
+            props?.onChange?.(e.target.value);
+          }}
         />
       )}
     />

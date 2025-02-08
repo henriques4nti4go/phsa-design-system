@@ -11,7 +11,6 @@ import {
 } from "../../../components/ui/dialog";
 import { PropsWithChildren, useRef } from "react";
 import { Button } from "../Button";
-import { cn } from "../../../lib/utils";
 
 export type DialogProps = DialogComponentProps &
   PropsWithChildren & {
@@ -60,15 +59,8 @@ export const DialogWithForm = ({
 
   return (
     <DialogComponent {...props}>
-      <form
-        onSubmit={onSubmit}
-        // className={cn(
-        //   dialogRef.current?.className
-        //     .replace("overflow-auto", "")
-        //     .replace("max-h-[80vh]", "")
-        // )}
-      >
-        <DialogContent className={className} ref={dialogRef}>
+      <DialogContent className={className} ref={dialogRef}>
+        <form onSubmit={onSubmit} className="flex flex-col gap-4">
           <DialogHeader>
             {title && <DialogTitle>{title}</DialogTitle>}
             {description && (
@@ -88,8 +80,8 @@ export const DialogWithForm = ({
               </div>
             </DialogFooter>
           )}
-        </DialogContent>
-      </form>
+        </form>
+      </DialogContent>
     </DialogComponent>
   );
 };
