@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "../../../../lib/utils";
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -15,11 +16,11 @@ export function Menus({
   items: {
     title: string;
     url: string;
-    isActive?: boolean;
     items?: {
       title: string;
       url: string;
       icon?: () => React.ReactNode;
+      isActive?: boolean | undefined;
     }[];
   }[];
 }) {
@@ -32,7 +33,12 @@ export function Menus({
             <SidebarMenu>
               {item.items?.map((subItem) => (
                 <SidebarMenuItem key={subItem.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton
+                    asChild
+                    className={cn(
+                      subItem?.isActive && "bg-sidebar-accent font-semibold"
+                    )}
+                  >
                     <a href={subItem.url}>
                       {subItem?.icon && subItem.icon()}
                       <span>{subItem.title}</span>

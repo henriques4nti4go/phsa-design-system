@@ -1,3 +1,4 @@
+"use client";
 import { SidebarTrigger } from "../../../ui/sidebar";
 import {
   Breadcrumb,
@@ -8,77 +9,80 @@ import {
   BreadcrumbSeparator,
 } from "../../../ui/breadcrumb";
 import { Separator } from "../../Separator";
-import { usePathname } from "next/navigation";
-import { useCallback, useMemo } from "react";
+import { useSidebar } from "../provider";
 
-export type RealValuesKeyType = keyof typeof realValues;
-
-export const realValues = {
-  create: "criar",
-  edit: "editar",
-  evaluation: "avaliação",
-  offer: "oferta",
-};
-
-const BreadCrumbElement = ({
-  isLast = false,
-  path,
-  children,
-}: {
+interface BreadcrumbItemProps {
   isLast?: boolean;
   path: string;
-  children: string;
-}) => {
+  label: string;
+}
+
+const routeMap: Record<string, string> = {
+  dashboard: "Dashboard",
+  users: "Usuários",
+  documents: "Documentos",
+  settings: "Configurações",
+  create: "Criar",
+  edit: "Editar",
+  profile: "Perfil",
+  analytics: "Análises",
+  reports: "Relatórios",
+};
+
+const BreadcrumbElement = ({ isLast, path, label }: BreadcrumbItemProps) => {
   if (isLast) {
     return (
       <BreadcrumbItem>
-        <BreadcrumbPage className="capitalize">{children}</BreadcrumbPage>
+        <BreadcrumbPage className="capitalize">{label}</BreadcrumbPage>
       </BreadcrumbItem>
     );
   }
+
   return (
-    <>
-      <BreadcrumbLink href={`/${path}`} className="capitalize">
-        {children}
+    <BreadcrumbItem>
+      <BreadcrumbLink href={path} className="capitalize">
+        {label}
       </BreadcrumbLink>
-      <BreadcrumbSeparator className="hidden md:block" />
-    </>
+      <BreadcrumbSeparator />
+    </BreadcrumbItem>
   );
 };
 
 export const HeaderSidebar = () => {
-  const pathname = usePathname();
-  const itemsBreadcrumb = useMemo(() => {
-    const path = pathname;
-    const indexPosition = path.lastIndexOf("?");
-    const currentRoute = path
-      .substring(0, indexPosition === -1 ? path.length : indexPosition)
-      .split("/")
-      .filter((item) => item.length);
+  const { currentPath } = useSidebar();
 
-    return (currentRoute as RealValuesKeyType[]) || [];
-  }, [pathname]);
+  const breadcrumbItems = currentPath
+    .split("/")
+    .filter(Boolean)
+    .map((segment, index, array) => {
+      const path = `/${array.slice(0, index + 1).join("/")}`;
+      const isLast = index === array.length - 1;
+      const label = routeMap[segment] || segment;
 
-  const renderBreadCrumb = useCallback(() => {
-    return itemsBreadcrumb?.map((item, index: number) => {
-      const path = itemsBreadcrumb.slice(0, index + 1).join("/");
-      const isLast = itemsBreadcrumb.length === index + 1;
-      const label = realValues[item] || item;
-      return (
-        <BreadCrumbElement isLast={isLast} path={path} key={index}>
-          {label}
-        </BreadCrumbElement>
-      );
+      return {
+        path,
+        label,
+        isLast,
+      };
     });
-  }, [itemsBreadcrumb]);
 
   return (
-    <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
-      <div className="flex items-center gap-2 px-4">
-        <SidebarTrigger className="-ml-1" />
-        <Separator orientation="vertical" className="mr-2 h-4" />
+    <header className="flex h-16 shrink-0 items-center border-b border-border bg-background px-4 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+      <div className="flex items-center gap-4">
+        <SidebarTrigger className="-ml-2 h-9 w-9" />
+        <Separator orientation="vertical" className="h-6" />
         <Breadcrumb>
-          <BreadcrumbList>{renderBreadCrumb()}</BreadcrumbList>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/" className="capitalize">
+                Home
+              </BreadcrumbLink>
+              <BreadcrumbSeparator />
+            </BreadcrumbItem>
+            {breadcrumbItems.map((item) => (
+              <BreadcrumbElement key={item.path} {...item} />
+            ))}
+          </BreadcrumbList>
         </Breadcrumb>
       </div>
     </header>

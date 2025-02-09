@@ -163,28 +163,17 @@ export type AppSidebarProps = {
   };
   enterprise?: {
     name: string;
-    logo: React.ElementType;
+    logo: () => React.ReactNode;
     plan: string;
   };
   navbar: {
     title: string;
-    url: string;
-    icon: React.ElementType;
-    isActive?: true;
-    items: [
-      {
-        title: string;
-        url: string;
-      },
-      {
-        title: string;
-        url: string;
-      },
-      {
-        title: string;
-        url: string;
-      }
-    ];
+    items: {
+      title: string;
+      url: string;
+      isActive?: boolean | undefined;
+      icon?: () => React.ReactNode;
+    }[];
   }[];
 };
 
