@@ -1,6 +1,6 @@
 "use client";
 
-import { Label } from "@/components/dataDisplay/Label";
+import { Label } from "../../../components/dataDisplay/Label";
 import {
   Checkbox as CheckboxShadcn,
   CheckboxProps as CheckboxShadcnProps,
