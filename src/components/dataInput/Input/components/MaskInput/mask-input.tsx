@@ -11,8 +11,8 @@ import {
   FormLabel,
   FormMessage,
   FormDescription,
-} from "@/components/ui/form";
-import { Label } from "@/components/ui/label";
+} from "../../../../../components/ui/form";
+import { Label } from "../../../../../components/ui/label";
 
 interface MaskInputProps {
   name?: string;
