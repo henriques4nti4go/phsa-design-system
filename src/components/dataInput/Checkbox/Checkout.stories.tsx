@@ -24,8 +24,9 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    children: "Checkbox",
+    label: "Checkbox",
     id: "teste",
+    onChange: console.log,
   },
 };
 
@@ -45,9 +46,11 @@ export const CheckboxForm: StoryObj<CheckboxFormProps> = {
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-2/3 space-y-6"
         >
-          <CheckboxFormComponent name="checkbox" id="checkbox">
-            checkbox
-          </CheckboxFormComponent>
+          <CheckboxFormComponent
+            name="checkbox"
+            id="checkbox"
+            label="Checkbox"
+          />
         </form>
       </Form>
     );

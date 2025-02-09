@@ -1,18 +1,21 @@
+"use client";
+
+import { Label } from "@/components/dataDisplay/Label";
 import {
   Checkbox as CheckboxShadcn,
   CheckboxProps as CheckboxShadcnProps,
 } from "../../ui/checkbox";
-import { Label } from "../../dataDisplay/Label";
-import { FormContainer } from "../form/Form";
+import { FormField, FormItem, FormControl, FormMessage } from "../../ui/form";
 
 export type CheckboxProps = CheckboxShadcnProps & {
   id: string;
   value: boolean;
   onChange: (value: boolean) => void;
+  label?: React.ReactNode;
 };
 
 export const Checkbox = ({
-  children,
+  label,
   value,
   onChange,
   ...props
@@ -20,45 +23,33 @@ export const Checkbox = ({
   return (
     <div className="flex items-center space-x-2">
       <CheckboxShadcn {...props} checked={value} onCheckedChange={onChange} />
-      {children && <Label htmlFor={props.id}>{children}</Label>}
+      {label && <Label htmlFor={props.id}>{label}</Label>}
     </div>
   );
 };
 
-export type CheckboxFormProps = CheckboxProps & {
+export type CheckboxFormProps = Omit<CheckboxProps, "value" | "onChange"> & {
   name: string;
-  id: string;
+  label?: React.ReactNode;
 };
 
-export function CheckboxForm({ name, children, ...rest }: CheckboxFormProps) {
+export function CheckboxForm({ name, label, ...rest }: CheckboxFormProps) {
   return (
-    <FormContainer
+    <FormField
       name={name}
-      label={children as string}
-      render={(props) => <Checkbox {...props} id={rest.id} />}
-      className="flex flex-row-reverse items-center gap-2 space-y-0"
+      render={({ field }) => (
+        <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+          <FormControl>
+            <Checkbox
+              {...rest}
+              value={field.value}
+              onChange={field.onChange}
+              label={label}
+            />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
     />
   );
-
-  // return (
-  //   <FormField
-  //     control={control}
-  //     name={name}
-  //     render={({ field }) => (
-  //       <FormItem>
-  //         <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-  //           <FormControl>
-  //             <Checkbox
-  //               {...rest}
-  //               checked={field.value}
-  //               onCheckedChange={field.onChange}
-  //             />
-  //           </FormControl>
-  //           <FormLabel className="font-normal">{children}</FormLabel>
-  //         </FormItem>
-  //         <FormMessage />
-  //       </FormItem>
-  //     )}
-  //   />
-  // );
 }

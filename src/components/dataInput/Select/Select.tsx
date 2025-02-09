@@ -9,7 +9,13 @@ import {
   SelectValue,
 } from "../../../components/ui/select";
 
-import { FormContainer } from "../form/Form";
+import {
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormMessage,
+} from "../../../components/ui/form";
 
 export type SelectProps = Omit<SelectShadcnProps, "onValueChange"> & {
   options: {
@@ -71,34 +77,17 @@ export type SelectFormProps = SelectProps & {
 
 export function SelectForm({ name, label, ...rest }: SelectFormProps) {
   return (
-    <div className="flex-1">
-      <FormContainer
-        name={name}
-        label={label}
-        render={(props) => {
-          return <Select {...rest} {...props} />;
-        }}
-      />
-    </div>
+    <FormField
+      name={name}
+      render={({ field }) => (
+        <FormItem className="flex-1">
+          {label && <FormLabel>{label}</FormLabel>}
+          <FormControl>
+            <Select {...rest} {...field} />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
   );
-  // const form = useFormContext();
-  // const control = useMemo(() => form?.control, [form]);
-
-  // if (!control) return <></>;
-
-  // return (
-  //   <FormField
-  //     control={control}
-  //     name={name}
-  //     render={({ field }) => (
-  //       <FormItem>
-  //         {label && <FormLabel>{label}</FormLabel>}
-  //         <FormControl>
-  //           <Select {...rest} {...field} />
-  //         </FormControl>
-  //         <FormMessage />
-  //       </FormItem>
-  //     )}
-  //   />
-  // );
 }

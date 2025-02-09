@@ -4,9 +4,15 @@ import {
   InputProps as InputComponentProps,
 } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
-import { FormContainer } from "../form/Form";
 import { PatternFormat, PatternFormatProps } from "react-number-format";
 import { useIMask, ReactMaskOpts } from "react-imask";
+import {
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormMessage,
+} from "../../../components/ui/form";
 
 export type InputProps = InputComponentProps & {
   label?: string;
@@ -27,11 +33,17 @@ export type InputFormProps = InputProps & {
 
 export function InputForm({ name, label, ...rest }: InputFormProps) {
   return (
-    <FormContainer
+    <FormField
       name={name}
-      label={label}
-      className="flex-1"
-      render={(props) => <Input {...props} {...rest} />}
+      render={({ field }) => (
+        <FormItem className="flex-1">
+          {label && <FormLabel>{label}</FormLabel>}
+          <FormControl>
+            <Input {...field} {...rest} />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
     />
   );
 }
@@ -47,13 +59,17 @@ export const PatternNumericInputForm = ({
   ...rest
 }: PatternNumeicInputProps) => {
   return (
-    <FormContainer
+    <FormField
       name={name}
-      label={label}
-      className="flex-1"
-      render={(props) => {
-        return <PatternFormat {...props} {...rest} customInput={Input} />;
-      }}
+      render={({ field }) => (
+        <FormItem className="flex-1">
+          {label && <FormLabel>{label}</FormLabel>}
+          <FormControl>
+            <PatternFormat {...field} {...rest} customInput={Input} />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
     />
   );
 };
@@ -77,20 +93,22 @@ export const InputMaskForm = ({
   });
 
   return (
-    <FormContainer
+    <FormField
       name={name}
-      label={label}
-      className="flex-1"
-      render={(props) => (
-        <Input
-          {...props}
-          {...rest}
-          ref={ref}
-          value={value} // Valor formatado
-          onChange={(e) => {
-            props?.onChange?.(e.target.value);
-          }}
-        />
+      render={({ field }) => (
+        <FormItem className="flex-1">
+          {label && <FormLabel>{label}</FormLabel>}
+          <FormControl>
+            <Input
+              {...field}
+              {...rest}
+              ref={ref}
+              value={value}
+              onChange={(e) => field.onChange(e.target.value)}
+            />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
       )}
     />
   );
