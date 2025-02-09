@@ -6,7 +6,7 @@ import {
 import { AppSidebar, AppSidebarProps } from "./components/app-sidebar";
 import { HeaderSidebar } from "./components/header-sidebar";
 import { FooterSidebar } from "./components/footer-sidebar";
-import { cn } from "@/lib/utils";
+import { cn } from "../../../lib/utils";
 import { SidebarProvider } from "./provider";
 
 interface SidebarProps extends AppSidebarProps {
