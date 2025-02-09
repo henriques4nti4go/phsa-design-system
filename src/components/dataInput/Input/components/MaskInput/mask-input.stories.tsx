@@ -26,10 +26,10 @@ export const Default: Story = {
 
 export const Phone: Story = {
   args: {
-    placeholder: "(00)00000-0000",
+    placeholder: "(00) 00000-0000",
     label: "Telefone",
     description: "Digite seu telefone",
-    mask: "(00)00000-0000",
+    mask: "(00) 00000-0000",
   },
 };
 
@@ -39,15 +39,6 @@ export const Date: Story = {
     label: "Data",
     description: "Digite uma data",
     mask: "00/00/0000",
-  },
-};
-
-export const RegexMask: Story = {
-  args: {
-    placeholder: "Email",
-    label: "Email",
-    description: "Digite seu email",
-    mask: /^\S*@?\S*$/,
   },
 };
 

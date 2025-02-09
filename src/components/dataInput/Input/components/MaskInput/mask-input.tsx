@@ -30,8 +30,7 @@ export const MaskInput = React.forwardRef<HTMLInputElement, MaskInputProps>(
     const inputRef = React.useRef<HTMLInputElement>(null);
 
     const { unmaskedValue, setValue, ref } = useIMask({
-      mask: String(mask),
-      prepare: (str: string) => str,
+      mask,
     });
 
     React.useEffect(() => {
