@@ -11,38 +11,34 @@ import {
   FormLabel,
   FormMessage,
   FormDescription,
-} from "../../../../../components/ui/form";
-import { Label } from "../../../../../components/ui/label";
+} from "@/components/ui/form";
+import { Label } from "@/components/ui/label";
 
 interface MaskInputProps {
   name?: string;
   label?: string;
   description?: string;
   error?: string;
-  mask: string | RegExp;
-  onChange?: (value: string) => void;
+  mask: string;
   placeholder?: string;
 }
 
 export const MaskInput = React.forwardRef<HTMLInputElement, MaskInputProps>(
-  ({ mask, onChange, name, label, description, error, ...props }, ref) => {
+  ({ mask, name, label, description, error, ...props }) => {
     const form = useFormContext();
     const hasForm = !!form && !!name;
+    const inputRef = React.useRef<HTMLInputElement>(null);
 
-    const { value } = useIMask(
-      {
-        mask: String(mask),
-        prepare: (str: string) => str,
-      },
-      {
-        onAccept: (value) => {
-          onChange?.(value);
-          if (hasForm && name) {
-            form.setValue(name, value);
-          }
-        },
+    const { unmaskedValue, setValue, ref } = useIMask({
+      mask: String(mask),
+      prepare: (str: string) => str,
+    });
+
+    React.useEffect(() => {
+      if (hasForm && name && form.getValues(name)) {
+        setValue(form.getValues(name));
       }
-    );
+    }, [form, hasForm, name, setValue]);
 
     if (!hasForm) {
       return (
@@ -50,9 +46,7 @@ export const MaskInput = React.forwardRef<HTMLInputElement, MaskInputProps>(
           {label && <Label>{label}</Label>}
           <Input
             {...props}
-            ref={ref}
-            value={value}
-            onChange={(e) => onChange?.(e.target.value)}
+            ref={ref as React.LegacyRef<HTMLInputElement> | undefined}
           />
           {description && (
             <p className="text-sm text-muted-foreground">{description}</p>
@@ -74,9 +68,13 @@ export const MaskInput = React.forwardRef<HTMLInputElement, MaskInputProps>(
             <FormControl>
               <Input
                 {...props}
-                ref={ref}
-                value={value}
-                onChange={(e) => field.onChange(e.target.value)}
+                ref={inputRef}
+                value={unmaskedValue}
+                onChange={(e) => {
+                  setValue(e.target.value);
+                  field.onChange(e.target.value);
+                }}
+                onBlur={field.onBlur}
               />
             </FormControl>
             {description && <FormDescription>{description}</FormDescription>}
