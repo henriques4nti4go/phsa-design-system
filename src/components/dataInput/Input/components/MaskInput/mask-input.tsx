@@ -27,9 +27,8 @@ export const MaskInput = React.forwardRef<HTMLInputElement, MaskInputProps>(
   ({ mask, name, label, description, error, ...props }) => {
     const form = useFormContext();
     const hasForm = !!form && !!name;
-    const inputRef = React.useRef<HTMLInputElement>(null);
 
-    const { unmaskedValue, setValue, ref } = useIMask({
+    const { setValue, ref } = useIMask({
       mask,
     });
 
@@ -67,8 +66,7 @@ export const MaskInput = React.forwardRef<HTMLInputElement, MaskInputProps>(
             <FormControl>
               <Input
                 {...props}
-                ref={inputRef}
-                value={unmaskedValue}
+                ref={ref as React.LegacyRef<HTMLInputElement> | undefined}
                 onChange={(e) => {
                   setValue(e.target.value);
                   field.onChange(e.target.value);
