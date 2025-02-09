@@ -20,7 +20,9 @@ export const Default: Story = {
     placeholder: "000.000.000-00",
     label: "CPF",
     description: "Digite seu CPF",
-    mask: "000.000.000-00",
+    options: {
+      mask: "000.000.000-00",
+    },
   },
 };
 
@@ -29,7 +31,9 @@ export const Phone: Story = {
     placeholder: "(00) 00000-0000",
     label: "Telefone",
     description: "Digite seu telefone",
-    mask: "(00) 00000-0000",
+    options: {
+      mask: "(00) 00000-0000",
+    },
   },
 };
 
@@ -38,7 +42,9 @@ export const Date: Story = {
     placeholder: "00/00/0000",
     label: "Data",
     description: "Digite uma data",
-    mask: "00/00/0000",
+    options: {
+      mask: "00/00/0000",
+    },
   },
 };
 
@@ -55,7 +61,7 @@ export const WithForm = () => {
         <MaskInput
           name="cpf"
           label="CPF"
-          mask="000.000.000-00"
+          options={{ mask: "000.000.000-00" }}
           description="Digite seu CPF"
         />
       </form>

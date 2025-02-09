@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useIMask } from "react-imask";
+import { useIMask, ReactMaskOpts } from "react-imask";
 import { Input } from "../../Input";
 import { useFormContext } from "react-hook-form";
 import {
@@ -19,18 +19,16 @@ interface MaskInputProps {
   label?: string;
   description?: string;
   error?: string;
-  mask: string;
   placeholder?: string;
+  options: ReactMaskOpts;
 }
 
 export const MaskInput = React.forwardRef<HTMLInputElement, MaskInputProps>(
-  ({ mask, name, label, description, error, ...props }) => {
+  ({ name, label, description, error, options, ...props }) => {
     const form = useFormContext();
     const hasForm = !!form && !!name;
 
-    const { setValue, ref } = useIMask({
-      mask,
-    });
+    const { setValue, ref } = useIMask(options);
 
     React.useEffect(() => {
       if (hasForm && name && form.getValues(name)) {
