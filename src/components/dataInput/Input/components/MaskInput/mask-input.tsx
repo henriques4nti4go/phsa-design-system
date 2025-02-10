@@ -13,6 +13,7 @@ import {
   FormDescription,
 } from "../../../../../components/ui/form";
 import { Label } from "../../../../../components/ui/label";
+import { cn } from "../../../../../lib/utils";
 
 interface MaskInputProps {
   name?: string;
@@ -21,14 +22,15 @@ interface MaskInputProps {
   error?: string;
   placeholder?: string;
   options: ReactMaskOpts;
+  className?: string;
 }
 
 export const MaskInput = React.forwardRef<HTMLInputElement, MaskInputProps>(
-  ({ name, label, description, error, options, ...props }) => {
+  ({ name, label, description, error, options, className, ...props }) => {
     const form = useFormContext();
     const hasForm = !!form && !!name;
 
-    const { setValue, ref } = useIMask(options);
+    const { setValue, ref: imaskRef } = useIMask(options);
 
     React.useEffect(() => {
       if (hasForm && name && form.getValues(name)) {
@@ -38,11 +40,11 @@ export const MaskInput = React.forwardRef<HTMLInputElement, MaskInputProps>(
 
     if (!hasForm) {
       return (
-        <div className="space-y-2">
+        <div className={cn("space-y-2", className)}>
           {label && <Label>{label}</Label>}
           <Input
             {...props}
-            ref={ref as React.LegacyRef<HTMLInputElement> | undefined}
+            ref={imaskRef as React.LegacyRef<HTMLInputElement> | undefined}
           />
           {description && (
             <p className="text-sm text-muted-foreground">{description}</p>
@@ -59,12 +61,12 @@ export const MaskInput = React.forwardRef<HTMLInputElement, MaskInputProps>(
         control={form.control}
         name={name!}
         render={({ field }) => (
-          <FormItem>
+          <FormItem className={className}>
             {label && <FormLabel>{label}</FormLabel>}
             <FormControl>
               <Input
                 {...props}
-                ref={ref as React.LegacyRef<HTMLInputElement> | undefined}
+                ref={imaskRef as React.LegacyRef<HTMLInputElement> | undefined}
                 onChange={(e) => {
                   setValue(e.target.value);
                   field.onChange(e.target.value);
