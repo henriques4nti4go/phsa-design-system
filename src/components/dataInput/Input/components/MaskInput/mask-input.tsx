@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useIMask, ReactMaskOpts } from "react-imask";
-import { Input } from "../../Input";
+import { Input } from "../../../../ui/input";
 import { useFormContext } from "react-hook-form";
 import {
   FormControl,
@@ -12,8 +12,7 @@ import {
   FormMessage,
   FormDescription,
 } from "../../../../../components/ui/form";
-import { Label } from "../../../../../components/ui/label";
-import { cn } from "../../../../../lib/utils";
+import { InputBase } from "../InputBase";
 
 interface MaskInputProps {
   name?: string;
@@ -23,10 +22,20 @@ interface MaskInputProps {
   placeholder?: string;
   options: ReactMaskOpts;
   className?: string;
+  withoutForm?: boolean;
 }
 
 export const MaskInput = React.forwardRef<HTMLInputElement, MaskInputProps>(
-  ({ name, label, description, error, options, className, ...props }) => {
+  ({
+    name,
+    label,
+    description,
+    error,
+    options,
+    className,
+    withoutForm,
+    ...props
+  }) => {
     const form = useFormContext();
     const hasForm = !!form && !!name;
 
@@ -38,21 +47,14 @@ export const MaskInput = React.forwardRef<HTMLInputElement, MaskInputProps>(
       }
     }, [form, hasForm, name, setValue]);
 
-    if (!hasForm) {
+    if (!hasForm || withoutForm) {
       return (
-        <div className={cn("space-y-2", className)}>
-          {label && <Label>{label}</Label>}
+        <InputBase label={label} description={description} error={error}>
           <Input
             {...props}
             ref={imaskRef as React.LegacyRef<HTMLInputElement> | undefined}
           />
-          {description && (
-            <p className="text-sm text-muted-foreground">{description}</p>
-          )}
-          {error && (
-            <p className="text-sm font-medium text-destructive">{error}</p>
-          )}
-        </div>
+        </InputBase>
       );
     }
 

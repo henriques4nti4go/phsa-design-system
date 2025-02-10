@@ -8,8 +8,6 @@ import {
 } from "react-number-format";
 import { Input } from "../../../../ui/input";
 import { useFormContext } from "react-hook-form";
-import { cn } from "../../../../../lib/utils";
-import { Label } from "../../../../../components/ui/label";
 import {
   FormControl,
   FormField,
@@ -18,6 +16,7 @@ import {
   FormMessage,
   FormDescription,
 } from "../../../../../components/ui/form";
+import { InputBase } from "../InputBase";
 
 interface NumberInputProps
   extends Omit<NumericFormatProps, "onChange" | "value" | "onValueChange"> {
@@ -34,10 +33,23 @@ interface NumberInputProps
   decimalSeparator?: string;
   onChange?: (value: number | null) => void;
   className?: string;
+  withoutForm?: boolean;
 }
 
 export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
-  ({ className, onChange, label, description, name, ...props }, ref) => {
+  (
+    {
+      className,
+      onChange,
+      label,
+      description,
+      name,
+      error,
+      withoutForm,
+      ...props
+    },
+    ref
+  ) => {
     const form = useFormContext();
     const hasForm = !!form && !!name;
 
@@ -56,20 +68,11 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
       getInputRef: ref,
     };
 
-    if (!hasForm) {
+    if (!hasForm || withoutForm) {
       return (
-        <div className={cn("space-y-2", className)}>
-          {label && <Label>{label}</Label>}
+        <InputBase label={label} description={description} error={error}>
           <NumericFormat customInput={Input} {...numericProps} />
-          {description && (
-            <p className="text-sm text-muted-foreground">{description}</p>
-          )}
-          {props.error && (
-            <p className="text-sm font-medium text-destructive">
-              {props.error}
-            </p>
-          )}
-        </div>
+        </InputBase>
       );
     }
 

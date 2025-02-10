@@ -8,11 +8,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../../ui/form";
-import { Input as InputBase } from "../../../components/ui/input";
-import { Label } from "../../../components/ui/label";
+} from "../../../../ui/form";
+import { Input as InputComponent } from "../../../../../components/ui/input";
 import { useFormContext } from "react-hook-form";
-import { cn } from "../../../lib/utils";
+import { InputBase } from "../InputBase";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   name?: string;
@@ -20,25 +19,22 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   description?: string;
   error?: string;
   className?: string;
+  withoutForm?: boolean;
 }
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ name, label, description, error, className, ...props }, ref) => {
+  (
+    { name, label, description, error, className, withoutForm, ...props },
+    ref
+  ) => {
     const form = useFormContext();
     const hasForm = !!form && !!name;
 
-    if (!hasForm) {
+    if (!hasForm || withoutForm) {
       return (
-        <div className={cn("space-y-2", className)}>
-          {label && <Label>{label}</Label>}
-          <InputBase ref={ref} {...props} />
-          {description && (
-            <p className="text-sm text-muted-foreground">{description}</p>
-          )}
-          {error && (
-            <p className="text-sm font-medium text-destructive">{error}</p>
-          )}
-        </div>
+        <InputBase label={label} description={description} error={error}>
+          <InputComponent ref={ref} {...props} />
+        </InputBase>
       );
     }
 
@@ -50,7 +46,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           <FormItem className={className}>
             {label && <FormLabel>{label}</FormLabel>}
             <FormControl>
-              <InputBase {...field} {...props} ref={ref} />
+              <InputComponent {...field} {...props} ref={ref} />
             </FormControl>
             {description && <FormDescription>{description}</FormDescription>}
             <FormMessage />

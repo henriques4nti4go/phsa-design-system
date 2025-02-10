@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Input } from "./Input";
+import { Input } from ".";
 import { useForm } from "react-hook-form";
-import { Form } from "../../../components/ui/form";
+import { Form } from "../../../../../components/ui/form";
 
 const meta = {
   title: "Data Input/Input",
@@ -31,22 +31,30 @@ export const WithError: Story = {
   },
 };
 
-export const WithForm = () => {
-  const form = useForm({
-    defaultValues: {
-      username: "",
-    },
-  });
+interface WithFormProps {
+  name?: string;
+  label?: string;
+  description?: string;
+  placeholder?: string;
+}
+
+const WithFormComponent = (props: WithFormProps) => {
+  const form = useForm();
 
   return (
     <Form {...form}>
       <form className="space-y-6">
-        <Input
-          name="username"
-          label="Username"
-          description="This is your public display name."
-        />
+        <Input {...props} />
       </form>
     </Form>
   );
+};
+
+export const WithForm: Story = {
+  render: WithFormComponent,
+  args: {
+    name: "username",
+    label: "Username",
+    description: "Type your username",
+  },
 };
