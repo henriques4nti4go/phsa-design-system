@@ -22,8 +22,8 @@ import {
 import { DataTableToolbar } from "./data-table-toolbar";
 import { DataTablePagination } from "./data-table-pagination";
 import { cn } from "@/lib/utils";
-import { DataTableProps } from "../../types";
 import { DataTableColumnHeader } from "./data-table-column-header";
+import { DynamicTableProps } from "./types";
 
 export function DynamicTable<TData>({
   data,
@@ -37,7 +37,7 @@ export function DynamicTable<TData>({
   rowsPerPage = [10, 20, 30, 40, 50],
   defaultSort = [],
   defaultVisibility = {},
-}: DataTableProps<TData>) {
+}: DynamicTableProps<TData>) {
   const [sorting, setSorting] = React.useState<SortingState>(defaultSort);
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>(defaultVisibility);
