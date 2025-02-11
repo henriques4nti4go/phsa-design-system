@@ -70,7 +70,12 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
 
     if (!hasForm || withoutForm) {
       return (
-        <InputBase label={label} description={description} error={error}>
+        <InputBase
+          label={label}
+          description={description}
+          error={error}
+          className={className}
+        >
           <NumericFormat customInput={Input} {...numericProps} />
         </InputBase>
       );

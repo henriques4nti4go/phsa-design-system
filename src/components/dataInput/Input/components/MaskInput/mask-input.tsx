@@ -32,8 +32,8 @@ export const MaskInput = React.forwardRef<HTMLInputElement, MaskInputProps>(
     description,
     error,
     options,
-    className,
     withoutForm,
+    className,
     ...props
   }) => {
     const form = useFormContext();
@@ -49,7 +49,12 @@ export const MaskInput = React.forwardRef<HTMLInputElement, MaskInputProps>(
 
     if (!hasForm || withoutForm) {
       return (
-        <InputBase label={label} description={description} error={error}>
+        <InputBase
+          label={label}
+          description={description}
+          error={error}
+          className={className}
+        >
           <Input
             {...props}
             ref={imaskRef as React.LegacyRef<HTMLInputElement> | undefined}

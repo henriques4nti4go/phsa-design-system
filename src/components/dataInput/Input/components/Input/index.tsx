@@ -32,7 +32,12 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
     if (!hasForm || withoutForm) {
       return (
-        <InputBase label={label} description={description} error={error}>
+        <InputBase
+          label={label}
+          description={description}
+          error={error}
+          className={className}
+        >
           <InputComponent ref={ref} {...props} />
         </InputBase>
       );
