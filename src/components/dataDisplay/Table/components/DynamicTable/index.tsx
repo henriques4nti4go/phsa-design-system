@@ -21,7 +21,7 @@ import {
 } from "../../../../../components/ui/table";
 import { DataTableToolbar } from "./data-table-toolbar";
 import { DataTablePagination } from "./data-table-pagination";
-import { cn } from "@/lib/utils";
+import { cn } from "../../../../../lib/utils";
 import { DataTableColumnHeader } from "./data-table-column-header";
 import { DynamicTableProps } from "./types";
 
