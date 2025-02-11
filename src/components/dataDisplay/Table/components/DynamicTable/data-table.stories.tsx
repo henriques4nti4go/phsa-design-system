@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { DynamicTable } from "./index";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "../../../../../components/ui/button";
+import { Input } from "../../../../../components/ui/input";
 import { ColumnDef } from "@tanstack/react-table";
 
 interface User {

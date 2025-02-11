@@ -6,14 +6,14 @@ import {
   DoubleArrowLeftIcon,
   DoubleArrowRightIcon,
 } from "@radix-ui/react-icons";
-import { Button } from "@/components/ui/button";
+import { Button } from "../../../../../components/ui/button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "../../../../../components/ui/select";
 import { DynamicTablePaginationProps } from "./types";
 
 export function DataTablePagination<TData>({
