@@ -1,7 +1,7 @@
 import React from "react";
 import { isEmpty } from "lodash";
 import { DataPairListProps } from "./types";
-import { cn } from "@/lib/utils";
+import { cn } from "../../../lib/utils";
 
 export const DataPairList = ({
   title,
