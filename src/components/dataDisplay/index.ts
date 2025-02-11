@@ -5,3 +5,4 @@ export * from "./Card";
 export * from "./Avatar";
 export * from "./DropDownMenu";
 export * from "./DataPairList";
+export * from "./Text";
