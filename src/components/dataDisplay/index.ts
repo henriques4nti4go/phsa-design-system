@@ -4,3 +4,4 @@ export * from "./Icon";
 export * from "./Card";
 export * from "./Avatar";
 export * from "./DropDownMenu";
+export * from "./DataPairList";
