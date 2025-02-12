@@ -3,7 +3,7 @@ import { PropsWithChildren } from "react";
 
 export type PageLayoutProps = PropsWithChildren & {
   title: string;
-  subtitle: string;
+  subtitle?: string;
   header?: React.ReactNode;
 };
 
