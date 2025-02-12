@@ -1,3 +1,4 @@
+import { ErrorMessage } from "../../../../../components/dataDisplay/ErrorMessage/ErrorMessage";
 import { Label } from "../../../../../components/dataDisplay/Label";
 import { cn } from "../../../../../lib/utils";
 import { PropsWithChildren } from "react";
@@ -23,7 +24,7 @@ export const InputBase = ({
       {description && (
         <p className="text-sm text-muted-foreground">{description}</p>
       )}
-      {error && <p className="text-sm font-medium text-destructive">{error}</p>}
+      {error && <ErrorMessage>{error}</ErrorMessage>}
     </div>
   );
 };

@@ -1,65 +1,59 @@
 import type { Meta, StoryObj } from "@storybook/react";
-
-import {
-  Select,
-  SelectFormProps,
-  SelectForm as SelectFormComponent,
-} from "./Select";
+import { Select } from "./index";
 import { useForm } from "react-hook-form";
+import { Button } from "@/components/actions";
 import { Form } from "../form";
-import { Button } from "../../../components/actions";
 
-const meta = {
-  title: "DataInput/Select",
+const meta: Meta<typeof Select> = {
+  title: "Data Input/Select",
   component: Select,
+  tags: ["autodocs"],
   parameters: {
     layout: "centered",
   },
-  tags: ["autodocs"],
-} satisfies Meta<typeof Select>;
-
-export default meta;
-type Story = StoryObj<typeof meta>;
-
-export const Default: Story = {
-  args: {
-    placeholder: "Select placeholder",
-    options: [
-      { value: 1, label: "Option 1" },
-      { value: 2, label: "Option 2" },
-      { value: 3, label: "Option 3" },
-    ],
-    label: "Select label",
+  argTypes: {
+    options: { control: "object" },
+    placeholder: { control: "text" },
+    label: { control: "text" },
+    value: { control: "text" },
+    onChange: { action: "changed" },
   },
 };
 
-export const SelectForm: StoryObj<SelectFormProps> = {
-  render: () => {
-    const form = useForm({
-      defaultValues: {
-        option: "",
-      },
-    });
-    function onSubmit(data: any) {
-      console.log(data);
-    }
+export default meta;
+type Story = StoryObj<typeof Select>;
+
+export const Default: Story = {
+  args: {
+    options: [
+      { value: "option1", label: "Option 1" },
+      { value: "option2", label: "Option 2" },
+    ],
+    placeholder: "Select an option",
+    label: "Select Label",
+  },
+};
+
+export const WithForm: Story = {
+  args: {
+    options: [
+      { value: "option1", label: "Option 1" },
+      { value: "option2", label: "Option 2" },
+    ],
+    placeholder: "Select an option",
+    label: "Select Label",
+    name: "select",
+  },
+  render: (args) => {
+    const form = useForm();
+    const onSubmit = (data: unknown) => console.log(data);
     return (
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="w-2/3 space-y-6"
-        >
-          <SelectFormComponent
-            name="option"
-            label="Opções"
-            placeholder="Selecione uma opção"
-            options={[
-              { value: 1, label: "Option 1" },
-              { value: 2, label: "Option 2" },
-              { value: 3, label: "Option 3" },
-            ]}
-          />
-          <Button type="submit">Submit</Button>
+        <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+          <Select {...args} />
+          <Button type="button" onClick={() => console.log(form.getValues())}>
+            Submit
+          </Button>
         </form>
       </Form>
     );

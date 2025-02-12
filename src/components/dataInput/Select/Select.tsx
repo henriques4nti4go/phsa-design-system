@@ -1,13 +1,5 @@
-import { useCallback } from "react";
+import React from "react";
 import { Label } from "../../../components/ui/label";
-import {
-  Select as SelectShadcn,
-  SelectProps as SelectShadcnProps,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../../../components/ui/select";
 
 import {
   FormField,
@@ -15,79 +7,67 @@ import {
   FormLabel,
   FormControl,
   FormMessage,
+  FormDescription,
 } from "../../../components/ui/form";
+import { SelectBase, SelectBaseProps } from "./SelectBase";
+import { useFormContext } from "react-hook-form";
+import { cn } from "@/lib/utils";
+import { ErrorMessage } from "@/components/dataDisplay/ErrorMessage/ErrorMessage";
 
-export type SelectProps = Omit<SelectShadcnProps, "onValueChange"> & {
-  options: {
-    value: string | number;
-    label: string;
-  }[];
-  placeholder?: string;
-  className?: string;
+export type SelectProps = SelectBaseProps & {
   label?: string;
-  id?: string;
-  onChange?: (value: string) => void;
-  value?: string;
-  onChangeCallback?: (value: string) => void;
+  name?: string;
+  error?: string;
+  description?: string;
+  withoutForm?: boolean;
 };
 
 export const Select = ({
+  name,
+  label,
+  description,
+  error,
+  className,
+  withoutForm,
   options,
   placeholder,
-  label,
-  onChange = () => {},
-  onChangeCallback = () => {},
-  value,
-  ...rest
+  ...props
 }: SelectProps) => {
-  const onSelect = useCallback(
-    (value: string) => {
-      onChange(value);
-      onChangeCallback(value);
-    },
-    [onChange, onChangeCallback]
-  );
-  return (
-    <div className="flex-1 w-full">
-      {label && <Label htmlFor={rest.id}>{label}</Label>}
-      <SelectShadcn
-        {...rest}
-        onValueChange={onSelect}
-        defaultValue={value}
-        value={value}
-      >
-        <SelectTrigger>
-          <SelectValue placeholder={placeholder} />
-        </SelectTrigger>
-        <SelectContent>
-          {options?.map((option, index: number) => (
-            <SelectItem key={index} value={String(option.value)}>
-              {option.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </SelectShadcn>
-    </div>
-  );
-};
+  const form = useFormContext();
+  const hasForm = !!form && !!name;
 
-export type SelectFormProps = SelectProps & {
-  name: string;
-};
+  if (!hasForm || withoutForm) {
+    return (
+      <div className={cn("space-y-2", className)}>
+        {label && <Label>{label}</Label>}
+        <SelectBase options={options} placeholder={placeholder} {...props} />
+        {description && (
+          <p className="text-sm text-muted-foreground">{description}</p>
+        )}
+        {error && <ErrorMessage>{error}</ErrorMessage>}
+      </div>
+    );
+  }
 
-export function SelectForm({ name, label, ...rest }: SelectFormProps) {
   return (
     <FormField
-      name={name}
+      control={form.control}
+      name={name!}
       render={({ field }) => (
-        <FormItem className="flex-1">
+        <FormItem className={className}>
           {label && <FormLabel>{label}</FormLabel>}
           <FormControl>
-            <Select {...rest} {...field} />
+            <SelectBase
+              options={options}
+              placeholder={placeholder}
+              {...props}
+              {...field}
+            />
           </FormControl>
+          {description && <FormDescription>{description}</FormDescription>}
           <FormMessage />
         </FormItem>
       )}
     />
   );
-}
+};
