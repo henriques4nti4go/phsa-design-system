@@ -11,8 +11,8 @@ import {
 } from "../../../components/ui/form";
 import { SelectBase, SelectBaseProps } from "./SelectBase";
 import { useFormContext } from "react-hook-form";
-import { cn } from "@/lib/utils";
-import { ErrorMessage } from "@/components/dataDisplay/ErrorMessage/ErrorMessage";
+import { cn } from "../../../lib/utils";
+import { ErrorMessage } from "../../../components/dataDisplay/ErrorMessage/ErrorMessage";
 
 export type SelectProps = SelectBaseProps & {
   label?: string;

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Select } from "./index";
 import { useForm } from "react-hook-form";
-import { Button } from "@/components/actions";
+import { Button } from "../../../components/actions";
 import { Form } from "../form";
 
 const meta: Meta<typeof Select> = {
