@@ -14,21 +14,24 @@ interface TabsProps {
     label: string;
     content: React.ReactNode;
   }[];
-  activeTab?: string;
-  onTabChange?: (tab: string) => void;
+  activeTabIndex?: number;
+  onTabChange?: (index: number) => void;
   className?: string;
 }
 
 export const Tabs: React.FC<TabsProps> = ({
   tabs,
-  activeTab,
+  activeTabIndex = 0,
   onTabChange,
   className,
 }) => {
   return (
     <TabsUI
-      value={activeTab}
-      onValueChange={onTabChange}
+      value={tabs[activeTabIndex].label}
+      onValueChange={(value) => {
+        const index = tabs.findIndex((tab) => tab.label === value);
+        if (onTabChange) onTabChange(index);
+      }}
       className={cn("w-full", className)}
     >
       <TabsList>

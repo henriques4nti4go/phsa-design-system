@@ -15,7 +15,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    activeTab: "Tab 2",
+    activeTabIndex: 1,
     tabs: [
       {
         label: "Tab 1",
@@ -49,9 +49,9 @@ export const Controlled: Story = {
         content: <div>Conteúdo da Tab 3</div>,
       },
     ],
-    activeTab: "Tab 1",
-    onTabChange: (tab) => {
-      console.log(`Aba selecionada: ${tab}`);
+    activeTabIndex: 0,
+    onTabChange: (index) => {
+      console.log(`Aba selecionada: ${index}`);
     },
   },
 };
