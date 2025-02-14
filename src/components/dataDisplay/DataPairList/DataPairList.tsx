@@ -30,8 +30,10 @@ export const DataPairList = ({
       </div>
       <div
         className={cn(
-          "grid grid-cols-1 gap-5 mt-5",
-          direction === "vertical" ? "" : "sm:grid-cols-2 md:grid-cols-4"
+          "grid grid-cols-1  mt-5",
+          direction === "vertical"
+            ? "gap-3"
+            : "sm:grid-cols-2 md:grid-cols-4 gap-10"
         )}
       >
         {Object.entries(data || {}).map(([key, value], index) => (
