@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { DataPairList } from ".";
+import { Button } from "@/components/actions";
 
 const meta = {
   title: "DataDisplay/DataPairList",
@@ -58,6 +59,19 @@ export const EmptyData: Story = {
   args: {
     title: "Sem Dados",
     data: {},
+  },
+};
+
+export const WithHeader: Story = {
+  args: {
+    title: "Com botão de ação",
+    data: {
+      name: "John Doe",
+      age: 30,
+      email: "john@example.com",
+      phone: "(11) 99999-9999",
+    },
+    header: <Button>Editar</Button>,
   },
 };
 

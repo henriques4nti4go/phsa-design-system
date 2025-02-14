@@ -3,4 +3,8 @@ export interface DataPairListProps {
   data: Record<string, string | number>;
   labels?: Record<string, string>;
   className?: string;
+  infoDirection?: "vertical" | "horizontal";
+  direction?: "vertical" | "horizontal";
+  withBorder?: boolean;
+  header?: React.ReactNode;
 }
