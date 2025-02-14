@@ -12,9 +12,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from "../../../../../components/ui/form";
 import { InputBase } from "../InputBase";
-import { ErrorMessage } from "@/components/dataDisplay/ErrorMessage/ErrorMessage";
+import { ErrorMessage } from "../../../../../components/dataDisplay/ErrorMessage/ErrorMessage";
 
 export type MultipleInputProps = InputProps & {
   data?: string[];
