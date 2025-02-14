@@ -13,7 +13,8 @@ import { Input as InputComponent } from "../../../../../components/ui/input";
 import { useFormContext } from "react-hook-form";
 import { InputBase } from "../InputBase";
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   name?: string;
   label?: string;
   description?: string;
