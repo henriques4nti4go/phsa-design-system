@@ -20,6 +20,7 @@ export const Default: Story = {
     placeholder: "Type something...",
     label: "Label",
     description: "This is a description",
+    onChange: (value) => console.log(value),
   },
 };
 

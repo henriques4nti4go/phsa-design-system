@@ -18,7 +18,7 @@ import {
 } from "../../../../../components/ui/form";
 import { InputBase } from "../InputBase";
 
-interface NumberInputProps
+export interface NumberInputProps
   extends Omit<NumericFormatProps, "onChange" | "value" | "onValueChange"> {
   name?: string;
   label?: string;
@@ -53,20 +53,41 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
     const form = useFormContext();
     const hasForm = !!form && !!name;
 
-    const handleValueChange = (values: NumberFormatValues) => {
-      const numericValue = values.floatValue;
-      onChange?.(numericValue ?? null);
+    // const handleValueChange = (values: NumberFormatValues) => {
+    //   const numericValue = values.floatValue;
+    //   onChange?.(numericValue ?? null);
 
-      if (hasForm && name) {
-        form.setValue(name, numericValue ?? null);
-      }
-    };
+    //   if (hasForm && name) {
+    //     form.setValue(name, numericValue ?? null);
+    //   }
+    // };
 
-    const numericProps = {
-      ...props,
-      onValueChange: handleValueChange,
-      getInputRef: ref,
-    };
+    // const numericProps = {
+    //   ...props,
+    //   onValueChange: handleValueChange,
+    //   getInputRef: ref,
+    // };
+
+    return (
+      <InputBase
+        label={label}
+        description={description}
+        error={error}
+        className={className}
+      >
+        {(rest) => (
+          <NumericFormat
+            {...props}
+            customInput={Input}
+            onValueChange={(values) => {
+              rest.onChange?.(values.floatValue as number);
+            }}
+            value={rest.value as string | number}
+            getInputRef={ref}
+          />
+        )}
+      </InputBase>
+    );
 
     if (!hasForm || withoutForm) {
       return (
@@ -76,7 +97,9 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
           error={error}
           className={className}
         >
-          <NumericFormat customInput={Input} {...numericProps} />
+          {(rest) => (
+            <NumericFormat customInput={Input} {...numericProps} {...rest} />
+          )}
         </InputBase>
       );
     }

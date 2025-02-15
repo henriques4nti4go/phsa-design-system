@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { MultipleInput } from ".";
+import { MultipleInput } from "./MultipleInput";
 import { useForm, FormProvider } from "react-hook-form";
+import { useEffect } from "react";
 
 const meta: Meta<typeof MultipleInput> = {
   title: "Data Input/MultipleInput",
@@ -16,34 +17,41 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    label: "Items",
-    data: ["Item 1", "Item 2", "Item 3"],
-    onChangeData: (data: string[]) => console.log(data),
+    name: "items",
+    label: "Itens",
+    placeholder: "Adicione itens",
+    data: ["Item 1", "Item 2"],
+    onChangeData: console.log,
   },
 };
-
 export const WithError: Story = {
   args: {
-    label: "Items",
-    data: ["Item 1", "Item 2", "Item 3"],
-    onChangeData: (data: string[]) => console.log(data),
-    error: "This is an error",
+    name: "items",
+    label: "Itens",
+    placeholder: "Adicione itens",
+    error: "Erro ao adicionar item",
   },
 };
 
 export const WithForm: Story = {
   render: () => {
-    const form = useForm({
+    const methods = useForm({
       defaultValues: {
-        items: ["asdasda"], // Valor inicial
+        items: [{ value: "Item 1" }, { value: "Item 2" }],
       },
     });
 
-    console.log(form.watch("items"));
+    useEffect(() => {
+      methods.setError("items", { message: "Erro ao adicionar item" });
+    }, [methods]);
 
     return (
-      <FormProvider {...form}>
-        <MultipleInput name="items" label="Items" />
+      <FormProvider {...methods}>
+        <MultipleInput
+          label="Itens"
+          placeholder="Adicione itens"
+          name="items"
+        />
       </FormProvider>
     );
   },

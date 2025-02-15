@@ -14,7 +14,7 @@ import {
 } from "../../../../../components/ui/form";
 import { InputBase } from "../InputBase";
 
-interface MaskInputProps {
+export interface MaskInputProps {
   name?: string;
   label?: string;
   description?: string;
@@ -36,10 +36,29 @@ export const MaskInput = React.forwardRef<HTMLInputElement, MaskInputProps>(
     className,
     ...props
   }) => {
+    const { setValue, ref: imaskRef } = useIMask(options);
+    return (
+      <InputBase
+        label={label}
+        description={description}
+        error={error}
+        className={className}
+        {...props}
+      >
+        {(rest) => (
+          <Input
+            ref={imaskRef as React.LegacyRef<HTMLInputElement> | undefined}
+            {...rest}
+            onChange={(e) => {
+              setValue(e.target.value);
+              rest.onChange?.(e.target.value);
+            }}
+          />
+        )}
+      </InputBase>
+    );
     const form = useFormContext();
     const hasForm = !!form && !!name;
-
-    const { setValue, ref: imaskRef } = useIMask(options);
 
     React.useEffect(() => {
       if (hasForm && name && form.getValues(name)) {

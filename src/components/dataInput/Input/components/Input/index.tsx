@@ -1,64 +1,54 @@
 "use client";
 
 import * as React from "react";
+
 import {
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "../../../../ui/form";
-import { Input as InputComponent } from "../../../../../components/ui/input";
-import { useFormContext } from "react-hook-form";
+  Input as InputShadcn,
+  InputProps as PropsShadcn,
+} from "../../../../../components/ui/input";
 import { InputBase } from "../InputBase";
 
-export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+export const InputComponent = React.forwardRef<
+  HTMLInputElement,
+  Omit<PropsShadcn, "onChange"> & { onChange?: (value: string) => void }
+>((props, ref) => {
+  return (
+    <InputShadcn
+      {...props}
+      ref={ref}
+      onChange={({ target: { value } }) => props?.onChange?.(value as string)}
+    />
+  );
+});
+
+InputComponent.displayName = "InputComponent";
+
+export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   name?: string;
   label?: string;
   description?: string;
   error?: string;
   className?: string;
   withoutForm?: boolean;
-}
+  onChange?: (value: string | number) => void;
+};
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
     { name, label, description, error, className, withoutForm, ...props },
     ref
   ) => {
-    const form = useFormContext();
-    const hasForm = !!form && !!name;
-
-    if (!hasForm || withoutForm) {
-      return (
-        <InputBase
-          label={label}
-          description={description}
-          error={error}
-          className={className}
-        >
-          <InputComponent ref={ref} {...props} />
-        </InputBase>
-      );
-    }
-
     return (
-      <FormField
-        control={form.control}
-        name={name!}
-        render={({ field }) => (
-          <FormItem className={className}>
-            {label && <FormLabel>{label}</FormLabel>}
-            <FormControl>
-              <InputComponent {...field} {...props} ref={ref} />
-            </FormControl>
-            {description && <FormDescription>{description}</FormDescription>}
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+      <InputBase
+        label={label}
+        description={description}
+        error={error}
+        className={className}
+        name={name}
+        withoutForm={withoutForm}
+      >
+        {(rest) => <InputComponent ref={ref} {...rest} {...props} />}
+      </InputBase>
     );
   }
 );
