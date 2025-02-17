@@ -22,7 +22,7 @@ export const Default: Story = {
     thousandSeparator: ".",
     decimalSeparator: ",",
     value: 1234567.89,
-    data: ["R$ 1.234.567,89"],
+    data: ["123456.89"],
   },
 };
 
@@ -30,13 +30,22 @@ export const WithForm: Story = {
   render: () => {
     const methods = useForm({
       defaultValues: {
-        numbers: ["item 1", "item 2"],
+        numbers: ["1234", "1234.5"],
       },
     });
 
+    console.log(methods.watch());
+
     return (
       <FormProvider {...methods}>
-        <MultipleNumberInput name="numbers" />
+        <MultipleNumberInput
+          label="Itens"
+          name="numbers"
+          placeholder="Entre com um valor"
+          prefix="R$ "
+          thousandSeparator="."
+          decimalSeparator=","
+        />
       </FormProvider>
     );
   },

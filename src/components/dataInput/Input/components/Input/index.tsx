@@ -31,11 +31,21 @@ export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   className?: string;
   withoutForm?: boolean;
   onChange?: (value: string | number) => void;
+  component?: React.ReactNode;
 };
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
-    { name, label, description, error, className, withoutForm, ...props },
+    {
+      name,
+      label,
+      description,
+      error,
+      className,
+      withoutForm,
+      component,
+      ...props
+    },
     ref
   ) => {
     return (
@@ -47,7 +57,12 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         name={name}
         withoutForm={withoutForm}
       >
-        {(rest) => <InputComponent ref={ref} {...rest} {...props} />}
+        {(rest) => (
+          <div className="flex gap-3">
+            <InputComponent ref={ref} {...rest} {...props} />
+            {component}
+          </div>
+        )}
       </InputBase>
     );
   }
