@@ -27,7 +27,6 @@ export type CustomInputProps = Omit<InputProps, "onChange" | "value"> & {
 export type InputBaseProps = Omit<CustomInputProps, "children"> & {
   /** Rótulo do campo */
   label?: string;
-
   /** Texto de descrição/ajuda */
   description?: string;
   /** Mensagem de erro */
