@@ -2,19 +2,10 @@
 
 import * as React from "react";
 import { useIMask, ReactMaskOpts } from "react-imask";
-import { Input } from "../../../../ui/input";
-import { useFormContext } from "react-hook-form";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  FormDescription,
-} from "../../../../../components/ui/form";
+import { InputComponent, type BaseInputProps } from "../Input";
 import { InputBase } from "../InputBase";
 
-export interface MaskInputProps {
+export type MaskInputProps = BaseInputProps & {
   name?: string;
   label?: string;
   description?: string;
@@ -23,90 +14,54 @@ export interface MaskInputProps {
   options: ReactMaskOpts;
   className?: string;
   withoutForm?: boolean;
-}
+  component?: React.ReactNode;
+};
 
-export const MaskInput = React.forwardRef<HTMLInputElement, MaskInputProps>(
-  ({
-    name,
-    label,
-    description,
-    error,
-    options,
-    withoutForm,
-    className,
-    ...props
-  }) => {
-    const { setValue, ref: imaskRef } = useIMask(options);
-    return (
-      <InputBase
-        label={label}
-        description={description}
-        error={error}
-        className={className}
-        {...props}
-      >
-        {(rest) => (
-          <Input
-            ref={imaskRef as React.LegacyRef<HTMLInputElement> | undefined}
-            {...rest}
-            onChange={(e) => {
-              setValue(e.target.value);
-              rest.onChange?.(e.target.value);
-            }}
-          />
-        )}
-      </InputBase>
-    );
-    const form = useFormContext();
-    const hasForm = !!form && !!name;
+export const MaskInput = ({
+  label,
+  description,
+  error,
+  options,
+  className,
+  name,
+  withoutForm,
+  component,
+  "data-testid": testId,
+  ...props
+}: MaskInputProps) => {
+  const { setValue, ref: imaskRef } = useIMask(options);
 
-    React.useEffect(() => {
-      if (hasForm && name && form.getValues(name)) {
-        setValue(form.getValues(name));
-      }
-    }, [form, hasForm, name, setValue]);
+  const baseTestId = testId || name || "";
 
-    if (!hasForm || withoutForm) {
-      return (
-        <InputBase
-          label={label}
-          description={description}
-          error={error}
-          className={className}
+  return (
+    <InputBase
+      label={label}
+      description={description}
+      error={error}
+      className={className}
+      name={name}
+      withoutForm={withoutForm}
+      data-testid={baseTestId}
+    >
+      {({ onChange, ...rest }) => (
+        <div
+          className="flex w-full gap-3"
+          data-testid={`input-wrapper-${baseTestId}`}
         >
-          <Input
-            {...props}
+          <InputComponent
             ref={imaskRef as React.LegacyRef<HTMLInputElement> | undefined}
+            {...props}
+            {...rest}
+            onChange={(value) => {
+              setValue(value as string);
+              onChange?.(value);
+              props.onChange?.(value);
+            }}
+            data-testid={`input-${baseTestId}`}
           />
-        </InputBase>
-      );
-    }
-
-    return (
-      <FormField
-        control={form.control}
-        name={name!}
-        render={({ field }) => (
-          <FormItem className={className}>
-            {label && <FormLabel>{label}</FormLabel>}
-            <FormControl>
-              <Input
-                {...props}
-                ref={imaskRef as React.LegacyRef<HTMLInputElement> | undefined}
-                onChange={(e) => {
-                  setValue(e.target.value);
-                  field.onChange(e.target.value);
-                }}
-                onBlur={field.onBlur}
-              />
-            </FormControl>
-            {description && <FormDescription>{description}</FormDescription>}
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-    );
-  }
-);
-
-MaskInput.displayName = "MaskInput";
+          {component}
+        </div>
+      )}
+    </InputBase>
+  );
+};

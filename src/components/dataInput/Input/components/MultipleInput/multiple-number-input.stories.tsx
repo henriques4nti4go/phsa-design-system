@@ -34,8 +34,6 @@ export const WithForm: Story = {
       },
     });
 
-    console.log(methods.watch());
-
     return (
       <FormProvider {...methods}>
         <MultipleNumberInput

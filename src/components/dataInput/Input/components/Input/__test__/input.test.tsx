@@ -79,7 +79,7 @@ describe("Input", () => {
   it("deve aplicar className personalizada", () => {
     render(<Input className="custom-class" data-testid="test-input" />);
 
-    const inputBase = screen.getByTestId("input-base-input-base-test-input");
+    const inputBase = screen.getByTestId("input-base-test-input");
     expect(inputBase).toHaveClass("custom-class");
   });
 

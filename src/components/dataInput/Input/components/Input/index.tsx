@@ -7,7 +7,7 @@ import {
 } from "../../../../../components/ui/input";
 import { InputBase } from "../InputBase";
 
-type BaseInputProps = {
+export type BaseInputProps = {
   onChange?: (value: string | number) => void;
   "data-testid"?: string;
 };
@@ -75,7 +75,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         className={className}
         name={name}
         withoutForm={withoutForm}
-        data-testid={`input-base-${baseTestId}`}
+        data-testid={baseTestId}
       >
         {(rest) => (
           <div

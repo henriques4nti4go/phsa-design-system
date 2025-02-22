@@ -2,51 +2,67 @@
 
 import * as React from "react";
 import { NumericFormat, NumericFormatProps } from "react-number-format";
-import { Input } from "../../../../ui/input";
 import { InputBase } from "../InputBase";
+import { Input } from "../../../../ui/input";
 
-export type NumberInputProps = Omit<NumericFormatProps, "onValueChange"> & {
+export type NumberInputProps = Omit<
+  NumericFormatProps,
+  "onChange" | "onValueChange"
+> & {
+  name?: string;
   label?: string;
   description?: string;
   error?: string;
-  component?: React.ReactNode;
   className?: string;
-  onValueChange?: (value: number) => void;
+  withoutForm?: boolean;
+  component?: React.ReactNode;
+  onChange?: (value: number) => void;
+  "data-testid"?: string;
 };
 
 export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
-  (
-    {
-      className,
+  (props, ref) => {
+    const {
+      name,
       label,
       description,
       error,
+      className,
+      withoutForm,
       component,
-      onValueChange,
-      ...props
-    },
-    ref
-  ) => {
+      onChange,
+      "data-testid": testId,
+      ...inputProps
+    } = props;
+
+    const baseTestId = testId || name || "";
+
     return (
       <InputBase
         label={label}
         description={description}
         error={error}
         className={className}
+        name={name}
+        withoutForm={withoutForm}
+        data-testid={baseTestId}
       >
-        {({ onChange, ...rest }) => (
-          <div className="flex gap-3">
+        {({ onChange: onBaseChange, value }) => (
+          <div
+            className="flex w-full gap-3"
+            data-testid={`number-input-wrapper-${baseTestId}`}
+          >
             <NumericFormat
-              {...props}
-              {...rest}
+              value={value as number}
               customInput={Input}
-              value={rest.value as number}
-              onValueChange={(value) => {
-                const { floatValue } = value;
-                onChange?.(floatValue as number);
-                onValueChange?.(floatValue as number);
-              }}
               getInputRef={ref}
+              onValueChange={({ floatValue }) => {
+                const numberValue = floatValue as number | undefined;
+                onBaseChange?.(numberValue);
+                onChange?.(numberValue as number);
+              }}
+              data-testid={`${baseTestId}-number-input`}
+              {...inputProps}
             />
             {component}
           </div>

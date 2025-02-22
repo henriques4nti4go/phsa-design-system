@@ -1,39 +1,40 @@
 import { useNumericFormat } from "react-number-format";
 import { InputProps } from "../Input";
 import { NumberInput, NumberInputProps } from "../NumberInput";
-import { MultipleInputBase, MultipleInputProps } from "./MultipleInput";
+import { MultipleInputBase, MultipleInputProps } from "./MultipleInputBase";
 
-export type MultipleNumberInputProps = Omit<NumberInputProps, "onValueChange"> &
-  MultipleInputProps & {};
+export type MultipleNumberInputProps = Omit<
+  NumberInputProps,
+  "onValueChange" | "children"
+> &
+  Omit<MultipleInputProps, "children"> & {
+    onChangeData?: (data: string[]) => void;
+  };
 
 export const MultipleNumberInput = ({
   data,
   onChangeData,
-
   ...props
-}: Omit<MultipleNumberInputProps, "children"> &
-  Omit<InputProps, "children">) => {
-  const { format } = useNumericFormat(props);
+}: MultipleNumberInputProps) => {
+  const { format } = useNumericFormat({
+    valueIsNumericString: true,
+  });
 
   return (
     <MultipleInputBase
       data={data}
       onChangeData={onChangeData}
-      formatItems={(item) => format?.(item) || item}
+      formatItems={(item: string) => format?.(item) || item}
       {...props}
     >
-      {({ onChange, value, component }) => {
-        return (
-          <NumberInput
-            {...props}
-            value={value as number}
-            onValueChange={(value: number) => {
-              onChange?.(value);
-            }}
-            component={component}
-          />
-        );
-      }}
+      {({ onChange, value, component }: InputProps) => (
+        <NumberInput
+          {...props}
+          value={value as number}
+          onChange={(value) => onChange?.(value)}
+          component={component}
+        />
+      )}
     </MultipleInputBase>
   );
 };

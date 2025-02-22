@@ -16,7 +16,7 @@ import {
 import { InputProps } from "../../../../../components/ui/input";
 
 // Tipos mais específicos e documentados
-type BaseInputValue = string | number | readonly string[] | undefined;
+export type BaseInputValue = string | number | readonly string[] | undefined;
 
 export type CustomInputProps = Omit<InputProps, "onChange" | "value"> & {
   onChange?: (value: BaseInputValue) => void;
