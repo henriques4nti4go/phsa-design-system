@@ -27,6 +27,7 @@ export const MaskInput = ({
   const { value, ref: imaskRef } = useIMask(options);
 
   const baseTestId = testId || props.name || "";
+
   return (
     <InputBase {...props} data-testid={baseTestId}>
       {(rest) => (
@@ -38,7 +39,7 @@ export const MaskInput = ({
             {...props}
             {...rest}
             value={value}
-            ref={imaskRef as React.LegacyRef<HTMLInputElement> | undefined}
+            ref={imaskRef as React.RefObject<HTMLInputElement>}
             data-testid={`input-${baseTestId}`}
           />
           {component}

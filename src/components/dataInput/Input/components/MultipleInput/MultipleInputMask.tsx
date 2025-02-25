@@ -8,12 +8,15 @@ export const MultipleInputMask = ({
 }: Omit<MultipleInputProps, "children"> & Omit<MaskInputProps, "children">) => {
   return (
     <MultipleInputBase {...props} data={data} onChangeData={onChangeData}>
-      {({ component, onChange }) => {
+      {({ component, onChange, value, ...rest }) => {
         return (
           <MaskInput
             {...props}
+            {...rest}
+            value={value}
             onChange={(value) => {
               onChange?.(value);
+              props.onChange?.(value);
             }}
             component={component}
           />
