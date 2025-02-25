@@ -33,15 +33,15 @@ export const MultipleInputBase = ({
   withoutForm,
   disabled,
   "data-testid": testId,
-  ...rest
 }: MultipleInputProps) => {
   const [value, setValue] = useState("");
   const form = useFormContext();
   const hasForm = !withoutForm && !!form && !!name;
 
-  const items = useMemo(() => {
-    return hasForm ? form.getValues()?.[name] || [] : data;
-  }, [hasForm, form, name, data]);
+  const items = useMemo(
+    () => (hasForm ? form.watch()?.[name] || [] : data),
+    [hasForm, form, name, data]
+  );
 
   const handleAddData = useCallback(() => {
     if (!value?.trim()) return;
@@ -57,6 +57,7 @@ export const MultipleInputBase = ({
   const handleRemove = useCallback(
     (item: string) => {
       const newData = _.without(items, item);
+
       onChangeData(newData);
       if (hasForm && name) {
         form.setValue(name, newData);
@@ -69,7 +70,7 @@ export const MultipleInputBase = ({
     <div className="flex flex-col gap-3">
       <div className="flex gap-3 items-end">
         {children({
-          ...rest,
+          withoutForm: true,
           value,
           onChange: (value) => {
             if (value === undefined || value === null) {
@@ -84,6 +85,7 @@ export const MultipleInputBase = ({
             <Button
               onClick={handleAddData}
               disabled={!value?.trim() || disabled}
+              type="button"
               data-testid={testId ? `add-button-${testId}` : undefined}
             >
               <Icon name="MdAdd" />
@@ -102,6 +104,7 @@ export const MultipleInputBase = ({
             variant="ghost"
             onClick={() => handleRemove(item)}
             disabled={disabled}
+            type="button"
             data-testid={
               testId ? `remove-button-${testId}-${index}` : undefined
             }

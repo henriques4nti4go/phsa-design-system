@@ -18,43 +18,29 @@ export type MaskInputProps = BaseInputProps & {
 };
 
 export const MaskInput = ({
-  label,
-  description,
-  error,
-  options,
-  className,
-  name,
-  withoutForm,
   component,
   "data-testid": testId,
+  options,
   ...props
 }: MaskInputProps) => {
   const { setValue, ref: imaskRef } = useIMask(options);
 
-  const baseTestId = testId || name || "";
+  const baseTestId = testId || props.name || "";
 
   return (
-    <InputBase
-      label={label}
-      description={description}
-      error={error}
-      className={className}
-      name={name}
-      withoutForm={withoutForm}
-      data-testid={baseTestId}
-    >
-      {({ onChange, ...rest }) => (
+    <InputBase data-testid={baseTestId}>
+      {(rest) => (
         <div
           className="flex w-full gap-3"
           data-testid={`input-wrapper-${baseTestId}`}
         >
           <InputComponent
-            ref={imaskRef as React.LegacyRef<HTMLInputElement> | undefined}
             {...props}
             {...rest}
+            ref={imaskRef as React.LegacyRef<HTMLInputElement> | undefined}
             onChange={(value) => {
               setValue(value as string);
-              onChange?.(value);
+              rest.onChange?.(value);
               props.onChange?.(value);
             }}
             data-testid={`input-${baseTestId}`}

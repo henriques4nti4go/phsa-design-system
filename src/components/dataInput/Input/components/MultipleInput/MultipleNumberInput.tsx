@@ -17,6 +17,10 @@ export const MultipleNumberInput = ({
   ...props
 }: MultipleNumberInputProps) => {
   const { format } = useNumericFormat({
+    thousandSeparator: props.thousandSeparator,
+    decimalSeparator: props.decimalSeparator,
+    prefix: props.prefix,
+    suffix: props.suffix,
     valueIsNumericString: true,
   });
 
@@ -27,11 +31,13 @@ export const MultipleNumberInput = ({
       formatItems={(item: string) => format?.(item) || item}
       {...props}
     >
-      {({ onChange, value, component }: InputProps) => (
+      {({ onChange, value, component, ...rest }: InputProps) => (
         <NumberInput
-          {...props}
+          {...(rest as Omit<NumberInputProps, "onChange" | "value">)}
           value={value as number}
-          onChange={(value) => onChange?.(value)}
+          onChange={(value) => {
+            onChange?.(value);
+          }}
           component={component}
         />
       )}

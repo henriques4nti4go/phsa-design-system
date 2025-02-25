@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/form";
 import { InputProps } from "../../../../../components/ui/input";
 
-// Tipos mais específicos e documentados
 export type BaseInputValue = string | number | readonly string[] | undefined;
 
 export type CustomInputProps = Omit<InputProps, "onChange" | "value"> & {
@@ -25,26 +24,17 @@ export type CustomInputProps = Omit<InputProps, "onChange" | "value"> & {
 };
 
 export type InputBaseProps = Omit<CustomInputProps, "children"> & {
-  /** Rótulo do campo */
   label?: string;
-  /** Texto de descrição/ajuda */
   description?: string;
-  /** Mensagem de erro */
   error?: string;
-  /** Classes CSS customizadas */
   className?: string;
-  /** Nome do campo (obrigatório quando usado com formulário) */
   name?: string;
-  /** Define se o componente será usado fora de um formulário */
   withoutForm?: boolean;
-  /** ID para testes */
   "data-testid"?: string;
-  /** Desabilita o campo */
   disabled?: boolean;
-  /** Define se o campo é obrigatório */
   required?: boolean;
-  /** Renderiza o conteúdo do input */
   children: (props: CustomInputProps) => React.ReactNode;
+  onChange?: (value: BaseInputValue) => void;
 };
 
 export const InputBase = ({
@@ -63,7 +53,6 @@ export const InputBase = ({
   const form = useFormContext();
   const hasForm = !withoutForm && !!form && !!name;
 
-  // Componente sem formulário
   if (!hasForm) {
     return (
       <div
@@ -80,9 +69,6 @@ export const InputBase = ({
         )}
         {children &&
           children({
-            ...props,
-            disabled,
-            required,
             "aria-required": required,
             "aria-invalid": !!error,
             "data-testid": testId,
@@ -104,7 +90,6 @@ export const InputBase = ({
     );
   }
 
-  // Validação para uso com formulário
   if (!name) {
     console.error(
       "[InputBase] O prop 'name' é obrigatório quando usado com formulário."
@@ -112,7 +97,6 @@ export const InputBase = ({
     return null;
   }
 
-  // Componente com formulário
   return (
     <FormField
       control={form.control}
@@ -132,9 +116,7 @@ export const InputBase = ({
           )}
           <FormControl>
             {children({
-              ...props,
               ...field,
-              id: name,
               disabled: disabled || field.disabled,
               "aria-required": required,
               onChange: (value) => {

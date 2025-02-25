@@ -8,9 +8,12 @@ import {
 import { InputBase } from "../InputBase";
 
 export type BaseInputProps = {
-  onChange?: (value: string | number) => void;
+  onChange?: (value: BaseInputValue) => void;
+  value?: BaseInputValue;
   "data-testid"?: string;
 };
+
+type BaseInputValue = string | number | readonly string[] | undefined;
 
 type InputComponentProps = Omit<PropsShadcn, "onChange"> & BaseInputProps;
 
@@ -52,31 +55,11 @@ export const InputComponent = React.forwardRef<
 });
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  (props, ref) => {
-    const {
-      name,
-      label,
-      description,
-      error,
-      className,
-      withoutForm,
-      component,
-      "data-testid": testId,
-      ...inputProps
-    } = props;
-
-    const baseTestId = testId || name || "";
+  ({ "data-testid": testId, component, ...props }, ref) => {
+    const baseTestId = testId || props.name || "";
 
     return (
-      <InputBase
-        label={label}
-        description={description}
-        error={error}
-        className={className}
-        name={name}
-        withoutForm={withoutForm}
-        data-testid={baseTestId}
-      >
+      <InputBase {...props} data-testid={baseTestId}>
         {(rest) => (
           <div
             className="flex w-full gap-3"
@@ -84,9 +67,9 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           >
             <InputComponent
               ref={ref}
-              {...rest}
-              {...inputProps}
               data-testid={`input-${baseTestId}`}
+              {...props}
+              {...rest}
             />
             {component}
           </div>

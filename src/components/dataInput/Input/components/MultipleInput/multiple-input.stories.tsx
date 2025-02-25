@@ -36,11 +36,9 @@ export const WithForm: Story = {
   render: () => {
     const methods = useForm({
       defaultValues: {
-        items: [],
+        items: ["Item 1", "Item 2"],
       },
     });
-
-    console.log(methods.watch());
 
     return (
       <FormProvider {...methods}>
