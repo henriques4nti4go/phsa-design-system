@@ -66,10 +66,10 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             data-testid={`input-wrapper-${baseTestId}`}
           >
             <InputComponent
-              ref={ref}
-              data-testid={`input-${baseTestId}`}
               {...props}
               {...rest}
+              ref={ref}
+              data-testid={`input-${baseTestId}`}
             />
             {component}
           </div>

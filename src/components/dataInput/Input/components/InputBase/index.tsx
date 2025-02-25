@@ -69,6 +69,7 @@ export const InputBase = ({
         )}
         {children &&
           children({
+            disabled,
             "aria-required": required,
             "aria-invalid": !!error,
             "data-testid": testId,

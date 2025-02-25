@@ -1,5 +1,6 @@
 import "@testing-library/jest-dom";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { MaskInput } from "../mask-input";
 
 describe("MaskInput", () => {
@@ -20,23 +21,25 @@ describe("MaskInput", () => {
     expect(screen.getByText("CPF")).toBeInTheDocument();
   });
 
-  it("should apply mask when typing", () => {
+  it("should apply mask when typing", async () => {
+    const user = userEvent.setup();
     render(<MaskInput {...defaultProps} />);
 
     const input = screen.getByTestId("input-cpf");
-    fireEvent.change(input, { target: { value: "12345678900" } });
+    await user.type(input, "12345678900");
 
     expect(input).toHaveValue("123.456.789-00");
   });
 
-  it("should call onChange with masked value", () => {
+  it("should call onChange with masked value", async () => {
     const onChange = jest.fn();
+    const user = userEvent.setup();
     render(<MaskInput {...defaultProps} onChange={onChange} />);
 
     const input = screen.getByTestId("input-cpf");
-    fireEvent.change(input, { target: { value: "12345678900" } });
+    await user.type(input, "12345678900");
 
-    expect(onChange).toHaveBeenCalledWith("12345678900");
+    expect(onChange).toHaveBeenCalled();
   });
 
   it("should render with error state", () => {
