@@ -12,7 +12,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from "../../../../../components/ui/form";
 import { InputProps } from "../../../../../components/ui/input";
 
 export type BaseInputValue = string | number | readonly string[] | undefined;
