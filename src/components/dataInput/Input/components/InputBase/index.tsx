@@ -13,28 +13,32 @@ import {
   FormLabel,
   FormMessage,
 } from "../../../../../components/ui/form";
-import { InputProps } from "../../../../../components/ui/input";
+import { InputProps as ShadcnInputProps } from "../../../../../components/ui/input";
 
 export type BaseInputValue = string | number | readonly string[] | undefined;
 
-export type CustomInputProps = Omit<InputProps, "onChange" | "value"> & {
+export type BaseInputProps = {
   onChange?: (value: BaseInputValue) => void;
   value?: BaseInputValue;
   "data-testid"?: string;
-};
-
-export type InputBaseProps = Omit<CustomInputProps, "children"> & {
+  name?: string;
   label?: string;
   description?: string;
   error?: string;
   className?: string;
-  name?: string;
   withoutForm?: boolean;
-  "data-testid"?: string;
   disabled?: boolean;
   required?: boolean;
+};
+
+export type InputBaseProps = Omit<BaseInputProps, "value"> & {
   children: (props: CustomInputProps) => React.ReactNode;
+};
+
+export type CustomInputProps = Omit<ShadcnInputProps, "onChange" | "value"> & {
   onChange?: (value: BaseInputValue) => void;
+  value?: BaseInputValue;
+  "data-testid"?: string;
 };
 
 export const InputBase = ({
@@ -48,7 +52,7 @@ export const InputBase = ({
   disabled,
   required,
   "data-testid": testId,
-  ...props
+  onChange: externalOnChange,
 }: InputBaseProps) => {
   const form = useFormContext();
   const hasForm = !withoutForm && !!form && !!name;
@@ -64,7 +68,7 @@ export const InputBase = ({
             htmlFor={name}
             data-testid={testId ? `label-${testId}` : undefined}
           >
-            {`${label} ${required ? "*" : ""}`}
+            {`${label}${required ? " *" : ""}`}
           </Label>
         )}
         {children &&
@@ -73,6 +77,7 @@ export const InputBase = ({
             "aria-required": required,
             "aria-invalid": !!error,
             "data-testid": testId,
+            onChange: externalOnChange,
           })}
         {description && (
           <p
@@ -112,7 +117,7 @@ export const InputBase = ({
               htmlFor={name}
               data-testid={testId ? `form-label-${testId}` : undefined}
             >
-              {`${label} ${required ? "*" : ""}`}
+              {`${label}${required ? " *" : ""}`}
             </FormLabel>
           )}
           <FormControl>
@@ -122,7 +127,7 @@ export const InputBase = ({
               "aria-required": required,
               onChange: (value) => {
                 field.onChange(value);
-                props.onChange?.(value);
+                externalOnChange?.(value);
               },
               "data-testid": testId,
             })}

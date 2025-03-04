@@ -1,12 +1,17 @@
-import { Input, InputProps } from "../../../Input";
+import { Input, InputProps } from "../Input";
 import { MultipleInputBase, MultipleInputProps } from "./MultipleInputBase";
+
+type MultipleInputCustomProps = Omit<MultipleInputProps, "children"> &
+  Omit<InputProps, "children"> & {
+    placeholder?: string;
+  };
 
 export const MultipleInput = ({
   data,
   onChangeData,
   name,
   ...props
-}: Omit<MultipleInputProps, "children"> & Omit<InputProps, "children">) => {
+}: MultipleInputCustomProps) => {
   return (
     <MultipleInputBase name={name} data={data} onChangeData={onChangeData}>
       {({ onChange, value, component, ...rest }) => {

@@ -1,22 +1,29 @@
+import { Input, InputProps } from "../Input";
 import { MaskInput, MaskInputProps } from "../MaskInput";
 import { MultipleInputBase, MultipleInputProps } from "./MultipleInputBase";
+
+type MultipleMaskInputCustomProps = Omit<MultipleInputProps, "children"> &
+  Omit<MaskInputProps, "children"> & {
+    placeholder?: string;
+  };
 
 export const MultipleInputMask = ({
   data,
   onChangeData,
+  name,
   ...props
-}: Omit<MultipleInputProps, "children"> & Omit<MaskInputProps, "children">) => {
+}: MultipleMaskInputCustomProps) => {
   return (
-    <MultipleInputBase {...props} data={data} onChangeData={onChangeData}>
-      {({ component, onChange, value, ...rest }) => {
+    <MultipleInputBase name={name} data={data} onChangeData={onChangeData}>
+      {({ onChange, value, component }) => {
+        console.log({ value });
         return (
           <MaskInput
             {...props}
-            {...rest}
             value={value}
-            onChange={(value) => {
-              onChange?.(value);
-              props.onChange?.(value);
+            onChange={(text) => {
+              onChange?.(text);
+              props.onChange?.(text);
             }}
             component={component}
           />

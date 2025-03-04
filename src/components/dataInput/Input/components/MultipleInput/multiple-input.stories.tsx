@@ -1,6 +1,7 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import { MultipleInput } from "./MultipleInput";
-import { useForm, FormProvider } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { Form } from "@/components/ui/form";
 
 const meta: Meta<typeof MultipleInput> = {
   title: "Data Input/MultipleInput",
@@ -12,42 +13,43 @@ const meta: Meta<typeof MultipleInput> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof MultipleInput>;
 
 export const Default: Story = {
   args: {
-    name: "items",
-    label: "Itens",
-    placeholder: "Adicione itens",
+    label: "Multiple Input",
+    placeholder: "Enter value",
     data: ["Item 1", "Item 2"],
-    onChangeData: console.log,
+    onChangeData: (data) => console.log("Data changed:", data),
   },
 };
-export const WithError: Story = {
+
+export const WithValidation: Story = {
   args: {
-    name: "items",
-    label: "Itens",
-    placeholder: "Adicione itens",
-    error: "Erro ao adicionar item",
+    label: "Multiple Input with Validation",
+    placeholder: "Enter value",
+    data: ["Item 1", "Item 2"],
+    onChangeData: (data) => console.log("Data changed:", data),
+    required: true,
   },
 };
 
 export const WithForm: Story = {
-  render: () => {
-    const methods = useForm({
-      defaultValues: {
-        items: ["Item 1", "Item 2"],
-      },
-    });
-
+  args: {
+    name: "multipleInput",
+    label: "Multiple Input",
+    placeholder: "Enter value",
+    data: ["Item 1", "Item 2"],
+    onChangeData: (data) => console.log("Data changed:", data),
+  },
+  render: (args) => {
+    const form = useForm();
     return (
-      <FormProvider {...methods}>
-        <MultipleInput
-          label="Itens"
-          placeholder="Adicione itens"
-          name="items"
-        />
-      </FormProvider>
+      <Form {...form}>
+        <form className="space-y-6">
+          <MultipleInput {...args} />
+        </form>
+      </Form>
     );
   },
 };

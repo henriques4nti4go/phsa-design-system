@@ -5,31 +5,22 @@ import {
   Input as InputShadcn,
   InputProps as PropsShadcn,
 } from "../../../../../components/ui/input";
-import { InputBase } from "../InputBase";
+import {
+  InputBase,
+  BaseInputProps,
+  BaseInputValue,
+  CustomInputProps,
+} from "../InputBase";
 
-export type BaseInputProps = {
+type InputComponentProps = Omit<PropsShadcn, "onChange"> & {
   onChange?: (value: BaseInputValue) => void;
   value?: BaseInputValue;
   "data-testid"?: string;
 };
 
-type BaseInputValue = string | number | readonly string[] | undefined;
-
-type InputComponentProps = Omit<PropsShadcn, "onChange"> & BaseInputProps;
-
-export type InputProps = Omit<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  "onChange"
-> &
-  BaseInputProps & {
-    name?: string;
-    label?: string;
-    description?: string;
-    error?: string;
-    className?: string;
-    withoutForm?: boolean;
-    component?: React.ReactNode;
-  };
+export type InputProps = BaseInputProps & {
+  component?: React.ReactNode;
+};
 
 export const InputComponent = React.forwardRef<
   HTMLInputElement,
@@ -60,7 +51,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
     return (
       <InputBase {...props} data-testid={baseTestId}>
-        {(rest) => (
+        {(rest: CustomInputProps) => (
           <div
             className="flex w-full gap-3"
             data-testid={`input-wrapper-${baseTestId}`}
@@ -81,3 +72,5 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
 InputComponent.displayName = "InputComponent";
 Input.displayName = "Input";
+
+export type { BaseInputValue, BaseInputProps };

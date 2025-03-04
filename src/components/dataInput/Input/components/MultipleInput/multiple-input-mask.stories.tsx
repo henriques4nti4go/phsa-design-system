@@ -2,6 +2,7 @@ import { Meta, StoryObj } from "@storybook/react";
 import { MultipleInputMask } from "./MultipleInputMask";
 import { useForm } from "react-hook-form";
 import { Form } from "../../../../../components/ui/form";
+import { MultipleInput } from "./MultipleInput";
 
 const meta: Meta<typeof MultipleInputMask> = {
   title: "Data Input/Multiple Input Mask",
@@ -48,25 +49,25 @@ export const Dates: Story = {
   },
 };
 
-export const WithForm = () => {
-  const form = useForm({
-    defaultValues: {
-      phones: ["(11) 99999-9999", "(21) 88888-8888"],
+export const WithForm: Story = {
+  args: {
+    name: "multipleInput",
+    label: "Multiple Input",
+    placeholder: "Enter value",
+    data: ["Item 1", "Item 2"],
+    options: {
+      mask: "000.000.000-00",
     },
-  });
-
-  console.log(form.watch());
-
-  return (
-    <Form {...form}>
-      <form className="space-y-6">
-        <MultipleInputMask
-          name="phones"
-          label="Phone Numbers"
-          options={{ mask: "(00) 00000-0000" }}
-          placeholder="(00) 00000-0000"
-        />
-      </form>
-    </Form>
-  );
+    onChangeData: (data) => console.log("Data changed:", data),
+  },
+  render: (args) => {
+    const form = useForm();
+    return (
+      <Form {...form}>
+        <form className="space-y-6">
+          <MultipleInputMask {...args} />
+        </form>
+      </Form>
+    );
+  },
 };
