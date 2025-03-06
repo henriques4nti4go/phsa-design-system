@@ -51,7 +51,7 @@ export const Date: Story = {
 export const WithForm = () => {
   const form = useForm({
     defaultValues: {
-      cpf: "",
+      cpf: "000.000.000-00",
     },
   });
 
@@ -63,7 +63,6 @@ export const WithForm = () => {
           label="CPF"
           placeholder="000.000.000-00"
           options={{ mask: "000.000.000-00" }}
-          description="Digite seu CPF"
         />
       </form>
     </Form>

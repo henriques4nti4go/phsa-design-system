@@ -21,7 +21,7 @@ export const Input = ({
       error={error}
     >
       {({ ...rest }) => (
-        <div className="flex w-full max-w-sm items-center space-x-2">
+        <div className="flex w-full items-center space-x-2">
           <InputUI {...props} {...rest} />
           {component}
         </div>

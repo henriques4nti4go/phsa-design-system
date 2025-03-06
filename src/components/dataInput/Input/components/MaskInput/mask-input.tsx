@@ -33,21 +33,23 @@ export const MaskInput = ({
       withoutForm={withoutForm}
       name={name}
     >
-      {(rest) => (
-        <div
-          className="flex w-full gap-3"
-          data-testid={`input-wrapper-${baseTestId}`}
-        >
-          <Input
-            {...props}
-            {...rest}
-            value={value}
-            ref={imaskRef as React.RefObject<HTMLInputElement>}
-            data-testid={`input-${baseTestId}`}
-          />
-          {component}
-        </div>
-      )}
+      {(rest) => {
+        return (
+          <div
+            className="flex w-full gap-3"
+            data-testid={`input-wrapper-${baseTestId}`}
+          >
+            <Input
+              {...props}
+              {...rest}
+              value={value}
+              ref={imaskRef as React.RefObject<HTMLInputElement>}
+              data-testid={`input-${baseTestId}`}
+            />
+            {component}
+          </div>
+        );
+      }}
     </InputBase>
   );
 };
