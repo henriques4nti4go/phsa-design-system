@@ -4,13 +4,13 @@ import { MultipleInputBase } from "./MultipleInputBase";
 import { Icon } from "../../../../../components/dataDisplay";
 
 export type MultipleMaskInputProps = MaskInputProps & {
-  data: string[];
-  onChangeData: (data: string[]) => void;
+  data?: string[];
+  onChangeData?: (data: string[]) => void;
   name: string;
 };
 
 export const MultipleMaskInput = ({
-  data,
+  data = [],
   ...props
 }: MultipleMaskInputProps) => {
   return (
