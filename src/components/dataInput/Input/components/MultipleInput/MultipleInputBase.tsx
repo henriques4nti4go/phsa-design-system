@@ -1,5 +1,5 @@
-import { Button } from "@/components/actions";
-import { Icon } from "@/components/dataDisplay";
+import { Button } from "../../../../../components/actions";
+import { Icon } from "../../../../../components/dataDisplay";
 import { useCallback, useMemo, useState } from "react";
 import { useFormContext } from "react-hook-form";
 

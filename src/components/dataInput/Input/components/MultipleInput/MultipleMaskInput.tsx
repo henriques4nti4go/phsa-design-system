@@ -2,7 +2,6 @@ import { Button } from "../../../../../components/actions";
 import { MaskInput, MaskInputProps } from "../MaskInput";
 import { MultipleInputBase } from "./MultipleInputBase";
 import { Icon } from "../../../../../components/dataDisplay";
-import { Input } from "../Input";
 
 export type MultipleMaskInputProps = MaskInputProps & {
   data: string[];
