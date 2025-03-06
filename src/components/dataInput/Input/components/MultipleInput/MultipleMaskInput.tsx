@@ -20,7 +20,8 @@ export const MultipleMaskInput = ({
           {...props}
           value={value}
           onChange={(e) => {
-            onChange(e.target.value);
+            console.log(e);
+            onChange(e);
           }}
           withoutForm
           component={

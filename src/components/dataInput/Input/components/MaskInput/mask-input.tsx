@@ -61,7 +61,10 @@ export const MaskInput = ({
             <MaskInputBase
               {...props}
               options={options}
-              onChange={onChange}
+              onChange={(text: string) => {
+                onChange?.(text);
+                props.onChange?.(text);
+              }}
               value={value}
             />
             {component}
