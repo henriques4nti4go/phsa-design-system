@@ -38,13 +38,15 @@ export const WithError: Story = {
 export const WithForm: Story = {
   args: {
     label: "Multiple Input",
-    name: "multipleInput",
+    name: "test",
   },
   decorators: [
     (Story) => {
       const form = useForm({
         defaultValues: {
-          multipleInput: ["Item 1", "Item 2", "Item 3"],
+          client: {
+            data: ["Item 1", "Item 2", "Item 3"],
+          },
         },
       });
       return (

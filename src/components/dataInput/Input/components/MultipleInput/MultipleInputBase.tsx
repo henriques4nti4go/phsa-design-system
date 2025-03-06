@@ -2,6 +2,7 @@ import { Button } from "../../../../../components/actions";
 import { Icon } from "../../../../../components/dataDisplay";
 import { useCallback, useMemo, useState } from "react";
 import { useFormContext } from "react-hook-form";
+import _ from "lodash";
 
 export type MultipleInputBaseProps = {
   children: ({
@@ -29,7 +30,9 @@ export const MultipleInputBase = ({
   const [inputValue, setInputValue] = useState("");
 
   const inputData = useMemo(() => {
-    if (withForm) return form.watch()?.[name] || [];
+    if (withForm) {
+      return _.get(form.watch(), name) || [];
+    }
     return data;
   }, [withForm, form, name, data]);
 
