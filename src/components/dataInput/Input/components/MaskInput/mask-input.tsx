@@ -11,6 +11,29 @@ export type MaskInputProps = Omit<InputBaseProps, "children"> & {
   withoutForm?: boolean;
   component?: React.ReactNode;
   "data-testid"?: string;
+  onChange?: (value: string) => void;
+};
+
+const MaskInputBase = ({
+  options,
+  "data-testid": testId,
+  onChange,
+  value,
+  ...props
+}: MaskInputProps) => {
+  const { ref: imaskRef } = useIMask(options, {
+    onAccept: (val) => {
+      onChange?.(val);
+    },
+  });
+  return (
+    <Input
+      {...props}
+      ref={imaskRef as React.RefObject<HTMLInputElement>}
+      value={value}
+      data-testid={`input-${testId}`}
+    />
+  );
 };
 
 export const MaskInput = ({
@@ -22,29 +45,24 @@ export const MaskInput = ({
   options,
   ...props
 }: MaskInputProps) => {
-  const { value, ref: imaskRef } = useIMask(options);
-
-  const baseTestId = testId || name || "";
-
   return (
     <InputBase
       label={label}
-      data-testid={baseTestId}
+      data-testid={testId}
       withoutForm={withoutForm}
       name={name}
     >
-      {(rest) => {
+      {({ onChange, value }) => {
         return (
           <div
             className="flex w-full gap-3"
-            data-testid={`input-wrapper-${baseTestId}`}
+            data-testid={`input-wrapper-${testId}`}
           >
-            <Input
+            <MaskInputBase
               {...props}
-              {...rest}
+              options={options}
+              onChange={onChange}
               value={value}
-              ref={imaskRef as React.RefObject<HTMLInputElement>}
-              data-testid={`input-${baseTestId}`}
             />
             {component}
           </div>

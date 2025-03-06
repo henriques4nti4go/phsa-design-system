@@ -19,7 +19,6 @@ export const Default: Story = {
   args: {
     placeholder: "000.000.000-00",
     label: "CPF",
-    description: "Digite seu CPF",
     options: {
       mask: "000.000.000-00",
     },
@@ -30,7 +29,6 @@ export const Phone: Story = {
   args: {
     placeholder: "(00) 00000-0000",
     label: "Telefone",
-    description: "Digite seu telefone",
     options: {
       mask: "(00) 00000-0000",
     },
@@ -41,7 +39,6 @@ export const Date: Story = {
   args: {
     placeholder: "00/00/0000",
     label: "Data",
-    description: "Digite uma data",
     options: {
       mask: "00/00/0000",
     },
