@@ -21,7 +21,7 @@ export const MultipleInput = ({ data, ...props }: MultipleInputProps) => {
           }}
           withoutForm
           component={
-            <Button onClick={() => addItem()}>
+            <Button type="button" onClick={() => addItem()}>
               <Icon name="MdAdd" />
             </Button>
           }

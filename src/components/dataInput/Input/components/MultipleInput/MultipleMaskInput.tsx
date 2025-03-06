@@ -24,7 +24,7 @@ export const MultipleMaskInput = ({
           }}
           withoutForm
           component={
-            <Button onClick={() => addItem()}>
+            <Button type="button" onClick={() => addItem()}>
               <Icon name="MdAdd" />
             </Button>
           }
