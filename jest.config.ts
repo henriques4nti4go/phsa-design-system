@@ -12,6 +12,10 @@ const config: Config = {
   testEnvironment: "jsdom",
   // Add more setup options before each test is run
   // setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+  testMatch: [
+    "<rootDir>/**/__tests__/**/*.test.[jt]s?(x)",
+    "<rootDir>/**/?(*.)+(spec|test).[jt]s?(x)",
+  ],
   moduleNameMapper: {
     "^rehype-raw$": "<rootDir>/__mocks__/rehype-raw.js",
   },

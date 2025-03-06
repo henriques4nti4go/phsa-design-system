@@ -19,7 +19,6 @@ export const Default: Story = {
   args: {
     placeholder: "0,00",
     label: "Valor",
-    description: "Digite um valor numérico",
   },
 };
 
@@ -28,7 +27,6 @@ export const Currency: Story = {
     placeholder: "0,00",
     label: "Preço",
     prefix: "R$ ",
-    description: "Digite o preço",
     decimalScale: 2,
     fixedDecimalScale: false,
     value: 1234.56,
@@ -40,7 +38,6 @@ export const Percentage: Story = {
     placeholder: "0,00",
     label: "Porcentagem",
     suffix: "%",
-    description: "Digite a porcentagem",
     decimalScale: 1,
     fixedDecimalScale: true,
     value: 85.5,
@@ -53,7 +50,6 @@ export const CustomFormat: Story = {
     label: "Número",
     thousandSeparator: ",",
     decimalSeparator: ".",
-    description: "Formato americano",
     value: 1234567.89,
   },
 };

@@ -1,107 +1,57 @@
-"use client";
-
-import React from "react";
 import { useFormContext } from "react-hook-form";
-import { ErrorMessage } from "../../../../../components/dataDisplay/ErrorMessage/ErrorMessage";
-import { Label } from "../../../../../components/dataDisplay/Label";
-import { cn } from "../../../../../lib/utils";
+import { InputProps as InputPropsUI } from "../../../../ui/input";
+import { Label } from "../../../../ui/label";
 import {
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "../../../../../components/ui/form";
-import { InputProps as ShadcnInputProps } from "../../../../../components/ui/input";
+} from "../../../../ui/form";
 
-export type BaseInputValue = string | number | readonly string[] | undefined;
-
-export type BaseInputProps = {
-  onChange?: (value: BaseInputValue) => void;
-  value?: BaseInputValue;
-  "data-testid"?: string;
-  name?: string;
+export type InputBaseProps = Omit<InputPropsUI, "children"> & {
   label?: string;
-  description?: string;
-  error?: string;
-  className?: string;
   withoutForm?: boolean;
-  disabled?: boolean;
-  required?: boolean;
-};
-
-export type InputBaseProps = Omit<BaseInputProps, "value"> & {
-  children: (props: CustomInputProps) => React.ReactNode;
-};
-
-export type CustomInputProps = Omit<ShadcnInputProps, "onChange" | "value"> & {
-  onChange?: (value: BaseInputValue) => void;
-  value?: BaseInputValue;
   "data-testid"?: string;
+  error?: string;
+  children?: (
+    props: React.DetailedHTMLProps<
+      React.InputHTMLAttributes<HTMLInputElement>,
+      HTMLInputElement
+    >
+  ) => JSX.Element;
 };
 
 export const InputBase = ({
-  children = () => null,
-  description,
-  error,
   label,
+  withoutForm,
   className,
   name,
-  withoutForm,
-  disabled,
   required,
   "data-testid": testId,
-  onChange: externalOnChange,
+  error,
+  children,
+  ...props
 }: InputBaseProps) => {
   const form = useFormContext();
   const hasForm = !withoutForm && !!form && !!name;
 
-  if (!hasForm) {
+  if (!hasForm)
     return (
-      <div
-        className={cn("space-y-2", className)}
-        data-testid={testId ? `input-base-${testId}` : undefined}
-      >
-        {label && (
-          <Label
-            htmlFor={name}
-            data-testid={testId ? `label-${testId}` : undefined}
-          >
-            {`${label}${required ? " *" : ""}`}
-          </Label>
-        )}
-        {children &&
-          children({
-            disabled,
-            "aria-required": required,
-            "aria-invalid": !!error,
-            "data-testid": testId,
-            onChange: externalOnChange,
-          })}
-        {description && (
-          <p
-            className="text-sm text-muted-foreground"
-            data-testid={testId ? `description-${testId}` : undefined}
-          >
-            {description}
-          </p>
-        )}
-        {error && (
-          <ErrorMessage data-testid={testId ? `error-${testId}` : undefined}>
-            {error}
-          </ErrorMessage>
-        )}
+      <div className="grid w-full max-w-sm items-center gap-3">
+        <Label htmlFor="email">
+          {label}
+          {required && <span>*</span>}
+        </Label>
+        {children?.({
+          className,
+          name,
+          required,
+          ...props,
+        })}
+        {error && <p className="text-red-500">{error}</p>}
       </div>
     );
-  }
-
-  if (!name) {
-    console.error(
-      "[InputBase] O prop 'name' é obrigatório quando usado com formulário."
-    );
-    return null;
-  }
 
   return (
     <FormField
@@ -121,24 +71,13 @@ export const InputBase = ({
             </FormLabel>
           )}
           <FormControl>
-            {children({
+            {children?.({
+              className,
+              required,
+              ...props,
               ...field,
-              disabled: disabled || field.disabled,
-              "aria-required": required,
-              onChange: (value) => {
-                field.onChange(value);
-                externalOnChange?.(value);
-              },
-              "data-testid": testId,
             })}
           </FormControl>
-          {description && (
-            <FormDescription
-              data-testid={testId ? `form-description-${testId}` : undefined}
-            >
-              {description}
-            </FormDescription>
-          )}
           <FormMessage
             role="alert"
             data-testid={testId ? `form-message-${testId}` : undefined}

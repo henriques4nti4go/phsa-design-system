@@ -1,76 +1,31 @@
-"use client";
+import { InputBase, InputBaseProps } from "../InputBase";
+import { Input as InputUI } from "../../../../ui/input";
 
-import * as React from "react";
-import {
-  Input as InputShadcn,
-  InputProps as PropsShadcn,
-} from "../../../../../components/ui/input";
-import {
-  InputBase,
-  BaseInputProps,
-  BaseInputValue,
-  CustomInputProps,
-} from "../InputBase";
-
-type InputComponentProps = Omit<PropsShadcn, "onChange"> & {
-  onChange?: (value: BaseInputValue) => void;
-  value?: BaseInputValue;
-  "data-testid"?: string;
-};
-
-export type InputProps = BaseInputProps & {
+export type InputProps = Omit<InputBaseProps, "children"> & {
   component?: React.ReactNode;
 };
 
-export const InputComponent = React.forwardRef<
-  HTMLInputElement,
-  InputComponentProps
->((props, ref) => {
-  const { onChange, "data-testid": testId, ...rest } = props;
-
-  const handleChange = React.useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      onChange?.(e.target.value);
-    },
-    [onChange]
-  );
-
+export const Input = ({
+  label,
+  withoutForm,
+  component,
+  name,
+  error,
+  ...props
+}: InputProps) => {
   return (
-    <InputShadcn
-      {...rest}
-      ref={ref}
-      onChange={handleChange}
-      data-testid={testId || "input-component"}
-    />
+    <InputBase
+      label={label}
+      withoutForm={withoutForm}
+      name={name}
+      error={error}
+    >
+      {({ ...rest }) => (
+        <div className="flex w-full max-w-sm items-center space-x-2">
+          <InputUI {...props} {...rest} />
+          {component}
+        </div>
+      )}
+    </InputBase>
   );
-});
-
-export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ "data-testid": testId, component, ...props }, ref) => {
-    const baseTestId = testId || props.name || "";
-
-    return (
-      <InputBase {...props} data-testid={baseTestId}>
-        {(rest: CustomInputProps) => (
-          <div
-            className="flex w-full gap-3"
-            data-testid={`input-wrapper-${baseTestId}`}
-          >
-            <InputComponent
-              {...props}
-              {...rest}
-              ref={ref}
-              data-testid={`input-${baseTestId}`}
-            />
-            {component}
-          </div>
-        )}
-      </InputBase>
-    );
-  }
-);
-
-InputComponent.displayName = "InputComponent";
-Input.displayName = "Input";
-
-export type { BaseInputValue, BaseInputProps };
+};

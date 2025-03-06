@@ -1,118 +1,88 @@
-import { useFormContext } from "react-hook-form";
-import { InputProps } from "../Input";
+import { Button } from "@/components/actions";
+import { Icon } from "@/components/dataDisplay";
 import { useCallback, useMemo, useState } from "react";
-import { Button } from "../../../../../components/actions";
-import { Icon, Text } from "../../../../../components/dataDisplay";
-import _ from "lodash";
+import { useFormContext } from "react-hook-form";
 
-export type MultipleInputProps = {
-  /** Dados iniciais do input múltiplo */
-  data?: string[];
-  /** Callback chamado quando os dados são alterados */
-  onChangeData?: (data: string[]) => void;
-  /** Renderiza o input individual */
-  children: (props: InputProps) => React.ReactNode;
-  /** Função para formatar os itens na lista */
-  formatItems?: (item: string) => string | null;
-  /** Nome do campo (obrigatório quando usado com formulário) */
+export type MultipleInputBaseProps = {
+  children: ({
+    onChange,
+    addItem,
+    value,
+  }: {
+    onChange: (value: string) => void;
+    addItem: () => void;
+    value: string;
+  }) => React.ReactNode;
+  data: string[];
   name?: string;
-  /** Define se o componente será usado fora de um formulário */
-  withoutForm?: boolean;
-  /** ID para testes */
-  "data-testid"?: string;
-  /** Desabilita o campo */
-  disabled?: boolean;
+  onChangeData?: (data: string[]) => void;
 };
 
 export const MultipleInputBase = ({
+  children,
   data = [],
-  onChangeData = () => {},
-  children = () => null,
-  formatItems = (item) => item,
   name,
-  withoutForm,
-  disabled,
-  "data-testid": testId,
-}: MultipleInputProps) => {
-  const [value, setValue] = useState("");
+  onChangeData = () => {},
+}: MultipleInputBaseProps) => {
   const form = useFormContext();
-  const hasForm = !withoutForm && !!form && !!name;
+  const withForm = !!form && !!name;
+  const [inputValue, setInputValue] = useState("");
 
-  const items = useMemo(
-    () => (hasForm ? form.watch()?.[name] || [] : data),
-    [hasForm, form, name, data]
-  );
+  const inputData = useMemo(() => {
+    if (withForm) return form.watch()?.[name] || [];
+    return data;
+  }, [withForm, form, name, data]);
 
-  const handleAddData = useCallback(() => {
-    if (!value?.trim()) return;
-
-    const newData = [...items, value];
-    onChangeData(newData);
-    if (hasForm && name) {
-      form.setValue(name, newData);
+  const updateData = useCallback(() => {
+    if (withForm) {
+      form.setValue(name, [...inputData, inputValue]);
+    } else {
+      onChangeData?.(inputData.concat(inputValue));
     }
-    setValue("");
-  }, [form, hasForm, items, name, onChangeData, value]);
+    setInputValue("");
+  }, [inputData, inputValue, withForm, form, name, onChangeData]);
 
-  const handleRemove = useCallback(
-    (item: string) => {
-      const newData = _.without(items, item);
-
-      onChangeData(newData);
-      if (hasForm && name) {
-        form.setValue(name, newData);
+  const removeItem = useCallback(
+    (index: number) => {
+      if (withForm) {
+        form.setValue(
+          name,
+          inputData.filter((_: string, i: number) => i !== index)
+        );
+      } else {
+        onChangeData?.(inputData.filter((_: string, i: number) => i !== index));
       }
     },
-    [form, hasForm, items, name, onChangeData]
+    [withForm, form, name, inputData, onChangeData]
   );
 
-  return (
-    <div className="flex flex-col gap-3">
-      <div className="flex gap-3 items-end">
-        {children({
-          withoutForm: true,
-          value,
-          onChange: (value) => {
-            if (value === undefined || value === null) {
-              setValue("");
-              return;
-            }
-            setValue(String(value));
-          },
-          disabled,
-          "data-testid": testId,
-          component: (
-            <Button
-              onClick={handleAddData}
-              disabled={!value?.trim() || disabled}
-              type="button"
-              data-testid={testId ? `add-button-${testId}` : undefined}
-            >
-              <Icon name="MdAdd" />
-            </Button>
-          ),
-        })}
-      </div>
-      {items.map((item: string, index: number) => (
-        <div
-          key={index}
-          className="flex items-center justify-between"
-          data-testid={testId ? `item-${testId}-${index}` : undefined}
-        >
-          <Text>{formatItems(item)}</Text>
+  const renderOptions = useCallback(() => {
+    return inputData?.map((item: string, index: number) => {
+      return (
+        <div key={index} className="flex justify-between mt-2">
+          <div>{item}</div>
           <Button
-            variant="ghost"
-            onClick={() => handleRemove(item)}
-            disabled={disabled}
-            type="button"
-            data-testid={
-              testId ? `remove-button-${testId}-${index}` : undefined
-            }
+            onClick={() => removeItem(index)}
+            variant={"ghost"}
+            size={"icon"}
           >
             <Icon name="MdDelete" className="fill-destructive" />
           </Button>
         </div>
-      ))}
+      );
+    });
+  }, [inputData, removeItem]);
+
+  return (
+    <div>
+      {children({
+        onChange: (value: string) => {
+          setInputValue(value);
+        },
+        addItem: updateData,
+        value: inputValue,
+      })}
+      {renderOptions()}
     </div>
   );
 };

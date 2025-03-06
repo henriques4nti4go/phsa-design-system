@@ -1,44 +1,33 @@
-import { useNumericFormat } from "react-number-format";
-import { InputProps } from "../Input";
-import { NumberInput, NumberInputProps } from "../NumberInput";
-import { MultipleInputBase, MultipleInputProps } from "./MultipleInputBase";
+import { Button } from "../../../../actions/Button";
+import { Input, InputProps } from "../Input";
+import { MultipleInputBase } from "./MultipleInputBase";
+import { Icon } from "../../../../dataDisplay/Icon";
 
-export type MultipleNumberInputProps = Omit<
-  NumberInputProps,
-  "onValueChange" | "children"
-> &
-  Omit<MultipleInputProps, "children"> & {
-    onChangeData?: (data: string[]) => void;
-  };
+export type MultipleNumberInputProps = InputProps & {
+  data: string[];
+  onChangeData: (data: string[]) => void;
+  name: string;
+};
 
 export const MultipleNumberInput = ({
   data,
-  onChangeData,
   ...props
 }: MultipleNumberInputProps) => {
-  const { format } = useNumericFormat({
-    thousandSeparator: props.thousandSeparator,
-    decimalSeparator: props.decimalSeparator,
-    prefix: props.prefix,
-    suffix: props.suffix,
-    valueIsNumericString: true,
-  });
-
   return (
-    <MultipleInputBase
-      data={data}
-      onChangeData={onChangeData}
-      formatItems={(item: string) => format?.(item) || item}
-      {...props}
-    >
-      {({ onChange, value, component, ...rest }: InputProps) => (
-        <NumberInput
-          {...(rest as Omit<NumberInputProps, "onChange" | "value">)}
-          value={value as number}
-          onChange={(value) => {
-            onChange?.(value);
+    <MultipleInputBase data={data} {...props}>
+      {({ onChange, addItem, value }) => (
+        <Input
+          {...props}
+          value={value}
+          onChange={(e) => {
+            onChange(e.target.value);
           }}
-          component={component}
+          withoutForm
+          component={
+            <Button onClick={() => addItem()}>
+              <Icon name="MdAdd" />
+            </Button>
+          }
         />
       )}
     </MultipleInputBase>

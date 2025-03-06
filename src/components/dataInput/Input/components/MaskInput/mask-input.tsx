@@ -1,41 +1,44 @@
 "use client";
-
 import * as React from "react";
 import { useIMask, ReactMaskOpts } from "react-imask";
-import { InputComponent, type BaseInputProps } from "../Input";
-import { InputBase } from "../InputBase";
+import { Input } from "../../../../ui/input";
+import { InputBase, InputBaseProps } from "../InputBase";
 
-export type MaskInputProps = BaseInputProps & {
-  name?: string;
-  label?: string;
-  description?: string;
-  error?: string;
+export type MaskInputProps = Omit<InputBaseProps, "children"> & {
   placeholder?: string;
   options: ReactMaskOpts;
   className?: string;
   withoutForm?: boolean;
   component?: React.ReactNode;
+  "data-testid"?: string;
 };
 
 export const MaskInput = ({
   component,
   "data-testid": testId,
-
+  label,
+  name,
+  withoutForm,
   options,
   ...props
 }: MaskInputProps) => {
   const { value, ref: imaskRef } = useIMask(options);
 
-  const baseTestId = testId || props.name || "";
+  const baseTestId = testId || name || "";
 
   return (
-    <InputBase {...props} data-testid={baseTestId}>
+    <InputBase
+      label={label}
+      data-testid={baseTestId}
+      withoutForm={withoutForm}
+      name={name}
+    >
       {(rest) => (
         <div
           className="flex w-full gap-3"
           data-testid={`input-wrapper-${baseTestId}`}
         >
-          <InputComponent
+          <Input
             {...props}
             {...rest}
             value={value}

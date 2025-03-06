@@ -2,36 +2,30 @@
 
 import * as React from "react";
 import { NumericFormat, NumericFormatProps } from "react-number-format";
-import { InputBase } from "../InputBase";
+import { InputBase, InputBaseProps } from "../InputBase";
 import { Input } from "../../../../ui/input";
 
 export type NumberInputProps = Omit<
   NumericFormatProps,
   "onChange" | "onValueChange"
-> & {
-  name?: string;
-  label?: string;
-  description?: string;
-  error?: string;
-  className?: string;
-  withoutForm?: boolean;
-  component?: React.ReactNode;
-  onChange?: (value: number) => void;
-  "data-testid"?: string;
-};
+> &
+  Omit<InputBaseProps, "children"> & {
+    onChange?: (value: number) => void;
+    "data-testid"?: string;
+    component?: React.ReactNode;
+  };
 
 export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
   (props, ref) => {
     const {
       name,
       label,
-      description,
       error,
       className,
       withoutForm,
-      component,
       onChange,
       "data-testid": testId,
+      component,
       ...inputProps
     } = props;
 
@@ -40,7 +34,6 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
     return (
       <InputBase
         label={label}
-        description={description}
         error={error}
         className={className}
         name={name}

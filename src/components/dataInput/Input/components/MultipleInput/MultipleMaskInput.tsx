@@ -1,19 +1,23 @@
-import { Button } from "../../../../actions/Button";
-import { Input, InputProps } from "../Input";
+import { Button } from "../../../../../components/actions";
+import { MaskInput, MaskInputProps } from "../MaskInput";
 import { MultipleInputBase } from "./MultipleInputBase";
-import { Icon } from "../../../../dataDisplay/Icon";
+import { Icon } from "../../../../../components/dataDisplay";
+import { Input } from "../Input";
 
-export type MultipleInputProps = InputProps & {
+export type MultipleMaskInputProps = MaskInputProps & {
   data: string[];
   onChangeData: (data: string[]) => void;
   name: string;
 };
 
-export const MultipleInput = ({ data, ...props }: MultipleInputProps) => {
+export const MultipleMaskInput = ({
+  data,
+  ...props
+}: MultipleMaskInputProps) => {
   return (
     <MultipleInputBase data={data} {...props}>
       {({ onChange, addItem, value }) => (
-        <Input
+        <MaskInput
           {...props}
           value={value}
           onChange={(e) => {
