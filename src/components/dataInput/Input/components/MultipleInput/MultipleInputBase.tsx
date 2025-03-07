@@ -37,6 +37,7 @@ export const MultipleInputBase = ({
   }, [withForm, form, name, data]);
 
   const updateData = useCallback(() => {
+    if (!inputValue.length) return;
     if (withForm) {
       form.setValue(name, [...inputData, inputValue]);
     } else {

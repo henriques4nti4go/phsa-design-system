@@ -16,9 +16,7 @@ export const MultipleInput = ({ data, ...props }: MultipleInputProps) => {
         <Input
           {...props}
           value={value}
-          onChange={(e) => {
-            onChange(e.target.value);
-          }}
+          onChange={onChange}
           withoutForm
           component={
             <Button type="button" onClick={() => addItem()}>

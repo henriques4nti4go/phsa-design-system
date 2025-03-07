@@ -15,22 +15,21 @@ export const MultipleMaskInput = ({
 }: MultipleMaskInputProps) => {
   return (
     <MultipleInputBase data={data} {...props}>
-      {({ onChange, addItem, value }) => (
-        <MaskInput
-          {...props}
-          value={value}
-          onChange={(e) => {
-            console.log(e);
-            onChange(e);
-          }}
-          withoutForm
-          component={
-            <Button type="button" onClick={() => addItem()}>
-              <Icon name="MdAdd" />
-            </Button>
-          }
-        />
-      )}
+      {({ onChange, addItem, value }) => {
+        return (
+          <MaskInput
+            {...props}
+            value={value}
+            onChange={onChange}
+            withoutForm
+            component={
+              <Button type="button" onClick={() => addItem()}>
+                <Icon name="MdAdd" />
+              </Button>
+            }
+          />
+        );
+      }}
     </MultipleInputBase>
   );
 };

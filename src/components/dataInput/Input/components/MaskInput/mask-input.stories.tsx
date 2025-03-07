@@ -19,36 +19,28 @@ export const Default: Story = {
   args: {
     placeholder: "000.000.000-00",
     label: "CPF",
-    options: {
-      mask: "000.000.000-00",
-    },
+    mask: "999.999.999-99",
   },
 };
 
 export const Phone: Story = {
   args: {
-    placeholder: "(00) 00000-0000",
+    placeholder: "(99) 99999-9999",
     label: "Telefone",
-    options: {
-      mask: "(00) 00000-0000",
-    },
   },
 };
 
 export const Date: Story = {
   args: {
-    placeholder: "00/00/0000",
+    placeholder: "99/99/9999",
     label: "Data",
-    options: {
-      mask: "00/00/0000",
-    },
   },
 };
 
 export const WithForm = () => {
   const form = useForm({
     defaultValues: {
-      cpf: "000.000.000-00",
+      cpf: "999.999.999-99",
     },
   });
 
@@ -59,7 +51,7 @@ export const WithForm = () => {
           name="cpf"
           label="CPF"
           placeholder="000.000.000-00"
-          options={{ mask: "000.000.000-00" }}
+          mask="999.999.999-99"
         />
       </form>
     </Form>

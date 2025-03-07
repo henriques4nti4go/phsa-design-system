@@ -20,9 +20,20 @@ export const Default: Story = {
     label: "Multiple Input",
     name: "multipleInput",
     data: ["Item 1", "Item 2", "Item 3"],
-    onChangeData: (data) => {
+    placeholder: "Multiple Input",
+    onChangeData: (data: string[]) => {
       console.log(data);
     },
+  },
+};
+
+export const WithMask: Story = {
+  args: {
+    label: "Multiple Input",
+    name: "multipleInput",
+    mask: "999.999.999-99",
+    placeholder: "000.000.000-00",
+    data: ["111.111.111-11", "222.222.222-22", "333.333.333-33"],
   },
 };
 
@@ -32,16 +43,19 @@ export const WithError: Story = {
     name: "multipleInput",
     error: "This is an error",
     data: ["Item 1", "Item 2", "Item 3"],
+    placeholder: "Multiple Input",
   },
 };
 
 export const WithForm: Story = {
   args: {
     label: "Multiple Input",
-    name: "test",
+    name: "client.data",
+    placeholder: "Multiple Input",
+    mask: "999.999.999-99",
   },
   decorators: [
-    (Story) => {
+    (Story: React.ComponentType) => {
       const form = useForm({
         defaultValues: {
           client: {

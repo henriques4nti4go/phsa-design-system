@@ -44,10 +44,10 @@ export const InputBase = ({
           {required && <span>*</span>}
         </Label>
         {children?.({
+          ...props,
           className,
           name,
           required,
-          ...props,
         })}
         {error && <p className="text-red-500">{error}</p>}
       </div>

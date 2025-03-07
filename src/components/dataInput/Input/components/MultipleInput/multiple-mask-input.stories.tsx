@@ -21,9 +21,7 @@ export const Default: Story = {
     name: "multipleInput",
     data: ["Item 1", "Item 2", "Item 3"],
     placeholder: "000.000.000-00",
-    options: {
-      mask: "000.000.000-00",
-    },
+    mask: "999.999.999-99",
     onChangeData: (data) => {
       console.log(data);
     },
@@ -38,9 +36,7 @@ export const WithError: Story = {
     data: ["Item 1", "Item 2", "Item 3"],
     withoutForm: true,
     placeholder: "000.000.000-00",
-    options: {
-      mask: "000.000.000-00",
-    },
+    mask: "999.999.999-99",
   },
 };
 
@@ -49,9 +45,7 @@ export const WithForm: Story = {
     label: "Multiple Input",
     name: "multipleInput.data",
     placeholder: "000.000.000-00",
-    options: {
-      mask: "000.000.000-00",
-    },
+    mask: "999.999.999-99",
   },
   decorators: [
     (Story) => {
