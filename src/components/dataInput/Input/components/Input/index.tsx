@@ -9,6 +9,7 @@ import {
   FormMessage,
 } from "../../../../../components/ui/form";
 import { InputBase, InputBaseProps } from "./InputBase";
+import { ErrorMessage } from "../../../../../components/dataDisplay/ErrorMessage";
 
 export type InputProps = Omit<InputBaseProps, "children"> & {
   component?: React.ReactNode;
@@ -42,7 +43,7 @@ export const Input = ({
           <InputBase {...props} />
           {component}
         </div>
-        {error && <p className="text-red-500">{error}</p>}
+        {error && <ErrorMessage>{error}</ErrorMessage>}
       </div>
     );
 
