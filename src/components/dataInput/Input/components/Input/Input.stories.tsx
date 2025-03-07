@@ -21,15 +21,7 @@ export const Default: Story = {
     label: "Default Input",
     placeholder: "Type something...",
     name: "default",
-    value: "11111111",
-  },
-};
-
-export const WithMask: Story = {
-  args: {
-    label: "Mask Input",
-    placeholder: "000.000.000-00",
-    name: "mask",
+    mask: "999.999.999-99",
   },
 };
 
@@ -46,7 +38,30 @@ export const WithForm: Story = {
   args: {
     label: "Input with Form",
     placeholder: "Standalone input",
+    name: "test",
+  },
+  decorators: [
+    (Story: React.ComponentType) => {
+      const form = useForm({
+        defaultValues: {
+          test: "11111111",
+        },
+      });
+      return (
+        <Form {...form}>
+          <Story />
+        </Form>
+      );
+    },
+  ],
+};
+
+export const WithFormMask: Story = {
+  args: {
+    label: "Input with Form",
+    placeholder: "Standalone input",
     name: "standalone",
+    mask: "999.999.999-99",
   },
   decorators: [
     (Story: React.ComponentType) => {

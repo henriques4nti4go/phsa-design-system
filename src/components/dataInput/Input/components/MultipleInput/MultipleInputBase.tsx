@@ -10,7 +10,7 @@ export type MultipleInputBaseProps = {
     addItem,
     value,
   }: {
-    onChange: (value: string) => void;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     addItem: () => void;
     value: string;
   }) => React.ReactNode;
@@ -28,6 +28,8 @@ export const MultipleInputBase = ({
   const form = useFormContext();
   const withForm = !!form && !!name;
   const [inputValue, setInputValue] = useState("");
+
+  console.log({ inputValue });
 
   const inputData = useMemo(() => {
     if (withForm) {
@@ -80,7 +82,7 @@ export const MultipleInputBase = ({
   return (
     <div>
       {children({
-        onChange: (value: string) => {
+        onChange: ({ target: { value } }) => {
           setInputValue(value);
         },
         addItem: updateData,

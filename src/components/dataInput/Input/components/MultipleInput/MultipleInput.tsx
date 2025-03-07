@@ -9,12 +9,13 @@ export type MultipleInputProps = InputProps & {
   name: string;
 };
 
-export const MultipleInput = ({ data, ...props }: MultipleInputProps) => {
+export const MultipleInput = ({ data, mask, ...props }: MultipleInputProps) => {
   return (
     <MultipleInputBase data={data} {...props}>
       {({ onChange, addItem, value }) => (
         <Input
           {...props}
+          mask={mask}
           value={value}
           onChange={onChange}
           withoutForm

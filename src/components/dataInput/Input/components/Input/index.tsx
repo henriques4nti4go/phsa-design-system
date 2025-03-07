@@ -1,5 +1,4 @@
 import React from "react";
-import { InputBaseProps } from "../InputBase";
 import { Label } from "../../../../ui/label";
 import { useFormContext } from "react-hook-form";
 import {
@@ -9,10 +8,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input as InputUI } from "../../../../../components/ui/input";
+import { InputBase, InputBaseProps } from "./InputBase";
 
 export type InputProps = Omit<InputBaseProps, "children"> & {
   component?: React.ReactNode;
+  error?: string;
+  withoutForm?: boolean;
+  label?: string;
 };
 
 export const Input = ({
@@ -36,7 +38,7 @@ export const Input = ({
           {props.required && <span>*</span>}
         </Label>
         <div className="flex w-full items-center space-x-2">
-          <InputUI {...props} />
+          <InputBase {...props} />
           {component}
         </div>
         {error && <p className="text-red-500">{error}</p>}
@@ -47,7 +49,7 @@ export const Input = ({
     <FormField
       control={form.control}
       name={name}
-      render={({ field }) => (
+      render={({ field: { onChange, ...rest } }) => (
         <FormItem
           className={className}
           data-testid={testId ? `form-item-${testId}` : undefined}
@@ -61,7 +63,7 @@ export const Input = ({
             </FormLabel>
           )}
           <FormControl>
-            <InputUI {...props} {...field} />
+            <InputBase {...props} {...rest} onChangeText={onChange} />
           </FormControl>
           <FormMessage
             role="alert"

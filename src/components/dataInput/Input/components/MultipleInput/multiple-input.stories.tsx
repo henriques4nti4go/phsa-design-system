@@ -42,6 +42,7 @@ export const WithForm: Story = {
     label: "Multiple Input",
     name: "client.data",
     placeholder: "Multiple Input",
+    mask: "999.999.999-99",
   },
   decorators: [
     (Story: React.ComponentType) => {
