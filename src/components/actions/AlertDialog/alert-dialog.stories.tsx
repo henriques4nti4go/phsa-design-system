@@ -19,21 +19,3 @@ export const Default: Story = {
     children: <Button variant="destructive">Delete Account</Button>,
   },
 };
-
-export const CustomContent: Story = {
-  args: {
-    title: "Delete Document",
-    description:
-      "Are you sure you want to delete this document? This action cannot be undone.",
-    children: <Button>Delete Document</Button>,
-  },
-};
-
-export const WithWarning: Story = {
-  args: {
-    title: "Warning: Critical Action",
-    description:
-      "You are about to perform a critical action that will affect all users. Please confirm to proceed.",
-    children: <Button variant="destructive">Execute Critical Action</Button>,
-  },
-};
