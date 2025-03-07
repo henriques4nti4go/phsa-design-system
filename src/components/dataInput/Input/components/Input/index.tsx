@@ -65,7 +65,10 @@ export const Input = ({
             </FormLabel>
           )}
           <FormControl>
-            <InputBase {...props} {...rest} onChangeText={onChange} />
+            <div className="flex w-full items-center space-x-2">
+              <InputBase {...props} {...rest} onChangeText={onChange} />
+              {component}
+            </div>
           </FormControl>
           <FormMessage
             role="alert"
