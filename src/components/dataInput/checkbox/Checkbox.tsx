@@ -3,11 +3,11 @@ import {
   Checkbox as CheckboxUI,
   CheckboxProps as CheckboxUIProps,
 } from "../../ui/checkbox";
-import { Label } from "@/components/ui/label";
+import { Label } from "../../../components/ui/label";
 
 import { FormControl, FormField, FormItem, FormLabel } from "../form";
 
-import { ErrorMessage } from "@/components/dataDisplay/ErrorMessage";
+import { ErrorMessage } from "../../../components/dataDisplay/ErrorMessage";
 
 export type CheckboxProps = CheckboxUIProps & {
   label: string;
