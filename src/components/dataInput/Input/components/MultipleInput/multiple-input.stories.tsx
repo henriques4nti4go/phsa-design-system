@@ -27,16 +27,6 @@ export const Default: Story = {
   },
 };
 
-export const WithMask: Story = {
-  args: {
-    label: "Multiple Input",
-    name: "multipleInput",
-    mask: "999.999.999-99",
-    placeholder: "000.000.000-00",
-    data: ["111.111.111-11", "222.222.222-22", "333.333.333-33"],
-  },
-};
-
 export const WithError: Story = {
   args: {
     label: "Multiple Input",
@@ -52,7 +42,6 @@ export const WithForm: Story = {
     label: "Multiple Input",
     name: "client.data",
     placeholder: "Multiple Input",
-    mask: "999.999.999-99",
   },
   decorators: [
     (Story: React.ComponentType) => {
