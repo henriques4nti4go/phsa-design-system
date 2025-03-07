@@ -7,7 +7,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from "../../../../../components/ui/form";
 import { InputBase, InputBaseProps } from "./InputBase";
 
 export type InputProps = Omit<InputBaseProps, "children"> & {
