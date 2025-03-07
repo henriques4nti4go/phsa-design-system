@@ -4,12 +4,16 @@ import { MultipleInputBase } from "./MultipleInputBase";
 import { Icon } from "../../../../dataDisplay/Icon";
 
 export type MultipleInputProps = InputProps & {
-  data: string[];
-  onChangeData: (data: string[]) => void;
+  data?: string[];
+  onChangeData?: (data: string[]) => void;
   name: string;
 };
 
-export const MultipleInput = ({ data, mask, ...props }: MultipleInputProps) => {
+export const MultipleInput = ({
+  data = [],
+  mask,
+  ...props
+}: MultipleInputProps) => {
   return (
     <MultipleInputBase data={data} {...props}>
       {({ onChange, addItem, value }) => (

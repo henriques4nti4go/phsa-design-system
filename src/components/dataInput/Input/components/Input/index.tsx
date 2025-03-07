@@ -25,6 +25,7 @@ export const Input = ({
   error,
   "data-testid": testId,
   className,
+  required,
   ...props
 }: InputProps) => {
   const form = useFormContext();
@@ -35,7 +36,7 @@ export const Input = ({
       <div className="grid w-full items-center gap-3">
         <Label htmlFor="email">
           {label}
-          {props.required && <span>*</span>}
+          {required && <span>*</span>}
         </Label>
         <div className="flex w-full items-center space-x-2">
           <InputBase {...props} />
@@ -59,7 +60,7 @@ export const Input = ({
               htmlFor={name}
               data-testid={testId ? `form-label-${testId}` : undefined}
             >
-              {`${label}${props.required ? " *" : ""}`}
+              {`${label}${required ? " *" : ""}`}
             </FormLabel>
           )}
           <FormControl>
