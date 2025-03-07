@@ -71,6 +71,7 @@ export const MultipleInputBase = ({
             onClick={() => removeItem(index)}
             variant={"ghost"}
             size={"icon"}
+            type="button"
           >
             <Icon name="MdDelete" className="fill-destructive" />
           </Button>
