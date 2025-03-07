@@ -1,6 +1,6 @@
 export interface DataPairListProps {
   title?: string;
-  data: Record<string, string | number>;
+  data: Record<string, string | number | undefined>;
   labels?: Record<string, string>;
   className?: string;
   infoDirection?: "vertical" | "horizontal";
