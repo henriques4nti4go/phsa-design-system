@@ -5,18 +5,16 @@ import { useFormContext } from "react-hook-form";
 import _ from "lodash";
 
 export type MultipleInputBaseProps = {
-  children: ({
-    onChange,
-    addItem,
-    value,
-  }: {
+  children: (params: {
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     addItem: () => void;
     value: string;
+    error?: string;
   }) => React.ReactNode;
   data: string[];
   name?: string;
   onChangeData?: (data: string[]) => void;
+  error?: string;
 };
 
 export const MultipleInputBase = ({
@@ -24,12 +22,11 @@ export const MultipleInputBase = ({
   data = [],
   name,
   onChangeData = () => {},
+  error,
 }: MultipleInputBaseProps) => {
   const form = useFormContext();
   const withForm = !!form && !!name;
   const [inputValue, setInputValue] = useState("");
-
-  console.log({ inputValue });
 
   const inputData = useMemo(() => {
     if (withForm) {
@@ -37,6 +34,13 @@ export const MultipleInputBase = ({
     }
     return data;
   }, [withForm, form, name, data]);
+
+  const errorMessage = useMemo(() => {
+    if (withForm) {
+      return _.get(form.formState.errors, name)?.message as string;
+    }
+    return error;
+  }, [error, form, name, withForm]);
 
   const updateData = useCallback(() => {
     if (!inputValue.length) return;
@@ -88,6 +92,7 @@ export const MultipleInputBase = ({
         },
         addItem: updateData,
         value: inputValue,
+        error: errorMessage,
       })}
       {renderOptions()}
     </div>

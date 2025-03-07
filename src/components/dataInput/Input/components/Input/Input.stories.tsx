@@ -42,11 +42,7 @@ export const WithForm: Story = {
   },
   decorators: [
     (Story: React.ComponentType) => {
-      const form = useForm({
-        defaultValues: {
-          test: "11111111",
-        },
-      });
+      const form = useForm();
       return (
         <Form {...form}>
           <Story />

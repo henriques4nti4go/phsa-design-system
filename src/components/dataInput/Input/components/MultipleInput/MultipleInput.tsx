@@ -16,13 +16,14 @@ export const MultipleInput = ({
 }: MultipleInputProps) => {
   return (
     <MultipleInputBase data={data} {...props}>
-      {({ onChange, addItem, value }) => (
+      {({ onChange, addItem, value, error }) => (
         <Input
           {...props}
           mask={mask}
           value={value}
           onChange={onChange}
           withoutForm
+          error={error}
           component={
             <Button type="button" onClick={() => addItem()}>
               <Icon name="MdAdd" />

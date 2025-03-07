@@ -52,7 +52,15 @@ export const WithForm: Story = {
             data: ["Item 1", "Item 2", "Item 3"],
           },
         },
+        errors: {
+          client: {
+            data: {
+              message: "This is an error",
+            },
+          },
+        },
       });
+
       return (
         <Form {...form}>
           <Story />
