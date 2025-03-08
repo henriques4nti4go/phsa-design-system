@@ -7,8 +7,8 @@ import * as Popover from "@radix-ui/react-popover";
 
 export type MultiSelectBaseProps = {
   options: { label: string; value: string }[];
-  selected: string[];
-  onChange: (values: string[]) => void;
+  selected?: string[];
+  onChange?: (values: string[]) => void;
   placeholder?: string;
   className?: string;
 };
@@ -16,7 +16,7 @@ export type MultiSelectBaseProps = {
 export function MultiSelectBase({
   options = [],
   selected = [],
-  onChange,
+  onChange = () => {},
   placeholder = "Select frameworks...",
   className,
 }: MultiSelectBaseProps) {

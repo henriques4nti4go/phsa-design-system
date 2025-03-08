@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { MultiSelect } from "./MultiSelect";
+import { MultiSelect } from "./index";
 import { useState } from "react";
 import { Form } from "../../form";
 import { useForm } from "react-hook-form";
