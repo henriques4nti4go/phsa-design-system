@@ -3,7 +3,7 @@ import { Table } from "./Table";
 import { ColumnDef } from "@tanstack/react-table";
 
 const meta: Meta<typeof Table> = {
-  title: "Components/Data Display/Table",
+  title: "DataDisplay/Table",
   component: Table,
   parameters: {
     layout: "centered",
