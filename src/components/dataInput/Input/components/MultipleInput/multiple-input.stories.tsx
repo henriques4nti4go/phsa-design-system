@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/nextjs";
 import { MultipleInput } from "./MultipleInput";
 import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 
 const meta: Meta<typeof MultipleInput> = {
-  title: "Data Input/Multiple Input",
+  title: "Data Input/Input/Multiple Input",
   component: MultipleInput,
   tags: ["autodocs"],
   parameters: {

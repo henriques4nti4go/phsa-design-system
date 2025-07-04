@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/nextjs";
 import { NumberInput } from "./number-input";
 import { useForm } from "react-hook-form";
 import { Form } from "../../../../../components/ui/form";
 
 const meta = {
-  title: "Data Input/NumberInput",
+  title: "Data Input/Input/NumberInput",
   component: NumberInput,
   parameters: {
     layout: "centered",

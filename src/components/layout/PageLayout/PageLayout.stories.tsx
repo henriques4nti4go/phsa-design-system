@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/nextjs";
 import { PageLayout } from "./index";
 import { Icon, Text } from "../../../components/dataDisplay";
 import { Button } from "../../../components/actions";

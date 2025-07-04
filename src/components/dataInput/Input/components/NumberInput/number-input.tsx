@@ -50,7 +50,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
               customInput={Input}
               getInputRef={ref}
               onValueChange={({ floatValue }) => {
-                const numberValue = floatValue as number | undefined;
+                const numberValue = floatValue;
                 onBaseChange?.(numberValue);
                 onChange?.(numberValue as number);
               }}

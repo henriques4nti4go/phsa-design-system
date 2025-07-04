@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { DialogWithActions as DialogWithActionsComponent } from "./components/DialogWithActions";
 import { Dialog } from "./Dialog";
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/nextjs";
 import { Label } from "@/components/dataDisplay/Label";
 import { Input } from "@/components/dataInput";
 

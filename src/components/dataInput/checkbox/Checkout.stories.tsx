@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/nextjs";
 import { Checkbox } from "./Checkbox";
 import { Form } from "../form";
 import { useForm } from "react-hook-form";

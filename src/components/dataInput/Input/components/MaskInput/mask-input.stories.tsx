@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/nextjs";
 import { MaskInput } from "./mask-input";
 import { useForm } from "react-hook-form";
 import { Form } from "../../../../../components/ui/form";
 
 const meta = {
-  title: "Data Input/MaskInput",
+  title: "Data Input/Input/MaskInput",
   component: MaskInput,
   parameters: {
     layout: "centered",

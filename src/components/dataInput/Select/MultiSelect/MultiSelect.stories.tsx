@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/nextjs";
 import { MultiSelect } from "./index";
 import { useState } from "react";
 import { Form } from "../../form";

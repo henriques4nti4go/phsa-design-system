@@ -1,11 +1,11 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/nextjs";
 import { Input } from "./index";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/actions";
 
 const meta: Meta<typeof Input> = {
-  title: "Data Input/Input",
+  title: "Data Input/Input/Input",
   component: Input,
   tags: ["autodocs"],
   parameters: {
