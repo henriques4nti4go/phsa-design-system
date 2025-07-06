@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { Edit, Trash2 } from "lucide-react";
 import { useCrudLayoutActions } from "./store/CrudLayoutStore";
+import { useCrudLayout } from "./hook/useCrudLayout";
 
 // Tipos de exemplo para as stories
 interface ExampleData {
@@ -26,27 +27,146 @@ interface UpdateData extends CreateData {
   _id: string;
 }
 
-// Dados de exemplo
-const mockData: ExampleData[] = [
-  {
-    _id: "1",
-    name: "João Silva",
-    email: "joao@example.com",
-    status: "Ativo",
-  },
-  {
-    _id: "2",
-    name: "Maria Santos",
-    email: "maria@example.com",
-    status: "Inativo",
-  },
-  {
-    _id: "3",
-    name: "Pedro Oliveira",
-    email: "pedro@example.com",
-    status: "Ativo",
-  },
-];
+// Função para gerar dados aleatórios
+const generateMockData = (count: number): ExampleData[] => {
+  const firstNames = [
+    "João",
+    "Maria",
+    "Pedro",
+    "Ana",
+    "Carlos",
+    "Lucia",
+    "Roberto",
+    "Fernanda",
+    "Ricardo",
+    "Juliana",
+    "Marcos",
+    "Patricia",
+    "Antonio",
+    "Carla",
+    "José",
+    "Sandra",
+    "Paulo",
+    "Beatriz",
+    "Francisco",
+    "Mariana",
+    "Luiz",
+    "Gabriela",
+    "Miguel",
+    "Larissa",
+    "Rafael",
+    "Camila",
+    "Daniel",
+    "Renata",
+    "Felipe",
+    "Vanessa",
+    "Bruno",
+    "Priscila",
+    "Thiago",
+    "Amanda",
+    "Leonardo",
+    "Bianca",
+    "Gustavo",
+    "Natalia",
+    "Rodrigo",
+    "Tatiana",
+    "Eduardo",
+    "Viviane",
+    "Vinicius",
+    "Claudia",
+    "Matheus",
+    "Sabrina",
+    "Lucas",
+    "Adriana",
+    "Diego",
+    "Monica",
+  ];
+
+  const lastNames = [
+    "Silva",
+    "Santos",
+    "Oliveira",
+    "Costa",
+    "Ferreira",
+    "Pereira",
+    "Lima",
+    "Alves",
+    "Souza",
+    "Rodrigues",
+    "Martins",
+    "Carvalho",
+    "Barbosa",
+    "Gomes",
+    "Nascimento",
+    "Ribeiro",
+    "Araujo",
+    "Dias",
+    "Fernandes",
+    "Morais",
+    "Cardoso",
+    "Campos",
+    "Rocha",
+    "Monteiro",
+    "Mendes",
+    "Freitas",
+    "Pinto",
+    "Cavalcanti",
+    "Vieira",
+    "Teixeira",
+    "Moreira",
+    "Correia",
+    "Castro",
+    "Andrade",
+    "Nunes",
+    "Ramos",
+    "Lopes",
+    "Machado",
+    "Reis",
+    "Moura",
+    "Cunha",
+    "Pires",
+    "Farias",
+    "Melo",
+    "Azevedo",
+    "Borges",
+    "Paiva",
+    "Coelho",
+    "Guimaraes",
+    "Nogueira",
+  ];
+
+  const domains = [
+    "example.com",
+    "test.com",
+    "demo.com",
+    "sample.org",
+    "mock.net",
+  ];
+  const statuses = ["Ativo", "Inativo", "Pendente", "Suspenso"];
+
+  const data: ExampleData[] = [];
+
+  for (let i = 1; i <= count; i++) {
+    const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+    const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+    const domain = domains[Math.floor(Math.random() * domains.length)];
+    const status = statuses[Math.floor(Math.random() * statuses.length)];
+
+    const email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}@${domain}`;
+
+    data.push({
+      _id: i.toString(),
+      name: `${firstName} ${lastName}`,
+      email: email,
+      status: status,
+    });
+  }
+
+  return data;
+};
+
+// Dados de exemplo gerados automaticamente
+const mockData: ExampleData[] = generateMockData(100);
 
 // Componente de formulário de exemplo
 const ExampleForm = () => {
@@ -77,7 +197,24 @@ const queryClient = new QueryClient({
 // Componente wrapper para usar o store
 const CrudWrapper = (args: any) => {
   const form = useForm<CreateData | UpdateData>();
-  const { setDeleteId, setEditId, setOpenEditModal } = useCrudLayoutActions();
+  useCrudLayout({
+    create: {
+      titleModal: "Criar Usuário",
+      submitButtonText: "Criar",
+      descriptionModal: "Crie um novo usuário",
+    },
+    update: {
+      titleModal: "Atualizar Usuário",
+      submitButtonText: "Atualizar",
+      descriptionModal: "Atualize os dados do usuário",
+    },
+    delete: {
+      titleModal: "Deletar Usuário",
+      submitButtonText: "Deletar",
+      descriptionModal: "Tem certeza que deseja deletar o usuário?",
+    },
+    createButtonText: "Novo usuário",
+  });
 
   // Colunas da tabela
   const columns: ColumnDef<ExampleData>[] = [
@@ -92,34 +229,6 @@ const CrudWrapper = (args: any) => {
     {
       accessorKey: "status",
       header: "Status",
-    },
-    {
-      id: "actions",
-      header: "Ações",
-      cell: ({ row }) => {
-        const data = row.original;
-        return (
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => {
-                setEditId(data._id);
-                setOpenEditModal(true);
-              }}
-            >
-              <Edit className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setDeleteId(data._id)}
-            >
-              <Trash2 className="h-4 w-4" />
-            </Button>
-          </div>
-        );
-      },
     },
   ];
 
@@ -145,10 +254,19 @@ const CrudWrapper = (args: any) => {
     return Promise.resolve();
   };
 
-  const listRequest = async () => {
+  const listRequest = async (page?: number, limit?: number) => {
     // Simula delay de carregamento
     await new Promise((resolve) => setTimeout(resolve, 500));
-    return Promise.resolve(mockData);
+
+    // Implementar paginação nos dados mock
+    const startIndex = ((page || 1) - 1) * (limit || 10);
+    const endIndex = startIndex + (limit || 10);
+    const paginatedData = mockData.slice(startIndex, endIndex);
+
+    return Promise.resolve({
+      data: paginatedData,
+      total: mockData.length,
+    });
   };
 
   return (
@@ -162,6 +280,9 @@ const CrudWrapper = (args: any) => {
         updateRequest={updateRequest}
         deleteRequest={deleteRequest}
         listRequest={listRequest}
+        actions={["update", "delete"]}
+        title="Gerenciar Usuários"
+        description="Gerencie os usuários do sistema"
       />
     </QueryClientProvider>
   );
@@ -192,154 +313,5 @@ export const Default: Story = {
   render: (args) => <CrudWrapper {...args} />,
   args: {
     title: "Gerenciar Usuários",
-  },
-};
-
-export const EmptyState: Story = {
-  render: (args) => {
-    const form = useForm<CreateData | UpdateData>();
-    const { setDeleteId, setEditId, setOpenEditModal } = useCrudLayoutActions();
-
-    const columns: ColumnDef<ExampleData>[] = [
-      {
-        accessorKey: "name",
-        header: "Nome",
-      },
-      {
-        accessorKey: "email",
-        header: "Email",
-      },
-      {
-        accessorKey: "status",
-        header: "Status",
-      },
-      {
-        id: "actions",
-        header: "Ações",
-        cell: ({ row }) => {
-          const data = row.original;
-          return (
-            <div className="flex gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => {
-                  setEditId(data._id);
-                  setOpenEditModal(true);
-                }}
-              >
-                <Edit className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setDeleteId(data._id)}
-              >
-                <Trash2 className="h-4 w-4" />
-              </Button>
-            </div>
-          );
-        },
-      },
-    ];
-
-    return (
-      <QueryClientProvider client={queryClient}>
-        <CrudLayout
-          {...args}
-          columns={columns}
-          form={form}
-          formComponent={<ExampleForm />}
-          createRequest={async () => Promise.resolve()}
-          updateRequest={async () => Promise.resolve()}
-          deleteRequest={async () => Promise.resolve()}
-          listRequest={async () => Promise.resolve([])}
-        />
-      </QueryClientProvider>
-    );
-  },
-  args: {
-    title: "Lista Vazia",
-  },
-};
-
-export const LoadingState: Story = {
-  render: (args) => {
-    const form = useForm<CreateData | UpdateData>();
-    const { setDeleteId, setEditId, setOpenEditModal } = useCrudLayoutActions();
-
-    const columns: ColumnDef<ExampleData>[] = [
-      {
-        accessorKey: "name",
-        header: "Nome",
-      },
-      {
-        accessorKey: "email",
-        header: "Email",
-      },
-      {
-        accessorKey: "status",
-        header: "Status",
-      },
-      {
-        id: "actions",
-        header: "Ações",
-        cell: ({ row }) => {
-          const data = row.original;
-          return (
-            <div className="flex gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => {
-                  setEditId(data._id);
-                  setOpenEditModal(true);
-                }}
-              >
-                <Edit className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setDeleteId(data._id)}
-              >
-                <Trash2 className="h-4 w-4" />
-              </Button>
-            </div>
-          );
-        },
-      },
-    ];
-
-    return (
-      <QueryClientProvider client={queryClient}>
-        <CrudLayout
-          {...args}
-          columns={columns}
-          form={form}
-          formComponent={<ExampleForm />}
-          createRequest={async () => {
-            // Simula carregamento infinito
-            await new Promise((resolve) => setTimeout(resolve, 10000));
-            return Promise.resolve();
-          }}
-          updateRequest={async () => {
-            await new Promise((resolve) => setTimeout(resolve, 10000));
-            return Promise.resolve();
-          }}
-          deleteRequest={async () => {
-            await new Promise((resolve) => setTimeout(resolve, 10000));
-            return Promise.resolve();
-          }}
-          listRequest={async () => {
-            await new Promise((resolve) => setTimeout(resolve, 10000));
-            return Promise.resolve(mockData);
-          }}
-        />
-      </QueryClientProvider>
-    );
-  },
-  args: {
-    title: "Estado de Carregamento",
   },
 };

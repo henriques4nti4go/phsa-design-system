@@ -9,7 +9,12 @@ export type useRequestProps<ListData, CreateData, UpdateData> = {
   createRequest?: (data: CreateData) => Promise<ListData | void>;
   updateRequest?: (data: UpdateData) => Promise<ListData | void>;
   deleteRequest?: (id: string) => Promise<void>;
-  listRequest: () => Promise<ListData[]>;
+  listRequest: (
+    page?: number,
+    limit?: number
+  ) => Promise<{ data: ListData[]; total: number }>;
+  page: number;
+  limit: number;
 };
 
 export function useRequest<
@@ -21,25 +26,30 @@ export function useRequest<
   updateRequest = () => Promise.resolve(),
   deleteRequest = () => Promise.resolve(),
   createRequest = () => Promise.resolve(),
-  listRequest = () => Promise.resolve([]),
+  listRequest,
+  page,
+  limit,
 }: useRequestProps<ListData, CreateData, UpdateData>) {
   const queryClient = useQueryClient();
 
   const queryKeys = useMemo(() => {
-    return [queryKey];
-  }, [queryKey]);
+    return [queryKey, page, limit];
+  }, [queryKey, page, limit]);
 
   // Query para buscar configurações
   const {
-    data: listData = [],
+    data: queryData,
     isLoading: isLoadingList,
     error: queryError,
     refetch,
   } = useQuery({
     queryKey: queryKeys,
-    queryFn: listRequest,
+    queryFn: () => listRequest(page, limit),
     staleTime: 5 * 60 * 1000, // 5 minutos
   });
+
+  const listData = queryData?.data || [];
+  const total = queryData?.total || 0;
 
   // Mutation para criar/atualizar configuração
   const {
@@ -72,13 +82,11 @@ export function useRequest<
   } = useMutation({
     mutationFn: (id: string) => deleteRequest(id),
     onSuccess: (_, id) => {
-      // Atualizar o cache otimisticamente
-      queryClient.setQueryData(queryKeys, (oldData: ListData[]) => {
-        if (!oldData) return oldData;
-        return oldData.filter((data: ListData) => data._id !== id);
+      // Invalidar todas as páginas para garantir consistência
+      queryClient.invalidateQueries({
+        queryKey: [queryKey],
+        exact: false,
       });
-      // Invalidar a query para garantir consistência
-      queryClient.invalidateQueries({ queryKey: queryKeys });
     },
   });
 
@@ -137,6 +145,7 @@ export function useRequest<
 
   return {
     listData,
+    total,
     isLoading: isLoadingList || isCreating || isUpdating || isDeleting,
     error,
     createActionRequest,

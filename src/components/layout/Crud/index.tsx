@@ -1,4 +1,4 @@
-import { AlertCircle, Plus } from "lucide-react";
+import { AlertCircle, Edit, Plus, Trash2 } from "lucide-react";
 import { Table } from "./components/Table";
 import { CrudLayoutProps } from "./types";
 import { Button } from "@/components/ui/button";
@@ -47,11 +47,15 @@ export const CrudLayout = <
   createRequest,
   updateRequest,
   deleteRequest,
-  listRequest = () => Promise.resolve([]),
+  listRequest = () => Promise.resolve({ data: [], total: 0 }),
   formComponent,
+  actions = [],
   form,
 }: CrudLayoutProps<ListData, CreateData, UpdateData>) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState<"create" | "edit">("create");
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
 
   const titleModal = useTitleModal();
   const descriptionModal = useDescriptionModal();
@@ -63,12 +67,11 @@ export const CrudLayout = <
   const openEditModal = useOpenEditModal();
   const { setDeleteId, setOpenEditModal, setEditId } = useCrudLayoutActions();
 
-  const isEditMode = useMemo(() => {
-    return editId !== null;
-  }, [editId]);
+  const isEditMode = useMemo(() => modalMode === "edit", [modalMode]);
 
   const {
     listData,
+    total,
     error,
     createActionRequest,
     updateActionRequest,
@@ -80,58 +83,112 @@ export const CrudLayout = <
     updateRequest,
     deleteRequest,
     listRequest,
+    page,
+    limit,
   });
 
   useEffect(() => {
-    if (openEditModal) {
-      form.reset(listData.find((item: ListData) => item._id === editId));
-      setIsModalOpen(true);
+    if (openEditModal && editId) {
+      const itemToEdit = listData.find((item: ListData) => item._id === editId);
+      if (itemToEdit) {
+        form.reset(itemToEdit);
+        setModalMode("edit");
+        setIsModalOpen(true);
+        setOpenEditModal(false);
+      }
     }
-  }, [editId, form, listData, openEditModal]);
+  }, [editId, form, listData, openEditModal, setOpenEditModal]);
 
-  useEffect(() => {
-    if (isModalOpen && !openEditModal) {
-      form.reset({});
-      Object.keys(form.getValues()).forEach((key) => {
-        form.setValue(key, "");
-      });
-    }
-  }, [isModalOpen, openEditModal, form]);
+  const resetForm = useCallback(() => {
+    form.reset({});
+    const formValues = form.getValues();
+    Object.keys(formValues).forEach((key) => {
+      form.setValue(key, "");
+    });
+  }, [form]);
+
+  const customColumns = useMemo(() => {
+    const editButton = actions.includes("update") && {
+      id: "actions",
+      header: "Ações",
+      cell: ({ row }) => {
+        const data = row.original;
+        return (
+          <div className="flex gap-2">
+            {actions.includes("update") && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  setEditId(data._id);
+                  setOpenEditModal(true);
+                }}
+              >
+                <Edit className="h-4 w-4" />
+              </Button>
+            )}
+            {actions.includes("delete") && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setDeleteId(data._id)}
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            )}
+          </div>
+        );
+      },
+    };
+
+    const data = [...columns];
+
+    if (editButton) data.push(editButton);
+
+    return data;
+  }, [columns, actions, setEditId, setOpenEditModal, setDeleteId]);
+
+  const closeModal = useCallback(() => {
+    setIsModalOpen(false);
+    setModalMode("create");
+    setEditId(null);
+    resetForm();
+  }, [setEditId, resetForm]);
 
   const onSubmit = useCallback(
     async (data: CreateData | UpdateData) => {
-      let success;
+      try {
+        let success;
 
-      if (isEditMode) {
-        success = await updateActionRequest(data as UpdateData);
-        if (success) {
-          toast.success("Configuração atualizada");
+        if (isEditMode) {
+          success = await updateActionRequest(data as UpdateData);
+          if (success) {
+            toast.success("Configuração atualizada");
+          }
+        } else {
+          success = await createActionRequest(data as CreateData);
+          if (success) {
+            toast.success("Configuração criada");
+          }
         }
-      } else {
-        success = await createActionRequest(data as CreateData);
+
         if (success) {
-          toast.success("Configuração criada");
+          closeModal();
         }
+      } catch (error) {
+        console.error("Erro ao salvar:", error);
+        toast.error("Erro ao salvar configuração");
       }
-      setIsModalOpen(false);
-      setOpenEditModal(false);
-      setEditId(null);
     },
-    [
-      createActionRequest,
-      updateActionRequest,
-      isEditMode,
-      setIsModalOpen,
-      setOpenEditModal,
-      setEditId,
-    ]
+    [createActionRequest, updateActionRequest, isEditMode, closeModal]
   );
 
   const onClickCreate = useCallback(() => {
-    setOpenEditModal(false);
-    setIsModalOpen(true);
+    resetForm();
+    setModalMode("create");
     setEditId(null);
-  }, [setIsModalOpen, setOpenEditModal, setEditId]);
+    setIsModalOpen(true);
+  }, [setEditId, resetForm]);
 
   const onDeleteData = useCallback(
     async (dataId: string) => {
@@ -144,6 +201,24 @@ export const CrudLayout = <
     [deleteActionRequest, setDeleteId]
   );
 
+  const handleModalOpenChange = useCallback(
+    (isOpen: boolean) => {
+      if (!isOpen) {
+        closeModal();
+      }
+    },
+    [closeModal]
+  );
+
+  const handlePageChange = useCallback((newPage: number) => {
+    setPage(newPage);
+  }, []);
+
+  const handleLimitChange = useCallback((newLimit: number) => {
+    setLimit(newLimit);
+    setPage(1); // Reset to first page when changing limit
+  }, []);
+
   return (
     <div className="container mx-auto p-4 space-y-6 bg-white rounded-md">
       <div className="flex justify-between items-center md:flex-row flex-col gap-4">
@@ -153,16 +228,7 @@ export const CrudLayout = <
         </Button>
       </div>
 
-      <Dialog
-        open={openEditModal || isModalOpen}
-        onOpenChange={(isOpen) => {
-          setOpenEditModal(isOpen);
-          setIsModalOpen(isOpen);
-          if (!isOpen) {
-            setEditId(null);
-          }
-        }}
-      >
+      <Dialog open={isModalOpen} onOpenChange={handleModalOpenChange}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{titleModal}</DialogTitle>
@@ -190,8 +256,15 @@ export const CrudLayout = <
 
       <Table<ListData>
         data={listData}
-        columns={columns}
+        columns={customColumns}
         isLoading={isLoading}
+        pagination={{
+          page,
+          limit,
+          total,
+          onPageChange: handlePageChange,
+          onLimitChange: handleLimitChange,
+        }}
       />
       <AlertDialog
         open={!!deleteId}

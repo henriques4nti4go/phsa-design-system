@@ -10,4 +10,5 @@ export type CrudLayoutProps<ListData, CreateData, UpdateData> = {
   formComponent: React.ReactNode;
 
   form: any;
+  actions?: ["create", "update", "delete"];
 };
