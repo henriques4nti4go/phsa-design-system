@@ -84,5 +84,13 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/henriques4nti4go/phsa-design-system"
+  },
+  "homepage": "https://github.com/henriques4nti4go/phsa-design-system#readme",
+  "bugs": {
+    "url": "https://github.com/henriques4nti4go/phsa-design-system/issues"
   }
 }
