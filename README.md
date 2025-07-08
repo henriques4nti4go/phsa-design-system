@@ -35,6 +35,24 @@ Make sure you have Node.js installed on your machine (version 18 or higher recom
 
 ### Installation
 
+#### Option 1: Install from npm (Recommended)
+
+Install the published package directly from npm:
+
+```bash
+npm install @phsa.tec/design-system-react
+# or
+yarn add @phsa.tec/design-system-react
+# or
+pnpm add @phsa.tec/design-system-react
+```
+
+View the package on npm: [https://www.npmjs.com/package/@phsa.tec/design-system-react](https://www.npmjs.com/package/@phsa.tec/design-system-react)
+
+#### Option 2: Development Setup
+
+For contributing or local development:
+
 1. **Clone the repository**
 
    ```bash
