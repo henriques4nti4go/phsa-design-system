@@ -1,5 +1,5 @@
 {
-  "name": "design-system-react",
+  "name": "phsa-design-system-react",
   "version": "0.1.0",
   "private": false,
   "main": "./src/index.ts",
