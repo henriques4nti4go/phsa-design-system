@@ -1,43 +1,54 @@
 "use client";
 import * as React from "react";
-import { Input } from "../../../../ui/input";
-import { InputBase, InputBaseProps } from "../InputBase";
+import { useIMask, ReactMaskOpts } from "react-imask";
+import { Input } from "../Input";
+import { useConditionalController } from "@/hooks/use-conditional-controller";
+import { InputProps } from "../Input/types";
 
-export type MaskInputProps = Omit<InputBaseProps, "children"> & {
-  placeholder?: string;
-  className?: string;
-  withoutForm?: boolean;
-  component?: React.ReactNode;
-  "data-testid"?: string;
-  onChange?: (value: string) => void;
-};
+export type MaskInputProps = ReactMaskOpts & InputProps;
 
 export const MaskInput = ({
-  component,
-  "data-testid": testId,
-  label,
-  name,
-  withoutForm,
+  "data-testid": dataTestId,
+  withoutForm = false,
   ...props
 }: MaskInputProps) => {
+  const formData = useConditionalController({
+    name: props.name || "",
+    withoutForm,
+  });
+
+  const {
+    label,
+    error,
+    required,
+    name,
+    className,
+    placeholder,
+    ...imaskProps
+  } = props;
+
+  const { ref, value } = useIMask({
+    ...imaskProps,
+  });
+
+  React.useEffect(() => {
+    if (formData.value !== undefined && formData.value !== value) {
+      formData.onChange(value);
+    }
+  }, [formData, value]);
+
   return (
-    <InputBase
+    <Input
+      {...props}
+      ref={ref as React.RefObject<HTMLInputElement>}
+      data-testid={dataTestId}
+      withoutForm={true}
       label={label}
-      data-testid={testId}
-      withoutForm={withoutForm}
+      error={error}
+      required={required}
+      className={className}
+      placeholder={placeholder}
       name={name}
-    >
-      {({ ...rest }) => {
-        return (
-          <div
-            className="flex w-full gap-3"
-            data-testid={`input-wrapper-${testId}`}
-          >
-            <Input {...props} {...rest} />
-            {component}
-          </div>
-        );
-      }}
-    </InputBase>
+    />
   );
 };

@@ -17,30 +17,40 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
+    placeholder: "99999-999",
+    label: "CEP",
+    mask: "00000-000",
+  },
+};
+
+export const CPF: Story = {
+  args: {
     placeholder: "000.000.000-00",
     label: "CPF",
-    mask: "999.999.999-99",
+    mask: "000.000.000-00",
   },
 };
 
 export const Phone: Story = {
   args: {
-    placeholder: "(99) 99999-9999",
+    placeholder: "(00) 00000-0000",
     label: "Telefone",
+    mask: "(00) 00000-0000",
   },
 };
 
 export const Date: Story = {
   args: {
-    placeholder: "99/99/9999",
+    placeholder: "00/00/0000",
     label: "Data",
+    mask: "00/00/0000",
   },
 };
 
 export const WithForm = () => {
   const form = useForm({
     defaultValues: {
-      cpf: "999.999.999-99",
+      cpf: "",
     },
   });
 
@@ -51,7 +61,7 @@ export const WithForm = () => {
           name="cpf"
           label="CPF"
           placeholder="000.000.000-00"
-          mask="999.999.999-99"
+          mask="000.000.000-00"
         />
       </form>
     </Form>
