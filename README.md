@@ -2,6 +2,12 @@
 
 A comprehensive React design system built with modern tools and best practices, featuring reusable components, consistent styling, and powerful layout solutions.
 
+## 📚 Live Documentation
+
+🌐 **[View Live Documentation](https://henriques4nti4go.github.io/phsa-design-system/)**
+
+Explore all components interactively in our Storybook documentation, deployed automatically via GitHub Pages.
+
 ## ✨ Features
 
 - 🧩 **Modular Components** - Reusable React components built with TypeScript
@@ -162,7 +168,13 @@ The README is written in English as requested and provides everything a develope
 
 ## 📚 Documentation
 
-Visit our Storybook documentation to explore all available components:
+### Live Documentation
+
+Visit our live Storybook documentation: **[https://henriques4nti4go.github.io/phsa-design-system/](https://henriques4nti4go.github.io/phsa-design-system/)**
+
+### Local Development
+
+Run Storybook locally to explore all available components:
 
 ```bash
 npm run storybook
