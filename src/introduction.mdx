@@ -1,0 +1,132 @@
+# PHSA Design System
+
+Welcome to the **PHSA Design System** - a modern and accessible React component library built with TypeScript, Tailwind CSS, and Radix UI.
+
+## 🎯 About the Project
+
+The PHSA Design System is a collection of reusable components that follow best practices in design and accessibility. Our mission is to provide a solid foundation for building consistent and professional user interfaces.
+
+## 🚀 Technologies
+
+- **React 19** - JavaScript library for user interfaces
+- **TypeScript** - Static typing for JavaScript
+- **Tailwind CSS** - Utility-first CSS framework
+- **Radix UI** - Accessible primitive components
+- **Lucide React** - Modern and consistent icons
+- **React Hook Form** - Form management
+- **Zod** - Schema validation
+
+## 📦 Available Components
+
+### Forms
+
+- Input, Textarea, Select
+- Checkbox, Switch, Radio
+- DatePicker, TimePicker
+- Form validation with Zod
+
+### Navigation
+
+- Button, Link
+- Breadcrumb
+- Pagination
+- Tabs
+
+### Feedback
+
+- Alert, Toast
+- Modal, Dialog
+- Tooltip, Popover
+- Loading states
+
+### Layout
+
+- Card, Container
+- Grid, Flex
+- Divider, Spacer
+
+### Data
+
+- Table
+- DataTable
+- Charts (in development)
+
+## 🎨 Theme and Customization
+
+The design system supports light and dark themes with full customization through Tailwind CSS. All components follow a consistent design system with:
+
+- **Colors**: Semantic and accessible color palette
+- **Typography**: Clear text hierarchy
+- **Spacing**: Consistent spacing system
+- **Borders**: Standardized border radius
+- **Shadows**: Elevation system
+
+## ♿ Accessibility
+
+All components are built with accessibility in mind:
+
+- Full keyboard navigation support
+- Screen reader compatibility
+- Adequate color contrast
+- Visible focus states
+- Appropriate ARIA labels
+
+## 🛠️ How to Use
+
+### Installation
+
+```bash
+npm install @phsa.tec/design-system-react
+# or
+yarn add @phsa.tec/design-system-react
+```
+
+### Basic Setup
+
+```tsx
+import { Button, Input, Card } from "@phsa.tec/design-system-react";
+
+function App() {
+  return (
+    <div>
+      <Card>
+        <Input placeholder="Type something..." />
+        <Button>Click here</Button>
+      </Card>
+    </div>
+  );
+}
+```
+
+### Theme Configuration
+
+```tsx
+import { ThemeProvider } from "@phsa.tec/design-system-react";
+
+function App() {
+  return (
+    <ThemeProvider defaultTheme="light" storageKey="phsa-theme">
+      {/* Your components here */}
+    </ThemeProvider>
+  );
+}
+```
+
+## 📚 Documentation
+
+- **Components**: Explore all available components
+- **Examples**: See practical usage examples
+- **API**: Complete documentation of props and methods
+- **Style Guide**: Design patterns and best practices
+
+## 🤝 Contributing
+
+Contributions are welcome! Please read our contribution guide before submitting pull requests.
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
+**Need help?** Open an issue on GitHub or contact our team.
