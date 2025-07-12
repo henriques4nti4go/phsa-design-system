@@ -91,6 +91,33 @@
     "type": "git",
     "url": "https://github.com/henriques4nti4go/phsa-design-system"
   },
+  "keywords": [
+    "react",
+    "design-system",
+    "ui-components",
+    "typescript",
+    "tailwindcss",
+    "radix-ui",
+    "storybook",
+    "nextjs",
+    "form-components",
+    "data-table",
+    "theme-support",
+    "dark-mode",
+    "light-mode",
+    "responsive",
+    "accessible",
+    "reusable-components",
+    "react-hook-form",
+    "zod-validation",
+    "tanstack-query",
+    "zustand",
+    "lucide-react",
+    "shadcn-ui",
+    "component-library",
+    "frontend",
+    "ui-kit"
+  ],
   "homepage": "https://github.com/henriques4nti4go/phsa-design-system#readme",
   "bugs": {
     "url": "https://github.com/henriques4nti4go/phsa-design-system/issues"
