@@ -70,3 +70,27 @@ export const WithForm: Story = {
     },
   ],
 };
+
+export const WithMaskAndForm: Story = {
+  args: {
+    label: "Phone Numbers",
+    name: "phoneNumbers",
+    placeholder: "Enter phone number",
+    mask: "(99) 99999-9999",
+  },
+  decorators: [
+    (Story: React.ComponentType) => {
+      const form = useForm({
+        defaultValues: {
+          phoneNumbers: ["(11) 99999-9999", "(21) 88888-8888"],
+        },
+      });
+
+      return (
+        <Form {...form}>
+          <Story />
+        </Form>
+      );
+    },
+  ],
+};
