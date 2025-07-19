@@ -10,4 +10,6 @@ export type InputProps = Omit<InputBaseProps, "children"> & {
   helperText?: string;
   floatingLabel?: boolean;
   "data-testid"?: string;
+  extraElement?: React.ReactNode;
+  containerClassName?: string;
 };

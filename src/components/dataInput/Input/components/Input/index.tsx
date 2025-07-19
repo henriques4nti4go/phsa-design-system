@@ -8,6 +8,8 @@ import { cn } from "@/lib/utils";
 export const Input = ({
   "data-testid": dataTestId,
   withoutForm = false,
+  extraElement,
+  containerClassName,
   ...props
 }: InputProps) => {
   const formData = useConditionalController({
@@ -29,15 +31,18 @@ export const Input = ({
       required={props.required}
       data-testid={dataTestId}
     >
-      <InputUI
-        {...inputProps}
-        data-testid={dataTestId}
-        className={cn(
-          props.className,
-          props.error &&
-            "border-destructive focus:border-destructive focus-visible:ring-0"
-        )}
-      />
+      <div className={cn("flex items-center gap-2", containerClassName)}>
+        <InputUI
+          {...inputProps}
+          data-testid={dataTestId}
+          className={cn(
+            props.className,
+            props.error &&
+              "border-destructive focus:border-destructive focus-visible:ring-0"
+          )}
+        />
+        {extraElement}
+      </div>
     </InputBase>
   );
 };
