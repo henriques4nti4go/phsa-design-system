@@ -19,31 +19,47 @@ export const Default: Story = {
   args: {
     placeholder: "99999-999",
     label: "CEP",
-    mask: "00000-000",
+    mask: "99999-999",
   },
 };
 
 export const CPF: Story = {
   args: {
-    placeholder: "000.000.000-00",
+    placeholder: "999.999.999-99",
     label: "CPF",
-    mask: "000.000.000-00",
+    mask: "999.999.999-99",
   },
 };
 
 export const Phone: Story = {
   args: {
-    placeholder: "(00) 00000-0000",
+    placeholder: "(99) 99999-9999",
     label: "Telefone",
-    mask: "(00) 00000-0000",
+    mask: "(99) 99999-9999",
   },
 };
 
 export const Date: Story = {
   args: {
-    placeholder: "00/00/0000",
+    placeholder: "99/99/9999",
     label: "Data",
-    mask: "00/00/0000",
+    mask: "99/99/9999",
+  },
+};
+
+export const LettersExample: Story = {
+  args: {
+    placeholder: "AAA-9999",
+    label: "Código com Letras",
+    mask: "AAA-9999",
+  },
+};
+
+export const MixedExample: Story = {
+  args: {
+    placeholder: "A99-AAA-999",
+    label: "Código Misto",
+    mask: "A99-AAA-999",
   },
 };
 
@@ -60,8 +76,8 @@ export const WithForm = () => {
         <MaskInput
           name="cpf"
           label="CPF"
-          placeholder="000.000.000-00"
-          mask="000.000.000-00"
+          placeholder="999.999.999-99"
+          mask="999.999.999-99"
         />
       </form>
     </Form>

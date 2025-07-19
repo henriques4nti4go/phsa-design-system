@@ -1,11 +1,10 @@
 import { Button } from "../../../../actions/Button";
 import { Icon } from "../../../../dataDisplay/Icon";
 import { useCallback, useMemo, useState } from "react";
-import { InputProps } from "../Input/types";
-import { Input } from "../Input";
 import { useConditionalController } from "@/hooks/use-conditional-controller";
+import { MaskInput, MaskInputProps } from "../MaskInput";
 
-export type MultipleInputProps = InputProps & {
+export type MultipleInputProps = MaskInputProps & {
   data?: string[];
   onAdd?: (data: string) => void;
   onRemove?: (position: number) => void;
@@ -63,7 +62,7 @@ export const MultipleInput = ({
   );
 
   const renderItens = useCallback(() => {
-    return inputItems.map((item: string, index: number) => {
+    return inputItems?.map((item: string, index: number) => {
       return (
         <div key={item} className="flex justify-between">
           {item}
@@ -80,20 +79,25 @@ export const MultipleInput = ({
     });
   }, [inputItems, onRemoveData]);
 
+  const extraElement = useMemo(
+    () => (
+      <Button type="button" onClick={onAddData} disabled={!inputValue}>
+        <Icon name="MdAdd" />
+      </Button>
+    ),
+    [onAddData, inputValue]
+  );
+
   return (
     <div className="flex flex-col gap-2">
-      <Input
+      <MaskInput
         {...props}
         withoutForm
+        extraElement={extraElement}
         onChange={(e) => {
           setInputValue(e.target.value);
         }}
         value={inputValue}
-        extraElement={
-          <Button type="button" onClick={onAddData} disabled={!inputValue}>
-            <Icon name="MdAdd" />
-          </Button>
-        }
       />
       {renderItens()}
     </div>

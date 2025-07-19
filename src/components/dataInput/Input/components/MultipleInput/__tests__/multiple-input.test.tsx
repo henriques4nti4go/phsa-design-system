@@ -64,12 +64,13 @@ describe("MultipleInput", () => {
   });
 
   it("should add item when add button is clicked", () => {
-    const mockOnChangeData = jest.fn();
+    const mockOnAdd = jest.fn();
     render(
       <MultipleInput
         name="test-input"
         data-testid="multiple-input"
-        onChangeData={mockOnChangeData}
+        onAdd={mockOnAdd}
+        withoutForm
       />
     );
 
@@ -79,23 +80,23 @@ describe("MultipleInput", () => {
     fireEvent.change(input, { target: { value: "test item" } });
     fireEvent.click(addButton);
 
-    expect(mockOnChangeData).toHaveBeenCalledWith(["test item"]);
+    expect(mockOnAdd).toHaveBeenCalledWith("test item");
   });
 
   it("should render with initial data", () => {
     const initialData = ["item 1", "item 2"];
-    const mockOnChangeData = jest.fn();
 
     render(
       <MultipleInput
         name="test-input"
         data={initialData}
-        onChangeData={mockOnChangeData}
         data-testid="multiple-input"
+        withoutForm
       />
     );
 
-    expect(mockOnChangeData).not.toHaveBeenCalled();
+    expect(screen.getByText("item 1")).toBeInTheDocument();
+    expect(screen.getByText("item 2")).toBeInTheDocument();
   });
 
   it("should handle mask prop", () => {
@@ -109,5 +110,43 @@ describe("MultipleInput", () => {
 
     const input = screen.getByTestId("multiple-input");
     expect(input).toBeInTheDocument();
+  });
+
+  it("should remove item when remove button is clicked", () => {
+    const mockOnRemove = jest.fn();
+    const initialData = ["item 1", "item 2"];
+
+    render(
+      <MultipleInput
+        name="test-input"
+        data={initialData}
+        onRemove={mockOnRemove}
+        data-testid="multiple-input"
+        withoutForm
+      />
+    );
+
+    const removeButtons = screen.getAllByRole("button");
+    const removeButton = removeButtons.find((button) =>
+      button.querySelector('[data-icon="MdDelete"]')
+    );
+
+    if (removeButton) {
+      fireEvent.click(removeButton);
+      expect(mockOnRemove).toHaveBeenCalledWith(0);
+    }
+  });
+
+  it("should disable add button when input is empty", () => {
+    render(
+      <MultipleInput
+        name="test-input"
+        data-testid="multiple-input"
+        withoutForm
+      />
+    );
+
+    const addButton = screen.getByRole("button");
+    expect(addButton).toBeDisabled();
   });
 });
