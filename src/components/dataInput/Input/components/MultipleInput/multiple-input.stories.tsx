@@ -21,8 +21,12 @@ export const Default: Story = {
     name: "multipleInput",
     data: ["Item 1", "Item 2", "Item 3"],
     placeholder: "Multiple Input",
-    onChangeData: (data: string[]) => {
-      console.log(data);
+    withoutForm: true,
+    onAdd: (data: string) => {
+      console.log("Added:", data);
+    },
+    onRemove: (index: number) => {
+      console.log("Removed index:", index);
     },
   },
 };
@@ -34,30 +38,27 @@ export const WithError: Story = {
     error: "This is an error",
     data: ["Item 1", "Item 2", "Item 3"],
     placeholder: "Multiple Input",
+    withoutForm: true,
+    onAdd: (data: string) => {
+      console.log("Added:", data);
+    },
+    onRemove: (index: number) => {
+      console.log("Removed index:", index);
+    },
   },
 };
 
 export const WithForm: Story = {
   args: {
     label: "Multiple Input",
-    name: "client.data",
+    name: "client",
     placeholder: "Multiple Input",
-    mask: "999.999.999-99",
   },
   decorators: [
     (Story: React.ComponentType) => {
       const form = useForm({
         defaultValues: {
-          client: {
-            data: ["Item 1", "Item 2", "Item 3"],
-          },
-        },
-        errors: {
-          client: {
-            data: {
-              message: "This is an error",
-            },
-          },
+          client: ["Item 1", "Item 2", "Item 3"],
         },
       });
 
