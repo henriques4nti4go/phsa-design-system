@@ -68,7 +68,7 @@ export const WithForm = () => {
           name="price"
           label="Preço"
           prefix="R$ "
-          description="Digite o preço do produto"
+          placeholder="Digite o preço do produto"
         />
       </form>
     </Form>
