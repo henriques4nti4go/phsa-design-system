@@ -1,4 +1,4 @@
-# 🎨 PHSA Design System
+# �� PHSA Design System React
 
 A comprehensive React design system built with modern tools and best practices, featuring reusable components, consistent styling, and powerful layout solutions.
 
@@ -6,289 +6,470 @@ A comprehensive React design system built with modern tools and best practices, 
 
 🌐 **[View Live Documentation](https://henriques4nti4go.github.io/phsa-design-system/)**
 
-Explore all components interactively in our Storybook documentation, deployed automatically via GitHub Pages.
+Explore all components interactively in our Storybook documentation.
 
 ## ✨ Features
 
-- 🧩 **Modular Components** - Reusable React components built with TypeScript
-- 🎭 **Storybook Integration** - Interactive component documentation and testing
-- 🎨 **Tailwind CSS** - Utility-first CSS framework for rapid styling
-- 🔧 **Form Management** - Integrated with React Hook Form for robust form handling
-- 📊 **Data Tables** - Advanced table components with TanStack Table
-- 🌙 **Theme Support** - Dark/light mode with next-themes
-- 🔍 **Type Safety** - Full TypeScript support
-- 🧪 **Testing Ready** - Jest and Testing Library setup
-- 📱 **Responsive Design** - Mobile-first approach
+- 🧩 **50+ Modular Components** - Complete component library with TypeScript
+- 🎨 **Tailwind CSS Ready** - Pre-styled components with customizable themes
+- 🔧 **Form Management** - Integrated with React Hook Form + Zod validation
+- 📊 **Advanced Data Tables** - Built with TanStack Table
+- 🌙 **Dark/Light Theme** - Built-in theme switching
+- 🔍 **Full TypeScript Support** - Complete type safety
+- 📱 **Responsive & Accessible** - Mobile-first and WCAG compliant
 
-## 🛠️ Tech Stack
-
-- **Framework**: Next.js 15
-- **UI Library**: Radix UI primitives
-- **Styling**: Tailwind CSS
-- **State Management**: Zustand
-- **Forms**: React Hook Form + Zod validation
-- **Data Fetching**: TanStack Query
-- **Icons**: Lucide React
-- **Documentation**: Storybook
-- **Testing**: Jest + Testing Library
-- **Language**: TypeScript
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-Make sure you have Node.js installed on your machine (version 18 or higher recommended).
-
-### Installation
-
-#### Option 1: Install from npm (Recommended)
-
-Install the published package directly from npm:
+## 🚀 Installation
 
 ```bash
 npm install @phsa.tec/design-system-react
-# or
-yarn add @phsa.tec/design-system-react
-# or
-pnpm add @phsa.tec/design-system-react
 ```
 
-View the package on npm: [https://www.npmjs.com/package/@phsa.tec/design-system-react](https://www.npmjs.com/package/@phsa.tec/design-system-react)
+### Required Peer Dependencies
 
-#### Option 2: Development Setup
-
-For contributing or local development:
-
-1. **Clone the repository**
-
-   ```bash
-   git clone <repository-url>
-   cd phsa-design-system
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   # or
-   yarn install
-   # or
-   pnpm install
-   ```
-
-### 🏃 Running the Project
-
-#### Development Server
-
-Start the Next.js development server:
+Install the required peer dependencies in your project:
 
 ```bash
-npm run dev
+npm install react react-dom @radix-ui/react-alert-dialog @radix-ui/react-avatar @radix-ui/react-checkbox @radix-ui/react-collapsible @radix-ui/react-dialog @radix-ui/react-dropdown-menu @radix-ui/react-icons @radix-ui/react-label @radix-ui/react-popover @radix-ui/react-select @radix-ui/react-separator @radix-ui/react-slot @radix-ui/react-switch @radix-ui/react-tabs @radix-ui/react-toast @radix-ui/react-tooltip class-variance-authority clsx lucide-react tailwind-merge
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the application.
-
-#### Storybook
-
-Launch Storybook for component development and documentation:
+Or use yarn:
 
 ```bash
-npm run storybook
+yarn add react react-dom @radix-ui/react-alert-dialog @radix-ui/react-avatar @radix-ui/react-checkbox @radix-ui/react-collapsible @radix-ui/react-dialog @radix-ui/react-dropdown-menu @radix-ui/react-icons @radix-ui/react-label @radix-ui/react-popover @radix-ui/react-select @radix-ui/react-separator @radix-ui/react-slot @radix-ui/react-switch @radix-ui/react-tabs @radix-ui/react-toast @radix-ui/react-tooltip class-variance-authority clsx lucide-react tailwind-merge
 ```
 
-Open [http://localhost:6006](http://localhost:6006) to view the component library.
+## ⚙️ Setup
 
-#### Build for Production
+### 1. Configure Tailwind CSS
 
-```bash
-npm run build
-npm run start
+Add to your `tailwind.config.js`:
+
+```javascript
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/@phsa.tec/design-system-react/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        border: "hsl(var(--border))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        // Add more theme colors as needed
+      },
+    },
+  },
+  plugins: [],
+};
 ```
 
-#### Testing
+### 2. Add CSS Variables
 
-```bash
-npm run test
+Add these CSS variables to your global CSS file (`globals.css` or `index.css`):
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+}
 ```
 
-#### Linting
+### 3. Theme Provider (Optional)
 
-```bash
-npm run lint
-```
-
-## 📁 Project Structure
-
-```
-src/
-├── components/          # Reusable components
-│   ├── ui/             # Base UI components
-│   ├── layout/         # Layout components (Crud, etc.)
-│   └── dataInput/      # Form input components
-├── hooks/              # Custom React hooks
-├── lib/                # Utility functions
-├── styles/             # Global styles
-└── types/              # TypeScript type definitions
-```
-
-This README provides a comprehensive overview of your design system project, including:
-
-1. **Clear project description** with emoji icons for visual appeal
-2. **Feature highlights** showcasing the main capabilities
-3. **Complete tech stack** listing all major dependencies
-4. **Step-by-step setup instructions** for new developers
-5. **Project structure** to help navigate the codebase
-6. **Component documentation** explaining key features
-7. **Theming and configuration** guides
-8. **Contributing guidelines** for team collaboration
-9. **Scripts reference** for quick command lookup
-10. **Professional formatting** with proper sections and styling
-
-The README is written in English as requested and provides everything a developer would need to understand, set up, and contribute to your design system project.
-
-## 🧩 Key Components
-
-### Layout Components
-
-- **CrudLayout** - Complete CRUD operations layout with forms, tables, and modals
-- **DataTable** - Advanced table component with sorting, filtering, and pagination
-
-### Form Components
-
-- **Input** - Flexible input component with validation
-- **Button** - Customizable button with variants
-- **Select** - Dropdown selection component
-- **Form controls** - Checkbox, Switch, and more
-
-### UI Components
-
-- **Dialog/Modal** - Accessible modal components
-- **Toast** - Notification system
-- **Avatar** - User avatar component
-- **Tooltip** - Contextual help tooltips
-
-## 📚 Documentation
-
-### Live Documentation
-
-Visit our live Storybook documentation: **[https://henriques4nti4go.github.io/phsa-design-system/](https://henriques4nti4go.github.io/phsa-design-system/)**
-
-### Local Development
-
-Run Storybook locally to explore all available components:
-
-```bash
-npm run storybook
-```
-
-Each component includes:
-
-- 📖 **Usage examples**
-- ⚙️ **Props documentation**
-- 🎮 **Interactive controls**
-- 💡 **Best practices**
-
-## 🎨 Theming
-
-The design system supports customizable themes through Tailwind CSS and next-themes:
+For dark/light mode support, wrap your app with the theme provider:
 
 ```tsx
 import { ThemeProvider } from "next-themes";
 
 function App() {
   return (
-    <ThemeProvider attribute="class" defaultTheme="system">
-      {/* Your app */}
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      {/* Your app components */}
     </ThemeProvider>
   );
 }
 ```
 
-## 🔧 Configuration
+## 🎯 Usage Examples
 
-### Tailwind CSS
+### Basic Components
 
-Customize the design tokens in `tailwind.config.js`:
+```tsx
+import {
+  Button,
+  Input,
+  Badge,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@phsa.tec/design-system-react";
 
-```javascript
-module.exports = {
-  theme: {
-    extend: {
-      colors: {
-        // Your custom colors
-      },
-      spacing: {
-        // Your custom spacing
-      },
-    },
-  },
-};
+function MyComponent() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Welcome</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-4">
+          <Input placeholder="Enter your name" />
+          <div className="flex gap-2">
+            <Button>Primary Action</Button>
+            <Button variant="secondary">Secondary</Button>
+          </div>
+          <Badge>New Feature</Badge>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
 ```
+
+### Form Example with Validation
+
+```tsx
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  Input,
+  Button,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@phsa.tec/design-system-react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+
+const formSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Invalid email address"),
+  role: z.string().min(1, "Please select a role"),
+});
+
+function UserForm() {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      role: "",
+    },
+  });
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
+  }
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Name</FormLabel>
+              <FormControl>
+                <Input placeholder="John Doe" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input placeholder="john@example.com" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="role"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Role</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a role" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="admin">Admin</SelectItem>
+                  <SelectItem value="user">User</SelectItem>
+                  <SelectItem value="viewer">Viewer</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button type="submit">Submit</Button>
+      </form>
+    </Form>
+  );
+}
+```
+
+### Data Table Example
+
+```tsx
+import { DataTable } from "@phsa.tec/design-system-react";
+import { ColumnDef } from "@tanstack/react-table";
+
+type User = {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+};
+
+const columns: ColumnDef<User>[] = [
+  {
+    accessorKey: "name",
+    header: "Name",
+  },
+  {
+    accessorKey: "email",
+    header: "Email",
+  },
+  {
+    accessorKey: "role",
+    header: "Role",
+  },
+];
+
+function UsersTable() {
+  const data: User[] = [
+    { id: "1", name: "John Doe", email: "john@example.com", role: "Admin" },
+    { id: "2", name: "Jane Smith", email: "jane@example.com", role: "User" },
+  ];
+
+  return (
+    <DataTable
+      columns={columns}
+      data={data}
+      searchKey="name"
+      searchPlaceholder="Search users..."
+    />
+  );
+}
+```
+
+### Dialog/Modal Example
+
+```tsx
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  Button,
+} from "@phsa.tec/design-system-react";
+
+function MyDialog() {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button>Open Dialog</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Confirm Action</DialogTitle>
+          <DialogDescription>
+            This action cannot be undone. Are you sure you want to continue?
+          </DialogDescription>
+        </DialogHeader>
+        <div className="flex justify-end space-x-2">
+          <Button variant="outline">Cancel</Button>
+          <Button>Confirm</Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+```
+
+## 🧩 Available Components
+
+### Layout
+
+- `Card`, `CardContent`, `CardHeader`, `CardTitle`, `CardDescription`
+- `Sheet`, `SheetContent`, `SheetHeader`, `SheetTitle`
+- `Tabs`, `TabsList`, `TabsTrigger`, `TabsContent`
+- `Separator`
+
+### Data Display
+
+- `DataTable` - Advanced table with sorting, filtering, pagination
+- `Badge` - Status indicators
+- `Avatar`, `AvatarImage`, `AvatarFallback`
+- `Tooltip`, `TooltipContent`, `TooltipProvider`, `TooltipTrigger`
+
+### Data Input
+
+- `Input` - Text input with validation
+- `Button` - Customizable button component
+- `Select`, `SelectContent`, `SelectItem`, `SelectTrigger`, `SelectValue`
+- `Checkbox` - Checkbox input
+- `Switch` - Toggle switch
+- `Form`, `FormControl`, `FormField`, `FormItem`, `FormLabel`, `FormMessage`
+
+### Feedback
+
+- `Dialog`, `DialogContent`, `DialogHeader`, `DialogTitle`, `DialogTrigger`
+- `AlertDialog`, `AlertDialogAction`, `AlertDialogCancel`
+- `Toast` - Notification system
+- `Alert`, `AlertDescription`, `AlertTitle`
+
+### Navigation
+
+- `DropdownMenu`, `DropdownMenuContent`, `DropdownMenuItem`
+- `Command`, `CommandDialog`, `CommandInput`, `CommandList`
+
+## 🎨 Customization
 
 ### Component Variants
 
-Components use `class-variance-authority` for consistent variant management:
+Most components support multiple variants:
 
 ```tsx
-const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-md",
-  {
-    variants: {
-      variant: {
-        default: "bg-primary text-primary-foreground",
-        secondary: "bg-secondary text-secondary-foreground",
-      },
-    },
-  }
-);
+// Button variants
+<Button variant="default">Default</Button>
+<Button variant="destructive">Delete</Button>
+<Button variant="outline">Outline</Button>
+<Button variant="secondary">Secondary</Button>
+<Button variant="ghost">Ghost</Button>
+<Button variant="link">Link</Button>
+
+// Button sizes
+<Button size="sm">Small</Button>
+<Button size="default">Default</Button>
+<Button size="lg">Large</Button>
 ```
 
-## 🤝 Contributing
+### Custom Styling
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+Components accept custom className props:
 
-### Development Guidelines
-
-- Follow TypeScript best practices
-- Add Storybook stories for new components
-- Include tests for complex logic
-- Follow the existing code style
-- Update documentation as needed
-
-## 📝 Scripts Reference
-
-| Command                   | Description              |
-| ------------------------- | ------------------------ |
-| `npm run dev`             | Start development server |
-| `npm run build`           | Build for production     |
-| `npm run start`           | Start production server  |
-| `npm run lint`            | Run ESLint               |
-| `npm run storybook`       | Start Storybook          |
-| `npm run build-storybook` | Build Storybook          |
-| `npm run test`            | Run tests                |
-
-## 📦 Publishing
-
-This package is configured for publishing to npm:
-
-```bash
-npm publish
+```tsx
+<Button className="bg-purple-500 hover:bg-purple-600">
+  Custom Purple Button
+</Button>
 ```
+
+## 🔧 TypeScript Support
+
+All components are fully typed with TypeScript:
+
+```tsx
+import type { ButtonProps } from "@phsa.tec/design-system-react";
+
+interface CustomButtonProps extends ButtonProps {
+  isLoading?: boolean;
+}
+
+function CustomButton({ isLoading, children, ...props }: CustomButtonProps) {
+  return (
+    <Button disabled={isLoading} {...props}>
+      {isLoading ? "Loading..." : children}
+    </Button>
+  );
+}
+```
+
+## 📚 Documentation & Storybook
+
+- **Live Documentation**: [https://henriques4nti4go.github.io/phsa-design-system/](https://henriques4nti4go.github.io/phsa-design-system/)
+- **Interactive Examples**: All components include interactive Storybook stories
+- **Props Documentation**: Complete API reference for all components
+
+## 🤝 Support & Contributing
+
+- **Issues**: [GitHub Issues](https://github.com/henriques4nti4go/phsa-design-system/issues)
+- **Repository**: [GitHub](https://github.com/henriques4nti4go/phsa-design-system)
+- **NPM Package**: [@phsa.tec/design-system-react](https://www.npmjs.com/package/@phsa.tec/design-system-react)
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- [Radix UI](https://radix-ui.com/) for accessible component primitives
-- [Tailwind CSS](https://tailwindcss.com/) for the utility-first CSS framework
-- [Shadcn/ui](https://ui.shadcn.com/) for component inspiration
-- [Storybook](https://storybook.js.org/) for component documentation
+MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-Built with ❤️ by the PHSA team
+Built with ❤️ using React, TypeScript, Tailwind CSS, and Radix UI

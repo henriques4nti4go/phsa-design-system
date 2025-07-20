@@ -1,0 +1,33 @@
+# Source files
+src/
+stories/
+.storybook/
+
+# Development files
+*.md
+.next/
+.env*
+.vscode/
+.idea/
+
+# Tests
+__tests__/
+*.test.*
+*.spec.*
+
+# Storybook
+storybook-static/
+
+# Node modules
+node_modules/
+
+# Git
+.git/
+.gitignore
+
+# Config files
+next.config.*
+tailwind.config.*
+postcss.config.*
+jest.config.*
+tsconfig.json
