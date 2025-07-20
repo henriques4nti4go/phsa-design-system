@@ -1,68 +1,70 @@
 "use client";
 
 import * as React from "react";
-import { NumericFormat, NumericFormatProps } from "react-number-format";
-import { InputBase, InputBaseProps } from "../InputBase";
-import { Input } from "../../../../ui/input";
-
-export type NumberInputProps = Omit<
+import {
+  NumericFormat,
   NumericFormatProps,
-  "onChange" | "onValueChange"
-> &
-  Omit<InputBaseProps, "children"> & {
-    onChange?: (value: number) => void;
-    "data-testid"?: string;
-    component?: React.ReactNode;
-  };
+  SourceInfo,
+} from "react-number-format";
+import { InputBase } from "../InputBase";
+import { Input } from "../../../../ui/input";
+import { InputProps } from "../Input/types";
+import { useCallback, useMemo } from "react";
+import { useConditionalController } from "@/hooks/use-conditional-controller";
 
-export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
-  (props, ref) => {
-    const {
-      name,
-      label,
-      error,
-      className,
-      withoutForm,
-      onChange,
-      "data-testid": testId,
-      component,
-      ...inputProps
-    } = props;
+export type NumberInputProps = Omit<NumericFormatProps, "onChange"> &
+  InputProps;
 
-    const baseTestId = testId || name || "";
+export const NumberInput = (props: NumberInputProps) => {
+  const formData = useConditionalController({
+    name: props.name || "",
+    withoutForm: props.withoutForm,
+  });
 
-    return (
-      <InputBase
-        label={label}
-        error={error}
-        className={className}
-        name={name}
-        withoutForm={withoutForm}
-        data-testid={baseTestId}
-      >
-        {({ onChange: onBaseChange, value }) => (
-          <div
-            className="flex w-full gap-3"
-            data-testid={`number-input-wrapper-${baseTestId}`}
-          >
-            <NumericFormat
-              value={value as number}
-              customInput={Input}
-              getInputRef={ref}
-              onValueChange={({ floatValue }) => {
-                const numberValue = floatValue;
-                onBaseChange?.(numberValue);
-                onChange?.(numberValue as number);
-              }}
-              data-testid={`${baseTestId}-number-input`}
-              {...inputProps}
-            />
-            {component}
-          </div>
-        )}
-      </InputBase>
-    );
-  }
-);
+  const inputProps = useMemo(() => {
+    return {
+      ...formData,
+      ...props,
+    };
+  }, [formData, props]);
 
-NumberInput.displayName = "NumberInput";
+  const onValueChange = useCallback(
+    (
+      data: {
+        value: string;
+        floatValue: number | undefined;
+        formattedValue: string;
+      },
+      sourceInfo: SourceInfo
+    ) => {
+      const syntheticEvent = {
+        target: {
+          value: data.formattedValue,
+          name: props.name,
+        },
+        currentTarget: {
+          value: data.formattedValue,
+          name: props.name,
+        },
+      } as React.ChangeEvent<HTMLInputElement>;
+
+      props.onChange?.(syntheticEvent);
+      props.onValueChange?.(data, sourceInfo);
+      if (formData.onChange) {
+        formData.onChange(data.formattedValue);
+      }
+    },
+    [props, formData]
+  );
+
+  return (
+    <InputBase {...props}>
+      <NumericFormat
+        {...inputProps}
+        customInput={Input}
+        value={props.value}
+        onValueChange={onValueChange}
+      />
+    </InputBase>
+  );
+};
