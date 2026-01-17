@@ -1,26 +1,44 @@
 /** @type {import('postcss-load-config').Config} */
+const isBuild = process.env.BUILD_LIB === 'true' || process.env.NODE_ENV === 'production';
+
 const config = {
   plugins: {
     tailwindcss: {},
     autoprefixer: {},
-    "postcss-prefix-selector": {
-      prefix: ".ds",
-      transform(prefix, selector, prefixedSelector) {
-        if (selector === ":root") {
-          return ".ds";
-        }
+    // Escopar CSS apenas no build da lib
+    ...(isBuild && {
+      "postcss-prefix-selector": {
+        prefix: ".ds",
+        transform(prefix, selector, prefixedSelector) {
+          const trimmed = selector.trim();
+          
+          // Transformar :root para .ds (variáveis CSS)
+          if (trimmed === ":root") {
+            return ".ds";
+          }
 
-        if (selector === ".dark") {
-          return ".ds.dark";
-        }
+          // Escopar .dark
+          if (trimmed === ".dark") {
+            return ".ds.dark";
+          }
 
-        if (selector.startsWith("html") || selector.startsWith("body")) {
-          return ".ds";
-        }
+          // Escopar html e body
+          if (trimmed.startsWith("html") || trimmed.startsWith("body")) {
+            return ".ds";
+          }
 
-        return prefixedSelector;
+          // Para classes utilitárias, criar seletor escopado
+          // Isso permite que classes prefixadas funcionem dentro de .ds
+          if (trimmed.startsWith(".")) {
+            return `.ds ${trimmed}`;
+          }
+
+          return prefixedSelector;
+        },
+        // Não prefixar seletor se já tiver .ds
+        exclude: [/^\.ds/],
       },
-    },
+    }),
   },
 };
 

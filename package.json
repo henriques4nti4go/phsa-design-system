@@ -11,7 +11,11 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
     },
-    "./styles": "./dist/styles.css"
+    "./styles": {
+      "import": "./dist/styles.js",
+      "require": "./dist/styles.js",
+      "default": "./dist/styles.css"
+    }
   },
   "files": [
     "dist"
@@ -27,6 +31,7 @@
     "test": "jest",
     "prepare": "husky install",
     "build:lib": "tsup",
+    "build:lib:watch": "tsup --watch",
     "prepublishOnly": "npm run build:lib"
   },
   "dependencies": {

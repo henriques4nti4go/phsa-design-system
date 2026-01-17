@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-// import "../components/config/DesignSystemProvider/globals.css";
 import { DesignSystemProvider } from "@/components/config";
 
 const geistSans = localFont({
@@ -30,8 +29,10 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <DesignSystemProvider
-          colors={{
-            primary: "#fcba03",
+          theme={{
+            colors: {
+              primary: "#fcba03",
+            },
           }}
         >
           {children}
