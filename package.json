@@ -11,12 +11,12 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
     },
-    "./styles": {
-      "import": "./dist/styles.js",
-      "require": "./dist/styles.js",
-      "default": "./dist/styles.css"
-    },
-    "./styles.css": "./dist/styles.css"
+    "./styles.css": "./dist/styles.css",
+    "./tailwind-preset": {
+      "types": "./dist/tailwind-preset.d.ts",
+      "import": "./dist/tailwind-preset.mjs",
+      "require": "./dist/tailwind-preset.js"
+    }
   },
   "files": [
     "dist"

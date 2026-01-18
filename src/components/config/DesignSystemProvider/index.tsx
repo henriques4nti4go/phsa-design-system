@@ -6,15 +6,41 @@ export type DesignSystemProviderProps = {
   className?: string;
 };
 
+/**
+ * DesignSystemProvider - Wrapper que aplica o escopo do design system
+ *
+ * Uso básico:
+ * ```tsx
+ * import { DesignSystemProvider } from "@phsa.tec/design-system-react";
+ * import "@phsa.tec/design-system-react/styles.css";
+ *
+ * <DesignSystemProvider>
+ *   <App />
+ * </DesignSystemProvider>
+ * ```
+ *
+ * Customização via CSS Variables:
+ * ```css
+ * :root {
+ *   --primary: 220 90% 50%;
+ *   --radius: 0.25rem;
+ * }
+ * ```
+ *
+ * Customização avançada via Tailwind Preset:
+ * ```js
+ * // tailwind.config.js
+ * module.exports = {
+ *   presets: [require("@phsa.tec/design-system-react/tailwind-preset")],
+ * }
+ * ```
+ */
 export function DesignSystemProvider({
   children,
   className = "",
 }: DesignSystemProviderProps) {
   const uniqueId = useId().replace(/:/g, "_");
   const scopeClass = `ds-${uniqueId}`;
-
-  // CSS deve ser importado manualmente pelo consumidor:
-  // import "@phsa.tec/design-system-react/styles";
 
   return (
     <div className={`ds ${scopeClass} ${className}`.trim()}>
