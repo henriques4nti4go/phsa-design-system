@@ -15,10 +15,10 @@ console.log('📦 Compilando CSS isolado...');
 
 // Definir variáveis de ambiente para build isolado
 process.env.BUILD_LIB = 'true';
-process.env.DS_PREFIX = 'phsa-';
 
 try {
   // Compilar CSS usando Tailwind CLI
+  // O prefixo phsa- é sempre usado (definido no tailwind.config.ts)
   execSync(
     `npx tailwindcss -i "${cssEntry}" -o "${outputCss}" --minify`,
     {
@@ -27,7 +27,6 @@ try {
       env: {
         ...process.env,
         BUILD_LIB: 'true',
-        DS_PREFIX: 'phsa-',
       },
     }
   );

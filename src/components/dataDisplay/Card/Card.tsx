@@ -11,8 +11,8 @@ import {
 export type CardProps = {
   title?: string;
   description?: string;
-  footer?: () => React.ReactNode | JSX.Element;
-  children?: React.ReactNode | JSX.Element;
+  footer?: () => React.ReactNode;
+  children?: React.ReactNode;
 };
 
 export const Card = ({

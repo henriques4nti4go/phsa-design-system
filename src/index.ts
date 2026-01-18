@@ -1,3 +1,4 @@
 export * from "./components";
 
-export { DesignSystemProvider } from "./components/config/DesignSystemProvider";
+// Exportar DesignSystemProvider com CSS (via DesignSystemProviderWithStyles)
+export { DesignSystemProvider } from "./components/config";

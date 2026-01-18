@@ -1,27 +1,31 @@
 import type { Config } from "tailwindcss";
 
-// Prefixo para isolamento durante o build da lib
 const isBuild = process.env.BUILD_LIB === 'true';
-const prefix = process.env.DS_PREFIX || (isBuild ? 'phsa-' : '');
 
 export default {
   darkMode: ["class"],
-  // Prefixo apenas no build da lib para isolamento
-  prefix: prefix,
-  content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
-  // Desabilitar preflight no build para não resetar estilos do projeto consumidor
-  corePlugins: isBuild ? {
-    preflight: false,
-  } : undefined,
+  // SEM prefixo - isolamento via escopo CSS (.ds)
+  // Todas as classes serão geradas sem prefixo e escopadas com .ds no PostCSS
+  prefix: '',
+  // Safelist vazio - gerar apenas classes usadas nos componentes
+  // Isso mantém o CSS menor e mais eficiente
+  safelist: isBuild ? [] : [],
+  content: isBuild 
+    ? [
+        // Escanear código fonte e código compilado
+        "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+        "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+        "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+        "./dist/**/*.{js,mjs}",
+      ]
+    : [
+        "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+        "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+        "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+      ],
+  // Manter preflight para evitar estilos nativos em form controls
   theme: {
     extend: {
-      fontFamily: {
-        roboto: ["Roboto", "sans-serif"],
-      },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",

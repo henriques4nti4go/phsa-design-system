@@ -4,71 +4,6 @@ import { execSync } from "child_process";
 import fs from "fs";
 import path from "path";
 
-// Plugin para adicionar prefixo às classes Tailwind
-const prefix = 'phsa-';
-
-function transformClassName(className: string) {
-  if (!className) return className;
-  
-  return className
-    .split(/\s+/)
-    .map(cls => {
-      const trimmed = cls.trim();
-      if (!trimmed) return '';
-      if (trimmed.startsWith('phsa-')) return trimmed;
-      if (trimmed.startsWith('!') || trimmed.startsWith('[')) return trimmed;
-      if (!trimmed.includes('-') && !trimmed.match(/^(flex|grid|block|inline|hidden|visible)$/)) {
-        return trimmed;
-      }
-      return prefix + trimmed;
-    })
-    .filter(Boolean)
-    .join(' ');
-}
-
-function transformContent(content: string) {
-  content = content.replace(
-    /className\s*=\s*["']([^"']+)["']/g,
-    (match, classes) => {
-      const transformed = transformClassName(classes);
-      return transformed !== classes ? `className="${transformed}"` : match;
-    }
-  );
-
-  content = content.replace(
-    /className\s*=\s*\{`([^`]+)`\}/g,
-    (match, classes) => {
-      const transformed = transformClassName(classes);
-      return transformed !== classes ? `className={\`${transformed}\`}` : match;
-    }
-  );
-
-  content = content.replace(
-    /cva\s*\(\s*["']([^"']+)["']/g,
-    (match, classes) => {
-      const transformed = transformClassName(classes);
-      return transformed !== classes ? `cva("${transformed}"` : match;
-    }
-  );
-
-  return content;
-}
-
-const prefixPlugin = {
-  name: 'tailwind-prefix',
-  setup(build: any) {
-    build.onLoad({ filter: /\.(tsx?|jsx?)$/ }, async (args: any) => {
-      const contents = fs.readFileSync(args.path, 'utf8');
-      const transformed = transformContent(contents);
-      
-      return {
-        contents: transformed,
-        loader: args.path.endsWith('.tsx') ? 'tsx' : args.path.endsWith('.ts') ? 'ts' : 'jsx',
-      };
-    });
-  },
-};
-
 export default defineConfig({
   entry: {
     index: "src/index.ts",
@@ -82,26 +17,26 @@ export default defineConfig({
   splitting: false,
   sourcemap: true,
   clean: true,
-  external: ["react", "react-dom"],
-  esbuildPlugins: [postcss(), prefixPlugin],
+  external: ["react", "react-dom", "react/jsx-runtime"],
+  esbuildPlugins: [postcss()],
   esbuildOptions(options) {
     options.banner = {
       js: '"use client"',
     };
+    // Usar o novo JSX transform (React 17+) que não requer React no escopo
+    options.jsx = 'automatic';
+    // Garantir que React seja sempre externalizado
+    options.external = (options.external || []).concat(['react', 'react-dom', 'react/jsx-runtime']);
   },
   onSuccess: async () => {
-    console.log('📦 Compilando CSS isolado...');
-    
-    // Definir variáveis para build isolado
-    process.env.BUILD_LIB = 'true';
-    process.env.DS_PREFIX = 'phsa-';
+    console.log('📦 Compilando CSS isolado (sem prefixo, escopado com .ds)...');
     
     try {
       const cssEntry = path.join(process.cwd(), 'src/components/config/DesignSystemProvider/globals.css');
       const outputCss = path.join(process.cwd(), 'dist/styles.css');
       const outputJs = path.join(process.cwd(), 'dist/styles.js');
 
-      // Compilar CSS usando Tailwind CLI
+      // Compilar CSS sem prefixo - todas as classes serão escopadas pelo PostCSS
       execSync(
         `npx tailwindcss -i "${cssEntry}" -o "${outputCss}" --minify`,
         {
@@ -110,33 +45,49 @@ export default defineConfig({
           env: {
             ...process.env,
             BUILD_LIB: 'true',
-            DS_PREFIX: 'phsa-',
           },
         }
       );
 
-      // Ler CSS compilado
+      // Ler CSS compilado (já escopado pelo PostCSS)
       let css = fs.readFileSync(outputCss, 'utf-8');
 
-      // Escopar todas as regras CSS com .ds
-      css = css.replace(/^([^{]+)\{/gm, (match, selector) => {
+      // Garantir que todas as regras estejam escopadas com .ds
+      // O PostCSS já faz isso, mas reforçamos para evitar regras globais
+
+      // Primeiro, transformar :root para .ds (variáveis CSS)
+      css = css.replace(/:root\s*\{/g, '.ds{');
+
+      // Depois, escopar todas as outras regras (incluindo tags)
+      css = css.replace(/([^{}]*)(\{[^}]*\})/g, (match, selector, rules) => {
         const trimmed = selector.trim();
-        
-        // Não escopar se já tiver .ds
-        if (trimmed.includes('.ds')) return match;
-        
-        // Manter variáveis CSS em :root (já transformado para .ds pelo postcss)
-        if (trimmed === ':root' || trimmed === '.ds') return match;
-        
-        // Escopar classes utilitárias: .phsa-rounded-md -> .ds .phsa-rounded-md
-        if (trimmed.startsWith('.')) {
-          return `.ds ${trimmed}{`;
+
+        // Não modificar at-rules
+        if (
+          trimmed.startsWith('@keyframes') ||
+          trimmed.startsWith('@import') ||
+          trimmed.startsWith('@media') ||
+          trimmed.startsWith('@supports')
+        ) {
+          return match;
         }
-        
-        return match;
+
+        const scopedSelector = selector
+          .split(',')
+          .map((raw) => {
+            const sel = raw.trim();
+            if (!sel) return sel;
+            if (sel.includes('.ds')) return sel;
+            if (sel.startsWith(':root')) return sel.replace(':root', '.ds');
+            if (sel.startsWith('@')) return sel;
+            return `.ds ${sel}`;
+          })
+          .join(',');
+
+        return `${scopedSelector}${rules}`;
       });
 
-      // Salvar CSS escopado
+      // Salvar CSS escopado final
       fs.writeFileSync(outputCss, css);
 
       // Criar módulo JS com CSS para importação
@@ -144,6 +95,9 @@ export default defineConfig({
       fs.writeFileSync(outputJs, jsContent);
 
       console.log('✅ CSS isolado compilado com sucesso!');
+      console.log('   ✓ Todas as classes Tailwind sem prefixo');
+      console.log('   ✓ Tudo escopado com .ds para isolamento completo');
+      console.log('   ✓ Compatível com projetos com ou sem Tailwind');
     } catch (error) {
       console.error('❌ Erro ao compilar CSS:', error);
       // Não fazer exit para não quebrar o build se CSS falhar

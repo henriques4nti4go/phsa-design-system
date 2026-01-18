@@ -13,8 +13,14 @@ const config = {
           const trimmed = selector.trim();
           
           // Transformar :root para .ds (variáveis CSS)
+          // Isso garante que as variáveis CSS estejam disponíveis dentro do escopo .ds
           if (trimmed === ":root") {
             return ".ds";
+          }
+          
+          // Também transformar :root seguido de espaço ou vírgula
+          if (trimmed.startsWith(":root")) {
+            return trimmed.replace(":root", ".ds");
           }
 
           // Escopar .dark
@@ -27,9 +33,17 @@ const config = {
             return ".ds";
           }
 
-          // Para classes utilitárias, criar seletor escopado
-          // Isso permite que classes prefixadas funcionem dentro de .ds
+          // Escopar todas as classes utilitárias com .ds
+          // Isso garante isolamento completo sem precisar de prefixo
           if (trimmed.startsWith(".")) {
+            // Verificar se já não está escopado
+            if (!trimmed.includes('.ds')) {
+              return `.ds ${trimmed}`;
+            }
+          }
+
+          // Escopar seletores complexos (ex: .dark .bg-primary)
+          if (trimmed.includes(' ') && !trimmed.includes('.ds')) {
             return `.ds ${trimmed}`;
           }
 
