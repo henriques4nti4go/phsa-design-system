@@ -5,7 +5,7 @@ A modern, **fully isolated** React component library built with TypeScript, Tail
 ## Features
 
 - **Zero Conflicts** - Fully isolated CSS, won't interfere with your project's styles
-- **Customizable** - Via CSS Variables or Tailwind Preset
+- **Customizable** - Via CSS Variables
 - **Accessible** - Built with Radix UI primitives
 - **Dark Mode** - Native dark theme support
 - **TypeScript** - Full type support
@@ -28,7 +28,27 @@ pnpm add @phsa.tec/design-system-react
 
 ### Step 1: Add Styles to Your Project
 
-Copy the design system styles to your project's `globals.css` (or main CSS file). You can customize all CSS variables and styles as needed:
+You have two options to add the design system styles:
+
+#### Option 1: Import CSS Directly (Quick Start)
+
+Import the CSS file at the **top** of your project's `globals.css` file:
+
+```css
+/* globals.css - Import at the top */
+@import "@phsa.tec/design-system-react/styles.css";
+
+/* Your other styles below */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+This will use the default styles. To customize the CSS variables, use Option 2.
+
+#### Option 2: Copy to globals.css (Recommended for Customization)
+
+Copy the design system styles to your project's `globals.css` (or main CSS file) and customize the CSS variables:
 
 ```css
 /* globals.css or your main CSS file */
@@ -42,20 +62,79 @@ Copy the design system styles to your project's `globals.css` (or main CSS file)
   :root {
     --background: oklch(100% 0 0);
     --foreground: oklch(25% 0.01 150);
+    --card: oklch(100% 0 0);
+    --card-foreground: oklch(25% 0.01 150);
+    --popover: oklch(100% 0 0);
+    --popover-foreground: oklch(25% 0.01 150);
     --primary: oklch(42% 0.15 145);
     --primary-foreground: oklch(98% 0 0);
-    /* ... customize all variables you want */
+    --secondary: oklch(96% 0.02 150);
+    --secondary-foreground: oklch(25% 0.01 150);
+    --muted: oklch(96% 0.02 150);
+    --muted-foreground: oklch(45% 0.01 150);
+    --accent: oklch(96% 0.02 150);
+    --accent-foreground: oklch(25% 0.01 150);
+    --success: oklch(42% 0.15 145);
+    --success-foreground: oklch(98% 0 0);
+    --warning: oklch(50% 0.18 48);
+    --destructive: oklch(60% 0.20 0);
+    --destructive-foreground: oklch(98% 0 0);
+    --border: oklch(88% 0.03 150);
+    --input: oklch(88% 0.03 150);
+    --ring: oklch(42% 0.15 145);
+    --radius: 0.5rem;
+    --sidebar-background: oklch(98% 0.04 150);
+    --sidebar-foreground: oklch(30% 0.01 150);
+    --sidebar-primary: oklch(42% 0.15 145);
+    --sidebar-primary-foreground: oklch(98% 0 0);
+    --sidebar-accent: oklch(95% 0.04 150);
+    --sidebar-accent-foreground: oklch(25% 0.01 150);
+    --sidebar-border: oklch(90% 0.04 150);
+    --sidebar-ring: oklch(42% 0.15 145);
   }
 
   .dark {
     --background: oklch(4% 0.01 150);
     --foreground: oklch(95% 0.02 150);
-    /* ... customize dark mode variables */
+    --card: oklch(4% 0.01 150);
+    --card-foreground: oklch(95% 0.02 150);
+    --popover: oklch(4% 0.01 150);
+    --popover-foreground: oklch(95% 0.02 150);
+    --primary: oklch(48% 0.16 145);
+    --primary-foreground: oklch(8% 0.01 150);
+    --secondary: oklch(12% 0.02 150);
+    --secondary-foreground: oklch(95% 0.02 150);
+    --muted: oklch(12% 0.02 150);
+    --muted-foreground: oklch(60% 0.02 150);
+    --accent: oklch(12% 0.02 150);
+    --accent-foreground: oklch(95% 0.02 150);
+    --destructive: oklch(31% 0.12 0);
+    --destructive-foreground: oklch(98% 0 0);
+    --border: oklch(18% 0.02 150);
+    --input: oklch(18% 0.02 150);
+    --ring: oklch(48% 0.16 145);
+    --sidebar-background: oklch(8% 0.01 150);
+    --sidebar-foreground: oklch(90% 0.02 150);
+    --sidebar-primary: oklch(48% 0.16 145);
+    --sidebar-primary-foreground: oklch(8% 0.01 150);
+    --sidebar-accent: oklch(15% 0.02 150);
+    --sidebar-accent-foreground: oklch(90% 0.02 150);
+    --sidebar-border: oklch(15% 0.02 150);
+    --sidebar-ring: oklch(48% 0.16 145);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }
 ```
 
-**Important:** Place these styles in your project's `globals.css` file and customize the CSS variables (`--primary`, `--background`, etc.) to match your brand colors and design preferences.
+**Tip:** Customize the CSS variables (`--primary`, `--background`, etc.) to match your brand colors and design preferences.
 
 ### Step 2: Use Components
 
@@ -121,27 +200,6 @@ Simply modify the CSS variables in your `globals.css`:
 - Lightness: 0-100%
 - Chroma: 0-0.4 (saturation)
 - Hue: 0-360 (color angle)
-
-### Option 2: Tailwind Preset (Advanced)
-
-If your project uses Tailwind CSS, you can extend with our preset:
-
-```js
-// tailwind.config.js
-module.exports = {
-  presets: [require("@phsa.tec/design-system-react/tailwind-preset")],
-  theme: {
-    extend: {
-      // Your customizations
-      colors: {
-        primary: {
-          DEFAULT: "#your-color",
-        },
-      },
-    },
-  },
-};
-```
 
 ## Available CSS Variables
 
@@ -243,9 +301,14 @@ function App() {
 ```typescript
 // Components
 import { Button, Card } from "@phsa.tec/design-system-react";
+```
 
-// Note: CSS styles should be added to your project's globals.css file
-// See "Basic Usage" section above for details
+```css
+/* globals.css - Import at the top (Option 1: Quick start) */
+@import "@phsa.tec/design-system-react/styles.css";
+
+/* Or copy the full styles to your globals.css (Option 2: For customization) */
+/* See "Basic Usage" section above for details */
 ```
 
 ## Development
