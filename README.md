@@ -26,63 +26,101 @@ pnpm add @phsa.tec/design-system-react
 
 ## Basic Usage
 
-```tsx
-// 1. Import CSS (required)
-import "@phsa.tec/design-system-react/styles.css";
+### Step 1: Add Styles to Your Project
 
-// 2. Import components
-import { DesignSystemProvider, Button, Card } from "@phsa.tec/design-system-react";
+Copy the design system styles to your project's `globals.css` (or main CSS file). You can customize all CSS variables and styles as needed:
+
+```css
+/* globals.css or your main CSS file */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: oklch(100% 0 0);
+    --foreground: oklch(25% 0.01 150);
+    --primary: oklch(42% 0.15 145);
+    --primary-foreground: oklch(98% 0 0);
+    /* ... customize all variables you want */
+  }
+
+  .dark {
+    --background: oklch(4% 0.01 150);
+    --foreground: oklch(95% 0.02 150);
+    /* ... customize dark mode variables */
+  }
+}
+```
+
+**Important:** Place these styles in your project's `globals.css` file and customize the CSS variables (`--primary`, `--background`, etc.) to match your brand colors and design preferences.
+
+### Step 2: Use Components
+
+```tsx
+// Import components
+import { Button, Card } from "@phsa.tec/design-system-react";
 
 function App() {
   return (
-    <DesignSystemProvider>
-      <Card>
-        <Button>Click me</Button>
-      </Card>
-    </DesignSystemProvider>
+    <Card>
+      <Button>Click me</Button>
+    </Card>
   );
 }
 ```
 
 ## Customization
 
-### Option 1: CSS Variables (Recommended)
+The design system uses **OKLCH** color format for better color consistency and wider gamut support. All styles are in your `globals.css` file, so you can customize any variable or style you want.
 
-Override CSS variables in your stylesheet:
+### Customizing Colors
+
+Simply modify the CSS variables in your `globals.css`:
 
 ```css
 /* globals.css */
 :root {
-  /* Primary colors */
-  --primary: 220 90% 50%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 210 40% 96%;
-  --secondary-foreground: 222 47% 11%;
+  /* Primary colors - using OKLCH format */
+  --primary: oklch(42% 0.15 145); /* Lightness Chroma Hue */
+  --primary-foreground: oklch(98% 0 0);
+  
+  /* Change to your brand colors */
+  --secondary: oklch(96% 0.02 150);
+  --secondary-foreground: oklch(25% 0.01 150);
 
   /* Feedback colors */
-  --destructive: 0 84% 60%;
-  --success: 142 76% 36%;
-  --warning: 38 92% 50%;
+  --destructive: oklch(60% 0.20 0);
+  --success: oklch(42% 0.15 145);
+  --warning: oklch(50% 0.18 48);
 
   /* Neutral colors */
-  --background: 0 0% 100%;
-  --foreground: 222 84% 5%;
-  --muted: 210 40% 96%;
-  --muted-foreground: 215 16% 47%;
-  --border: 214 32% 91%;
+  --background: oklch(100% 0 0);
+  --foreground: oklch(25% 0.01 150);
+  --muted: oklch(96% 0.02 150);
+  --muted-foreground: oklch(45% 0.01 150);
+  --border: oklch(88% 0.03 150);
 
   /* Other */
   --radius: 0.5rem;
-  --font-family: "Inter", sans-serif;
+  --font-family: "Roboto", sans-serif;
 }
 
 /* Dark mode */
 .dark {
-  --background: 222 84% 5%;
-  --foreground: 210 40% 98%;
-  /* ... other variables */
+  --background: oklch(4% 0.01 150);
+  --foreground: oklch(95% 0.02 150);
+  --primary: oklch(48% 0.16 145);
+  /* ... customize any other variables */
 }
 ```
+
+**Tip:** You can use online OKLCH color pickers or convert from HSL/HEX to OKLCH. The format is `oklch(lightness% chroma hue)` where:
+- Lightness: 0-100%
+- Chroma: 0-0.4 (saturation)
+- Hue: 0-360 (color angle)
 
 ### Option 2: Tailwind Preset (Advanced)
 
@@ -183,14 +221,11 @@ Add the `dark` class to the root element:
 ```tsx
 // With next-themes
 import { ThemeProvider } from "next-themes";
-import { DesignSystemProvider } from "@phsa.tec/design-system-react";
 
 function App() {
   return (
     <ThemeProvider attribute="class" defaultTheme="system">
-      <DesignSystemProvider>
-        {/* Your app */}
-      </DesignSystemProvider>
+      {/* Your app */}
     </ThemeProvider>
   );
 }
@@ -209,12 +244,8 @@ function App() {
 // Components
 import { Button, Card } from "@phsa.tec/design-system-react";
 
-// CSS (required)
-import "@phsa.tec/design-system-react/styles.css";
-
-// Tailwind Preset (optional)
-// In tailwind.config.js:
-// presets: [require("@phsa.tec/design-system-react/tailwind-preset")]
+// Note: CSS styles should be added to your project's globals.css file
+// See "Basic Usage" section above for details
 ```
 
 ## Development

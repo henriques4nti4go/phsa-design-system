@@ -1,15 +1,12 @@
 import type { Preview } from "@storybook/react";
 import React from "react";
-import { DesignSystemProvider } from "../src/components/config/DesignSystemProvider";
 // Importar CSS diretamente para o Storybook funcionar corretamente
 import "../src/components/config/DesignSystemProvider/globals.css";
 
 const preview: Preview = {
   decorators: [
     (Story) => (
-      <DesignSystemProvider>
-        <Story />
-      </DesignSystemProvider>
+      <Story />
     ),
   ],
   parameters: {
