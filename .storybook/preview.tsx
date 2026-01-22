@@ -1,7 +1,7 @@
 import type { Preview } from "@storybook/react";
 import React from "react";
-// Importar CSS diretamente para o Storybook funcionar corretamente
-import "../src/components/config/DesignSystemProvider/globals.css";
+// Importar CSS global do app
+import "../src/app/globals.css";
 
 const preview: Preview = {
   decorators: [

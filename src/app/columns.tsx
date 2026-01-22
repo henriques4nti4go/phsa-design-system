@@ -2,7 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { z } from "zod";
-import {
+// TODO: Reinstalar shadcn - import {
   ArrowDownIcon,
   ArrowRightIcon,
   ArrowUpIcon,
