@@ -31,12 +31,16 @@ export default defineConfig({
       const cssEntry = path.join(process.cwd(), 'src/app/globals.css');
       const outputCss = path.join(process.cwd(), 'dist/styles.css');
 
-      // Compilar CSS com Tailwind
+      // Compilar CSS com PostCSS (que processa Tailwind CSS 4.x)
       execSync(
-        `npx tailwindcss -i "${cssEntry}" -o "${outputCss}" --minify`,
+        `npx postcss "${cssEntry}" -o "${outputCss}"`,
         {
           cwd: process.cwd(),
           stdio: 'inherit',
+          env: {
+            ...process.env,
+            BUILD_LIB: 'true',
+          },
         }
       );
 
@@ -44,6 +48,7 @@ export default defineConfig({
       console.log('   ✓ CSS disponível em dist/styles.css');
     } catch (error) {
       console.error('❌ Erro ao compilar CSS:', error);
+      throw error;
     }
   },
 });
