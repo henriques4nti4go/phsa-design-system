@@ -70,7 +70,7 @@ export default {
   				'2': 'hsl(var(--chart-2))',
   				'3': 'hsl(var(--chart-3))',
   				'4': 'hsl(var(--chart-4))',
-  				'5': 'hsl(var(--chart-5))',
+  				'5': 'hsl(var(--chart-5))'
   			},
   			sidebar: {
   				DEFAULT: 'var(--sidebar-background)',
@@ -102,16 +102,20 @@ export default {
   			'2xl': 'var(--spacing-2xl, 3rem)',
   			'3xl': 'var(--spacing-3xl, 4rem)'
   		},
-		fontFamily: {
-			sans: [
-				"var(--font-family, 'Roboto')",
-				'sans-serif'
-			],
-			roboto: [
-				"var(--font-family, 'Roboto')",
-				'sans-serif'
-			]
-		},
+  		fontFamily: {
+  			sans: [
+  				'var(--font-family, ',
+  				'Roboto',
+  				')',
+  				'sans-serif'
+  			],
+  			roboto: [
+  				'var(--font-family, ',
+  				'Roboto',
+  				')',
+  				'sans-serif'
+  			]
+  		},
   		fontSize: {
   			xs: [
   				'var(--font-size-xs, 0.75rem)',

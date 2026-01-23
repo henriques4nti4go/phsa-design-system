@@ -9,6 +9,12 @@ body {
 }
 
 @layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
   :root {
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
@@ -24,9 +30,6 @@ body {
     --muted-foreground: 0 0% 45.1%;
     --accent: 0 0% 96.1%;
     --accent-foreground: 0 0% 9%;
-    --success: oklch(42% 0.15 145);
-    --success-foreground: oklch(98% 0 0);
-    --warning: oklch(50% 0.18 48);
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 89.8%;
@@ -37,17 +40,8 @@ body {
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
-    --sidebar-background: oklch(98% 0.04 150);
-    --sidebar-foreground: oklch(30% 0.01 150);
-    --sidebar-primary: oklch(42% 0.15 145);
-    --sidebar-primary-foreground: oklch(98% 0 0);
-    --sidebar-accent: oklch(95% 0.04 150);
-    --sidebar-accent-foreground: oklch(25% 0.01 150);
-    --sidebar-border: oklch(90% 0.04 150);
-    --sidebar-ring: oklch(42% 0.15 145);
+    --radius: 0.5rem
   }
-
   .dark {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
@@ -72,23 +66,6 @@ body {
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-    --sidebar-background: oklch(8% 0.01 150);
-    --sidebar-foreground: oklch(90% 0.02 150);
-    --sidebar-primary: oklch(48% 0.16 145);
-    --sidebar-primary-foreground: oklch(8% 0.01 150);
-    --sidebar-accent: oklch(15% 0.02 150);
-    --sidebar-accent-foreground: oklch(90% 0.02 150);
-    --sidebar-border: oklch(15% 0.02 150);
-    --sidebar-ring: oklch(48% 0.16 145);
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
+    --chart-5: 340 75% 55%
   }
 }
