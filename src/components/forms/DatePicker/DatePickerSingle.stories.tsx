@@ -42,7 +42,7 @@ export const Default: Story = {
 export const WithInitialDate: Story = {
   name: "Com data inicial",
   render: () => {
-    const [date, setDate] = React.useState<Date>(new Date())
+    const [date, setDate] = React.useState<Date | undefined>(new Date())
     return (
       <DatePickerSingle
         date={date}
@@ -152,12 +152,12 @@ export const CustomStyling: Story = {
 export const Controlled: Story = {
   name: "Controlado externamente",
   render: () => {
-    const [date, setDate] = React.useState<Date>(new Date(2024, 0, 15))
+    const [date, setDate] = React.useState<Date | undefined>(new Date(2024, 0, 15))
     return (
       <div className="space-y-4">
         <DatePickerSingle
           date={date}
-          onSelect={setDate}
+          onSelect={(date) => setDate(date || new Date())}
           placeholder="Selecione uma data"
         />
         <div className="text-sm space-y-2">

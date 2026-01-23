@@ -31,7 +31,7 @@ export type AlertDescriptionProps = React.ComponentProps<typeof UIAlertDescripti
 
 export type AlertVariant = "default" | "destructive" | "success" | "warning" | "info"
 
-export interface AlertProps extends Omit<AlertRootProps, "variant" | "children"> {
+export interface AlertProps extends Omit<AlertRootProps, "variant" | "children" | "title"> {
   /**
    * Variante do alert.
    * @default "default"
