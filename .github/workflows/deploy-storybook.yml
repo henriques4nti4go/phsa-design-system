@@ -36,7 +36,6 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    needs: test
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
       - name: Checkout
@@ -53,6 +52,11 @@ jobs:
 
       - name: Build Storybook
         run: yarn build-storybook
+        env:
+          STORYBOOK_BASE_PATH: /phsa-design-system
+
+      - name: Create .nojekyll file
+        run: touch storybook-static/.nojekyll
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
