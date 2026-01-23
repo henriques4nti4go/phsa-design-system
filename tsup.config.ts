@@ -1,6 +1,9 @@
 import { defineConfig } from "tsup";
-import { execSync } from "child_process";
 import path from "path";
+import fs from "fs";
+import postcss from "postcss";
+import tailwindcss from "@tailwindcss/postcss";
+import autoprefixer from "autoprefixer";
 
 export default defineConfig({
   entry: {
@@ -31,18 +34,20 @@ export default defineConfig({
       const cssEntry = path.join(process.cwd(), 'src/app/globals.css');
       const outputCss = path.join(process.cwd(), 'dist/styles.css');
 
-      // Compilar CSS com PostCSS (que processa Tailwind CSS 4.x)
-      execSync(
-        `npx postcss "${cssEntry}" -o "${outputCss}"`,
-        {
-          cwd: process.cwd(),
-          stdio: 'inherit',
-          env: {
-            ...process.env,
-            BUILD_LIB: 'true',
-          },
-        }
-      );
+      // Ler o arquivo CSS
+      const cssContent = fs.readFileSync(cssEntry, 'utf8');
+
+      // Processar com PostCSS (Tailwind CSS 4.x + Autoprefixer)
+      const result = await postcss([
+        tailwindcss,
+        autoprefixer,
+      ]).process(cssContent, {
+        from: cssEntry,
+        to: outputCss,
+      });
+
+      // Escrever o CSS compilado
+      fs.writeFileSync(outputCss, result.css, 'utf8');
 
       console.log('✅ Build concluído!');
       console.log('   ✓ CSS disponível em dist/styles.css');
