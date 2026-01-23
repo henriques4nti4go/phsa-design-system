@@ -52,7 +52,7 @@ export type CardContentProps = React.ComponentProps<typeof UICardContent>
 export const CardFooter = UICardFooter
 export type CardFooterProps = React.ComponentProps<typeof UICardFooter>
 
-export interface CardProps extends Omit<CardRootProps, "children"> {
+export interface CardProps extends Omit<CardRootProps, "children" | "title"> {
   /**
    * Imagem ou mídia a ser exibida no topo do card.
    * Pode ser uma URL de imagem, um elemento React, ou qualquer conteúdo.

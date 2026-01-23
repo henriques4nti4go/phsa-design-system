@@ -194,53 +194,54 @@ export const Muted = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes
 Muted.displayName = "Muted"
 
 /**
- * Componente de tabela padronizada.
+ * Componente de tabela padronizada para uso em tipografia.
+ * Renomeado para TypographyTable para evitar conflito com Table do DataTable.
  */
-export const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement>>(
+export const TypographyTable = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement>>(
   ({ className, ...props }, ref) => (
     <div className="my-6 w-full overflow-y-auto">
       <table ref={ref} className={cn("w-full", className)} {...props} />
     </div>
   )
 )
-Table.displayName = "Table"
+TypographyTable.displayName = "TypographyTable"
 
 /**
- * Componente de cabeçalho de tabela padronizado.
+ * Componente de cabeçalho de tabela padronizado para tipografia.
  */
-export const Thead = React.forwardRef<
+export const TypographyThead = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
 >(({ className, ...props }, ref) => (
   <thead ref={ref} className={cn("", className)} {...props} />
 ))
-Thead.displayName = "Thead"
+TypographyThead.displayName = "TypographyThead"
 
 /**
- * Componente de corpo de tabela padronizado.
+ * Componente de corpo de tabela padronizado para tipografia.
  */
-export const Tbody = React.forwardRef<
+export const TypographyTbody = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
 >(({ className, ...props }, ref) => (
   <tbody ref={ref} className={cn("[&_tr:last-child]:border-0", className)} {...props} />
 ))
-Tbody.displayName = "Tbody"
+TypographyTbody.displayName = "TypographyTbody"
 
 /**
- * Componente de linha de tabela padronizada.
+ * Componente de linha de tabela padronizada para tipografia.
  */
-export const Tr = React.forwardRef<HTMLTableRowElement, React.HTMLAttributes<HTMLTableRowElement>>(
+export const TypographyTr = React.forwardRef<HTMLTableRowElement, React.HTMLAttributes<HTMLTableRowElement>>(
   ({ className, ...props }, ref) => (
     <tr ref={ref} className={cn("m-0 border-t p-0 even:bg-muted", className)} {...props} />
   )
 )
-Tr.displayName = "Tr"
+TypographyTr.displayName = "TypographyTr"
 
 /**
- * Componente de célula de cabeçalho de tabela padronizada.
+ * Componente de célula de cabeçalho de tabela padronizada para tipografia.
  */
-export const Th = React.forwardRef<
+export const TypographyTh = React.forwardRef<
   HTMLTableCellElement,
   React.ThHTMLAttributes<HTMLTableCellElement>
 >(({ className, ...props }, ref) => (
@@ -250,12 +251,12 @@ export const Th = React.forwardRef<
     {...props}
   />
 ))
-Th.displayName = "Th"
+TypographyTh.displayName = "TypographyTh"
 
 /**
- * Componente de célula de tabela padronizada.
+ * Componente de célula de tabela padronizada para tipografia.
  */
-export const Td = React.forwardRef<
+export const TypographyTd = React.forwardRef<
   HTMLTableCellElement,
   React.TdHTMLAttributes<HTMLTableCellElement>
 >(({ className, ...props }, ref) => (
@@ -265,7 +266,7 @@ export const Td = React.forwardRef<
     {...props}
   />
 ))
-Td.displayName = "Td"
+TypographyTd.displayName = "TypographyTd"
 
 /**
  * Componente Typography - Container para agrupar elementos tipográficos.

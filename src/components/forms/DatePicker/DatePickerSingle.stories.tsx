@@ -1,11 +1,11 @@
-// src/components/forms/DatePicker/DatePicker.stories.tsx
+// src/components/forms/DatePicker/DatePickerSingle.stories.tsx
 import type { Meta, StoryObj } from "@storybook/nextjs"
 import React from "react"
-import { DatePicker } from "./index"
+import { DatePickerSingle } from "./index"
 
 const meta = {
-  title: "Forms/DatePicker",
-  component: DatePicker,
+  title: "Forms/DatePicker/DatePickerSingle",
+  component: DatePickerSingle,
   parameters: {
     layout: "centered",
   },
@@ -20,15 +20,11 @@ const meta = {
     dateFormat: {
       control: "text",
     },
-    mode: {
-      control: "select",
-      options: ["single", "range", "multiple"],
-    },
     showOutsideDays: {
       control: "boolean",
     },
   },
-} satisfies Meta<typeof DatePicker>
+} satisfies Meta<typeof DatePickerSingle>
 
 export default meta
 type Story = StoryObj<typeof meta>
@@ -39,7 +35,7 @@ export const Default: Story = {
   },
   render: (args) => {
     const [date, setDate] = React.useState<Date>()
-    return <DatePicker {...args} date={date} onSelect={setDate} />
+    return <DatePickerSingle {...args} date={date} onSelect={setDate} />
   },
 }
 
@@ -48,7 +44,7 @@ export const WithInitialDate: Story = {
   render: () => {
     const [date, setDate] = React.useState<Date>(new Date())
     return (
-      <DatePicker
+      <DatePickerSingle
         date={date}
         onSelect={setDate}
         placeholder="Selecione uma data"
@@ -70,7 +66,7 @@ export const CustomFormat: Story = {
   render: () => {
     const [date, setDate] = React.useState<Date>()
     return (
-      <DatePicker
+      <DatePickerSingle
         date={date}
         onSelect={setDate}
         placeholder="Selecione uma data"
@@ -92,7 +88,7 @@ export const WithMinMaxDate: Story = {
 
     return (
       <div className="space-y-4">
-        <DatePicker
+        <DatePickerSingle
           date={date}
           onSelect={setDate}
           placeholder="Selecione uma data (últimos 7 dias ou próximos 30)"
@@ -122,7 +118,7 @@ export const WithDisabledDates: Story = {
 
     return (
       <div className="space-y-4">
-        <DatePicker
+        <DatePickerSingle
           date={date}
           onSelect={setDate}
           placeholder="Selecione uma data"
@@ -136,42 +132,12 @@ export const WithDisabledDates: Story = {
   },
 }
 
-export const RangeMode: Story = {
-  name: "Modo Range",
-  render: () => {
-    const [date, setDate] = React.useState<Date>()
-    return (
-      <DatePicker
-        date={date}
-        onSelect={setDate}
-        placeholder="Selecione um range de datas"
-        mode="range"
-      />
-    )
-  },
-}
-
-export const MultipleMode: Story = {
-  name: "Modo Múltiplas Datas",
-  render: () => {
-    const [date, setDate] = React.useState<Date>()
-    return (
-      <DatePicker
-        date={date}
-        onSelect={setDate}
-        placeholder="Selecione múltiplas datas"
-        mode="multiple"
-      />
-    )
-  },
-}
-
 export const CustomStyling: Story = {
   name: "Estilização customizada",
   render: () => {
     const [date, setDate] = React.useState<Date>()
     return (
-      <DatePicker
+      <DatePickerSingle
         date={date}
         onSelect={setDate}
         placeholder="Selecione uma data"
@@ -189,7 +155,7 @@ export const Controlled: Story = {
     const [date, setDate] = React.useState<Date>(new Date(2024, 0, 15))
     return (
       <div className="space-y-4">
-        <DatePicker
+        <DatePickerSingle
           date={date}
           onSelect={setDate}
           placeholder="Selecione uma data"
@@ -221,11 +187,62 @@ export const WithoutOutsideDays: Story = {
   render: () => {
     const [date, setDate] = React.useState<Date>()
     return (
-      <DatePicker
+      <DatePickerSingle
         date={date}
         onSelect={setDate}
         placeholder="Selecione uma data"
         showOutsideDays={false}
+      />
+    )
+  },
+}
+
+export const WithField: Story = {
+  name: "Com Field (label e description)",
+  render: () => {
+    const [date, setDate] = React.useState<Date>()
+    return (
+      <DatePickerSingle
+        label="Data de nascimento"
+        description="Selecione sua data de nascimento"
+        date={date}
+        onSelect={setDate}
+        placeholder="Selecione uma data"
+      />
+    )
+  },
+}
+
+export const WithFieldError: Story = {
+  name: "Com Field e erro",
+  render: () => {
+    const [date, setDate] = React.useState<Date>()
+    return (
+      <DatePickerSingle
+        label="Data de nascimento"
+        description="Selecione sua data de nascimento"
+        error="Este campo é obrigatório"
+        invalid={!date}
+        date={date}
+        onSelect={setDate}
+        placeholder="Selecione uma data"
+      />
+    )
+  },
+}
+
+export const WithFieldHorizontal: Story = {
+  name: "Com Field horizontal",
+  render: () => {
+    const [date, setDate] = React.useState<Date>()
+    return (
+      <DatePickerSingle
+        label="Data de nascimento"
+        description="Selecione sua data de nascimento"
+        orientation="horizontal"
+        date={date}
+        onSelect={setDate}
+        placeholder="Selecione uma data"
       />
     )
   },

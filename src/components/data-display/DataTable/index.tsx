@@ -14,6 +14,8 @@ import {
   getSortedRowModel,
   useReactTable,
   type Table as TanStackTable,
+  type Column,
+  type Row,
 } from "@tanstack/react-table"
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
 
@@ -75,7 +77,7 @@ export type TableCellProps = React.ComponentProps<typeof UITableCell>
 
 export interface DataTableColumnHeaderProps<TData, TValue>
   extends React.HTMLAttributes<HTMLDivElement> {
-  column: TanStackTable<TData>["getAllColumns"][number]
+  column: Column<TData, TValue>
   title: string
 }
 
@@ -107,7 +109,7 @@ export function DataTableColumnHeader<TData, TValue>({
 }
 
 export interface DataTableRowActionsProps<TData> {
-  row: TanStackTable<TData>["getRowModel"]["rows"][number]
+  row: Row<TData>
   actions?: Array<{
     label: string
     onClick: (row: TData) => void
@@ -431,7 +433,7 @@ export function DataTable<TData, TValue>({
       ...columns,
       {
         id: "actions",
-        cell: ({ row }: { row: TanStackTable<TData>["getRowModel"]["rows"][number] }) => (
+        cell: ({ row }: { row: Row<TData> }) => (
           <DataTableRowActions row={row} actions={rowActions} />
         ),
       } as ColumnDef<TData, TValue>,

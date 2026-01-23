@@ -17,12 +17,12 @@ import {
   Large,
   Small,
   Muted,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
+  TypographyTable,
+  TypographyThead,
+  TypographyTbody,
+  TypographyTr,
+  TypographyTh,
+  TypographyTd,
   Typography,
 } from "./index"
 
@@ -145,32 +145,32 @@ export const TextVariants: Story = {
 export const TableExample: Story = {
   name: "Tabela",
   render: () => (
-    <Table>
-      <Thead>
-        <Tr>
-          <Th>Nome</Th>
-          <Th>Email</Th>
-          <Th align="right">Idade</Th>
-        </Tr>
-      </Thead>
-      <Tbody>
-        <Tr>
-          <Td>João Silva</Td>
-          <Td>joao@example.com</Td>
-          <Td align="right">30</Td>
-        </Tr>
-        <Tr>
-          <Td>Maria Santos</Td>
-          <Td>maria@example.com</Td>
-          <Td align="right">25</Td>
-        </Tr>
-        <Tr>
-          <Td>Pedro Costa</Td>
-          <Td>pedro@example.com</Td>
-          <Td align="right">35</Td>
-        </Tr>
-      </Tbody>
-    </Table>
+    <TypographyTable>
+      <TypographyThead>
+        <TypographyTr>
+          <TypographyTh>Nome</TypographyTh>
+          <TypographyTh>Email</TypographyTh>
+          <TypographyTh align="right">Idade</TypographyTh>
+        </TypographyTr>
+      </TypographyThead>
+      <TypographyTbody>
+        <TypographyTr>
+          <TypographyTd>João Silva</TypographyTd>
+          <TypographyTd>joao@example.com</TypographyTd>
+          <TypographyTd align="right">30</TypographyTd>
+        </TypographyTr>
+        <TypographyTr>
+          <TypographyTd>Maria Santos</TypographyTd>
+          <TypographyTd>maria@example.com</TypographyTd>
+          <TypographyTd align="right">25</TypographyTd>
+        </TypographyTr>
+        <TypographyTr>
+          <TypographyTd>Pedro Costa</TypographyTd>
+          <TypographyTd>pedro@example.com</TypographyTd>
+          <TypographyTd align="right">35</TypographyTd>
+        </TypographyTr>
+      </TypographyTbody>
+    </TypographyTable>
   ),
 }
 
@@ -322,32 +322,32 @@ export const CompleteExample: Story = {
       </Ul>
 
       <H2>Tabelas</H2>
-      <Table>
-        <Thead>
-          <Tr>
-            <Th>Componente</Th>
-            <Th>Uso</Th>
-            <Th align="right">Prioridade</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          <Tr>
-            <Td>H1</Td>
-            <Td>Título principal</Td>
-            <Td align="right">Alta</Td>
-          </Tr>
-          <Tr>
-            <Td>P</Td>
-            <Td>Parágrafos</Td>
-            <Td align="right">Alta</Td>
-          </Tr>
-          <Tr>
-            <Td>Code</Td>
-            <Td>Código inline</Td>
-            <Td align="right">Média</Td>
-          </Tr>
-        </Tbody>
-      </Table>
+      <TypographyTable>
+        <TypographyThead>
+          <TypographyTr>
+            <TypographyTh>Componente</TypographyTh>
+            <TypographyTh>Uso</TypographyTh>
+            <TypographyTh align="right">Prioridade</TypographyTh>
+          </TypographyTr>
+        </TypographyThead>
+        <TypographyTbody>
+          <TypographyTr>
+            <TypographyTd>H1</TypographyTd>
+            <TypographyTd>Título principal</TypographyTd>
+            <TypographyTd align="right">Alta</TypographyTd>
+          </TypographyTr>
+          <TypographyTr>
+            <TypographyTd>P</TypographyTd>
+            <TypographyTd>Parágrafos</TypographyTd>
+            <TypographyTd align="right">Alta</TypographyTd>
+          </TypographyTr>
+          <TypographyTr>
+            <TypographyTd>Code</TypographyTd>
+            <TypographyTd>Código inline</TypographyTd>
+            <TypographyTd align="right">Média</TypographyTd>
+          </TypographyTr>
+        </TypographyTbody>
+      </TypographyTable>
     </Typography>
   ),
 }

@@ -28,7 +28,7 @@ export default defineConfig({
     console.log('📦 Compilando CSS...');
     
     try {
-      const cssEntry = path.join(process.cwd(), 'src/components/config/DesignSystemProvider/globals.css');
+      const cssEntry = path.join(process.cwd(), 'src/app/globals.css');
       const outputCss = path.join(process.cwd(), 'dist/styles.css');
 
       // Compilar CSS com Tailwind
