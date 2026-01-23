@@ -1,5 +1,5 @@
 // src/components/feedback/Alert/Alert.stories.tsx
-import type { Meta, StoryObj } from "@storybook/nextjs"
+import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 import React from "react"
 import { Alert, AlertRoot, AlertTitle, AlertDescription } from "./index"
 import { Button } from "../../actions/Button"

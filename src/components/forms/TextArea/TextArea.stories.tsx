@@ -1,5 +1,5 @@
 // src/components/forms/TextArea/TextArea.stories.tsx
-import type { Meta, StoryObj } from "@storybook/nextjs"
+import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 import React from "react"
 import { TextArea } from "./index"
 import { Field, FieldContent, FieldDescription, FieldError, FieldLabel } from "../../ui/field"

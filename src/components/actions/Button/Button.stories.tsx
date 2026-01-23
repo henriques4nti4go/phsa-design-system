@@ -1,5 +1,5 @@
 // src/components/actions/Button/Button.stories.tsx
-import type { Meta, StoryObj } from "@storybook/nextjs"
+import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 import React from "react"
 import { Button, ButtonIcon } from "./index"
 

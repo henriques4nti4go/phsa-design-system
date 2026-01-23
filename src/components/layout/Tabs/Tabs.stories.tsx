@@ -1,5 +1,5 @@
 // src/components/layout/Tabs/Tabs.stories.tsx
-import type { Meta, StoryObj } from "@storybook/nextjs"
+import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 import React from "react"
 import { User, Settings, Mail, Bell, FileText } from "lucide-react"
 import { Tabs, TabsRoot, TabsList, TabsTrigger, TabsContent } from "./index"

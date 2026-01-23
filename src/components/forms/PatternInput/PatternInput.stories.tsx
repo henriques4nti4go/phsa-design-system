@@ -1,5 +1,5 @@
 // src/components/forms/PatternInput/PatternInput.stories.tsx
-import type { Meta, StoryObj } from "@storybook/nextjs"
+import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 import React from "react"
 import { PatternInput } from "./index"
 

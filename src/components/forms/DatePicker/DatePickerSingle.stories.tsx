@@ -1,5 +1,5 @@
 // src/components/forms/DatePicker/DatePickerSingle.stories.tsx
-import type { Meta, StoryObj } from "@storybook/nextjs"
+import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 import React from "react"
 import { DatePickerSingle } from "./index"
 

@@ -1,5 +1,5 @@
 // src/components/forms/NumericInput/NumericInput.stories.tsx
-import type { Meta, StoryObj } from "@storybook/nextjs"
+import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 import React from "react"
 import { NumericInput } from "./index"
 

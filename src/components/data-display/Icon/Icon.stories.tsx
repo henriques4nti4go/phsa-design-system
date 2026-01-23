@@ -1,5 +1,5 @@
 // src/components/data-display/Icon/Icon.stories.tsx
-import type { Meta, StoryObj } from "@storybook/nextjs"
+import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 import React from "react"
 import { Icon } from "./index"
 

@@ -1,5 +1,5 @@
 // src/components/forms/FormField/FormField.stories.tsx
-import type { Meta, StoryObj } from "@storybook/nextjs"
+import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 import React from "react"
 import { useForm, FormProvider } from "react-hook-form"
 

@@ -1,5 +1,5 @@
 // src/components/forms/DatePicker/DatePickerRange.stories.tsx
-import type { Meta, StoryObj } from "@storybook/nextjs"
+import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 import React from "react"
 import { DatePickerRange } from "./index"
 import type { DateRange } from "react-day-picker"

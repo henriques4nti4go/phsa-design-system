@@ -1,5 +1,5 @@
 // src/components/feedback/Sonner/Sonner.stories.tsx
-import type { Meta, StoryObj } from "@storybook/nextjs"
+import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 import React from "react"
 
 import { Toaster, toast } from "./index"

@@ -1,5 +1,5 @@
 // src/components/data-display/DataTable/DataTable.stories.tsx
-import type { Meta, StoryObj } from "@storybook/nextjs"
+import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 import React from "react"
 import { ColumnDef } from "@tanstack/react-table"
 import { DataTable, DataTableColumnHeader } from "./index"

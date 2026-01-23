@@ -1,4 +1,7 @@
-import type { StorybookConfig } from "@storybook/nextjs";
+import type { StorybookConfig } from "@storybook/nextjs-vite";
+import { mergeConfig } from "vite";
+import tailwindcss from "@tailwindcss/postcss";
+import autoprefixer from "autoprefixer";
 
 const basePath = process.env.STORYBOOK_BASE_PATH || '';
 
@@ -10,10 +13,22 @@ const config: StorybookConfig = {
     "@storybook/addon-docs"
   ],
   framework: {
-    name: "@storybook/nextjs",
+    name: "@storybook/nextjs-vite",
     options: {},
   },
   staticDirs: ["../public"],
+  async viteFinal(config) {
+    return mergeConfig(config, {
+      css: {
+        postcss: {
+          plugins: [
+            tailwindcss,
+            autoprefixer,
+          ],
+        },
+      },
+    });
+  },
   ...(basePath ? { base: basePath } : {}),
 };
 export default config;

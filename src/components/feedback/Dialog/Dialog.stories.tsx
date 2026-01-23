@@ -1,5 +1,5 @@
 // src/components/feedback/Dialog/Dialog.stories.tsx
-import type { Meta, StoryObj } from "@storybook/nextjs"
+import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 import React from "react"
 
 import {
