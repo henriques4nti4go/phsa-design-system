@@ -1,7 +1,7 @@
 {
   "name": "@phsa.tec/design-system-react",
   "version": "1.0.0-alpha.0",
-  "description": "Design system em Web Components (Lit), 100% isolado via Shadow DOM.",
+  "description": "Fully isolated UI components as Web Components (Lit + Tailwind CSS v4). Zero config, one import per component.",
   "type": "module",
   "private": false,
   "files": [
