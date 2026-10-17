@@ -36,7 +36,7 @@ export class PhsaCombobox extends PhsaFormControl {
   static styles = unsafeCSS(styles);
 
   /** Altura do campo. */
-  @property({ reflect: true }) size: ComboboxSize = "default";
+  @property() size: ComboboxSize = "default";
   /** Texto quando não há valor. */
   @property() placeholder = "Buscar...";
   /** Só leitura. Reflete o atributo `readonly`. */

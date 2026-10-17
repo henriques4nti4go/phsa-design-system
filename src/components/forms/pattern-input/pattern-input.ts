@@ -26,7 +26,7 @@ const slot = (char: string) => char === "#" || char === "A" || char === "*";
 export class PhsaPatternInput extends PhsaFormControl {
   static styles = unsafeCSS(styles);
 
-  @property({ reflect: true }) size: PatternSize = "default";
+  @property() size: PatternSize = "default";
   @property() placeholder = "";
   /** Ex.: `(##) #####-####` ou `###.###.###-##`. */
   @property() format = "";

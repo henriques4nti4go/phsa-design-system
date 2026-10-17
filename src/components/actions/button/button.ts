@@ -37,8 +37,8 @@ export class PhsaButton extends PhsaElement {
   /** @ignore */
   static shadowRootOptions = { ...LitElement.shadowRootOptions, delegatesFocus: true };
 
-  @property({ reflect: true }) variant: ButtonVariant = "default";
-  @property({ reflect: true }) size: ButtonSize = "default";
+  @property() variant: ButtonVariant = "default";
+  @property() size: ButtonSize = "default";
   @property({ type: Boolean, reflect: true }) disabled = false;
   /** Igual ao `<button>` nativo: dentro de um `<form>`, o padrão é `submit`. */
   @property() type: "button" | "submit" | "reset" = "submit";

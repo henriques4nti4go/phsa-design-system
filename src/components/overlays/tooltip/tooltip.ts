@@ -20,7 +20,7 @@ export class PhsaTooltip extends PhsaAnchored {
   static styles = unsafeCSS(styles);
 
   @property() text = "";
-  @property({ reflect: true }) override side: AnchorSide = "top";
+  @property() override side: AnchorSide = "top";
 
   /** @ignore */
   @state() private slotted = false;

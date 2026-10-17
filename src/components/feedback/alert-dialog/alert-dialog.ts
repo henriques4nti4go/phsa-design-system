@@ -25,7 +25,7 @@ export class PhsaAlertDialog extends PhsaDialog {
 
   @property({ attribute: "confirm-label" }) confirmLabel = "Continuar";
   @property({ attribute: "cancel-label" }) cancelLabel = "Cancelar";
-  @property({ reflect: true }) variant: AlertDialogVariant = "default";
+  @property() variant: AlertDialogVariant = "default";
 
   protected override get closedBy() {
     return "closerequest" as const;

@@ -33,8 +33,8 @@ const calendarIcon = html`<svg class="ds:size-4 ds:shrink-0 ds:opacity-70" viewB
 export class PhsaDatePicker extends PhsaFormControl {
   static styles = unsafeCSS(styles);
 
-  @property({ reflect: true }) size: DatePickerSize = "default";
-  @property({ reflect: true }) mode: DateMode = "single";
+  @property() size: DatePickerSize = "default";
+  @property() mode: DateMode = "single";
   @property() placeholder = "";
   @property() min = "";
   @property() max = "";

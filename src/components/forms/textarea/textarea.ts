@@ -22,7 +22,7 @@ export const TEXTAREA_SIZES = Object.keys(sizes) as TextareaSize[];
 export class PhsaTextarea extends PhsaFormControl {
   static styles = unsafeCSS(styles);
 
-  @property({ reflect: true }) size: TextareaSize = "default";
+  @property() size: TextareaSize = "default";
   @property() placeholder = "";
   @property({ type: Number }) rows = 3;
   @property({ type: Number }) minLength: number | null = null;

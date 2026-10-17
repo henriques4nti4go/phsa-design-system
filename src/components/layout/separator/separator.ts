@@ -19,7 +19,7 @@ export const SEPARATOR_ORIENTATIONS = Object.keys(orientations) as SeparatorOrie
 export class PhsaSeparator extends PhsaElement {
   static styles = unsafeCSS(styles);
 
-  @property({ reflect: true }) orientation: SeparatorOrientation = "horizontal";
+  @property() orientation: SeparatorOrientation = "horizontal";
   /** Quando falso, vira um separador anunciado (`role="separator"`). */
   @property({ type: Boolean }) decorative = true;
 

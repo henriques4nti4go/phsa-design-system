@@ -16,7 +16,8 @@
   },
   "sideEffects": [
     "./dist/*/index.js",
-    "./dist/chunks/*.js"
+    "./dist/chunks/*.js",
+    "./src/styles/tokens.ts"
   ],
   "scripts": {
     "dev": "npm run analyze && storybook dev -p 6006",
@@ -54,6 +55,7 @@
     "@storybook/web-components-vite": "^10.6.2",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^24.19.2",
+    "@types/react": "^19.3.0",
     "postcss": "^8.5.30",
     "storybook": "^10.6.2",
     "tailwindcss": "^4.3.3",
@@ -64,5 +66,13 @@
     "esbuild@0.28.2": true,
     "rs-module-lexer": false
   },
-  "customElements": "custom-elements.json"
+  "customElements": "custom-elements.json",
+  "peerDependencies": {
+    "@types/react": ">=19"
+  },
+  "peerDependenciesMeta": {
+    "@types/react": {
+      "optional": true
+    }
+  }
 }

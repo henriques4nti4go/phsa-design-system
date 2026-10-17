@@ -25,7 +25,7 @@ export const BADGE_VARIANTS = Object.keys(variants) as BadgeVariant[];
 export class PhsaBadge extends PhsaElement {
   static styles = unsafeCSS(styles);
 
-  @property({ reflect: true }) variant: BadgeVariant = "default";
+  @property() variant: BadgeVariant = "default";
 
   render() {
     return html`

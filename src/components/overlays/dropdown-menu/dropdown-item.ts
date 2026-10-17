@@ -26,7 +26,7 @@ export class PhsaDropdownItem extends PhsaElement {
 
   @property({ reflect: true }) value = "";
   @property({ type: Boolean, reflect: true }) disabled = false;
-  @property({ reflect: true }) variant: DropdownItemVariant = "default";
+  @property() variant: DropdownItemVariant = "default";
 
   /** Foca o botão interno; o menu controla o foco (tabindex -1 nos itens). */
   override focus(options?: FocusOptions) {

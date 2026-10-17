@@ -34,7 +34,7 @@ const closeIcon = html`<svg class="ds:size-3" viewBox="0 0 24 24" fill="none" st
 export class PhsaSelect extends PhsaFormControl {
   static styles = unsafeCSS(styles);
 
-  @property({ reflect: true }) size: SelectSize = "default";
+  @property() size: SelectSize = "default";
   @property() placeholder = "Selecione...";
   @property({ attribute: "search-placeholder" }) searchPlaceholder = "Buscar...";
   @property({ type: Boolean, reflect: true }) multiple = false;

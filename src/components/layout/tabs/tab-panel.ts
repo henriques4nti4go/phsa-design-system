@@ -15,13 +15,12 @@ export class PhsaTabPanel extends PhsaElement {
 
   @property({ reflect: true }) value = "";
   /** @ignore */
-  @property({ type: Boolean, reflect: true }) selected = false;
+  @property({ attribute: false }) selected = false;
   /** Aba deste painel, ligada pelo `phsa-tabs`. @ignore */
   @property({ attribute: false }) tab: HTMLElement | null = null;
 
   protected override updated(changed: PropertyValues) {
     super.updated(changed);
-    if (changed.has("selected")) this.hidden = !this.selected;
     if (!changed.has("tab")) return;
     // `aria-labelledby` por id não atravessa shadow roots: referência por elemento, ou o texto da aba.
     const panel = this.renderRoot.querySelector<HTMLElement>("[part=panel]");
@@ -33,7 +32,7 @@ export class PhsaTabPanel extends PhsaElement {
 
   render() {
     return html`
-      <div part="panel" role="tabpanel" tabindex="0" class="phsa-root ds:block ds:rounded-sm ds:text-sm ds:text-foreground ds:outline-none ds:focus-visible:ring-2 ds:focus-visible:ring-ring ${this.hostClass}"><slot></slot></div>
+      <div part="panel" role="tabpanel" ?hidden=${!this.selected} tabindex="0" class="phsa-root ds:block ds:rounded-sm ds:text-sm ds:text-foreground ds:outline-none ds:focus-visible:ring-2 ds:focus-visible:ring-ring ${this.hostClass}"><slot></slot></div>
     `;
   }
 }

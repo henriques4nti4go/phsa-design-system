@@ -1,6 +1,7 @@
 import { LitElement, type CSSResultGroup } from "lit";
 import { baseStyles } from "../styles/base";
 import { hostUtilities } from "../styles/host-utilities";
+import "./jsx";
 
 /**
  * Base de todos os componentes: aplica a base do DS, a ponte de utilities do projeto

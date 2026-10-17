@@ -155,7 +155,7 @@ const icons: Record<ToastVariant, ReturnType<typeof icon>> = {
 export class PhsaToaster extends PhsaElement {
   static styles = unsafeCSS(styles);
 
-  @property({ reflect: true }) position: ToastPosition = "bottom-right";
+  @property() position: ToastPosition = "bottom-right";
 
   /** @ignore */
   @state() private items: ToastView[] = [];

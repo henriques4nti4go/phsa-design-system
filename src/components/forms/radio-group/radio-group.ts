@@ -24,7 +24,7 @@ export class PhsaRadioGroup extends PhsaFormControl {
   static styles = unsafeCSS(styles);
 
   /** `vertical` ou `horizontal`. */
-  @property({ reflect: true }) orientation: RadioOrientation = "vertical";
+  @property() orientation: RadioOrientation = "vertical";
 
   /**
    * Já teve valor (do grupo, do usuário ou de um radio). Até lá, o `checked` dos radios define o valor.

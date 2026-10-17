@@ -43,7 +43,7 @@ const icons: Record<AlertVariant, ReturnType<typeof icon>> = {
 export class PhsaAlert extends PhsaElement {
   static styles = unsafeCSS(styles);
 
-  @property({ reflect: true }) variant: AlertVariant = "default";
+  @property() variant: AlertVariant = "default";
   /** Título. Não é `title` para não virar tooltip nativo no host. */
   @property() heading = "";
   @property() description = "";

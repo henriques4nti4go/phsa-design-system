@@ -22,8 +22,8 @@ export const TABS_ORIENTATIONS: TabsOrientation[] = [...orientations];
 export class PhsaTabs extends PhsaElement {
   static styles = unsafeCSS(styles);
 
-  @property({ reflect: true }) value = "";
-  @property({ reflect: true }) orientation: TabsOrientation = "horizontal";
+  @property() value = "";
+  @property() orientation: TabsOrientation = "horizontal";
 
   /** @ignore */
   private silent = false;
@@ -36,6 +36,12 @@ export class PhsaTabs extends PhsaElement {
       event.stopPropagation();
       if (event.detail?.value && event.detail.value !== this.value) this.value = event.detail.value;
     }) as EventListener);
+  }
+
+  // Antes do render, para não agendar um segundo update.
+  protected override willUpdate(changed: PropertyValues) {
+    super.willUpdate(changed);
+    this.pickFirst();
   }
 
   protected override updated(changed: PropertyValues) {
@@ -58,18 +64,27 @@ export class PhsaTabs extends PhsaElement {
     return [...this.querySelectorAll<PhsaTabPanel>("phsa-tab-panel")].filter((panel) => panel.closest("phsa-tabs") === this);
   }
 
+  /**
+   * Sem `value`, seleciona a primeira aba habilitada. Escolha automática: sem `phsa-change`.
+   * @ignore
+   */
+  private pickFirst() {
+    if (this.value) return;
+    const first = this.tabs().find((tab) => !tab.disabled);
+    if (!first) return;
+    this.silent = true;
+    this.value = first.value;
+  }
+
+  /** @ignore */
+  private onSlotChange() {
+    this.pickFirst();
+    this.sync();
+  }
+
   /** @ignore */
   private sync() {
     const tabs = this.tabs();
-    if (!this.value) {
-      const first = tabs.find((tab) => !tab.disabled);
-      if (first) {
-        // Escolha automática: não é mudança do usuário, sem `phsa-change`.
-        this.silent = true;
-        this.value = first.value;
-        return;
-      }
-    }
     const panels = this.panels();
     for (const tab of tabs) {
       tab.selected = tab.value === this.value;
@@ -111,10 +126,10 @@ export class PhsaTabs extends PhsaElement {
     return html`
       <div class="phsa-root ${vertical ? "ds:flex ds:items-start ds:gap-4" : "ds:block"} ${this.hostClass}">
         <div part="list" role="tablist" class=${list} @keydown=${this.onKey}>
-          <slot name="tab" @slotchange=${() => this.sync()}></slot>
+          <slot name="tab" @slotchange=${this.onSlotChange}></slot>
         </div>
         <div class="ds:min-w-0 ds:flex-1 ${vertical ? "" : "ds:mt-2"}">
-          <slot @slotchange=${() => this.sync()}></slot>
+          <slot @slotchange=${this.onSlotChange}></slot>
         </div>
       </div>
     `;

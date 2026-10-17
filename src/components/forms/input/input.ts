@@ -21,7 +21,7 @@ export class PhsaInput extends PhsaFormControl {
   static styles = unsafeCSS(styles);
 
   /** Altura do campo, alinhada ao `<phsa-button>`. */
-  @property({ reflect: true }) size: InputSize = "default";
+  @property() size: InputSize = "default";
   /** Igual ao `<input>` nativo. */
   @property() type = "text";
   @property() placeholder = "";
@@ -78,7 +78,7 @@ export class PhsaInput extends PhsaFormControl {
     return html`
       <input
         part="input"
-        class="phsa-root ds:block ds:w-full ds:min-w-0 ds:rounded-md ds:border ds:border-input ds:bg-transparent ds:py-1 ds:shadow-sm ds:transition-colors ds:outline-none ds:placeholder:text-muted-foreground ds:selection:bg-primary ds:selection:text-primary-foreground ds:file:border-0 ds:file:bg-transparent ds:file:text-sm ds:file:font-medium ds:file:text-foreground ds:focus-visible:ring-2 ds:focus-visible:ring-ring ds:focus-visible:ring-offset-2 ds:disabled:cursor-not-allowed ds:disabled:opacity-50 ds:user-invalid:border-destructive ds:user-invalid:focus-visible:ring-destructive ds:aria-invalid:border-destructive ds:aria-invalid:focus-visible:ring-destructive ${sizes[this.size] ?? sizes.default} ${this.hostClass}"
+        class="phsa-root ds:block ds:w-full ds:min-w-0 ds:rounded-md ds:border ds:border-input ds:bg-transparent ds:py-1 ds:shadow-sm ds:transition-colors ds:outline-none ds:placeholder:text-muted-foreground ds:selection:bg-primary ds:selection:text-primary-foreground ds:file:border-0 ds:file:bg-transparent ds:file:text-sm ds:file:font-medium ds:file:text-foreground ds:focus-visible:ring-2 ds:focus-visible:ring-ring ds:focus-visible:ring-offset-2 ds:disabled:cursor-not-allowed ds:disabled:opacity-50 ds:aria-invalid:border-destructive ds:aria-invalid:focus-visible:ring-destructive ${sizes[this.size] ?? sizes.default} ${this.hostClass}"
         type=${this.type}
         placeholder=${ifDefined(this.placeholder || undefined)}
         autocomplete=${ifDefined(this.autocomplete || undefined)}

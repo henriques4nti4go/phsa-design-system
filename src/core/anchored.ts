@@ -89,8 +89,8 @@ export function placeAnchored(layer: HTMLElement, anchor: DOMRect, side: AnchorS
  */
 export class PhsaAnchored extends PhsaElement {
   @property({ type: Boolean, reflect: true }) open = false;
-  @property({ reflect: true }) side: AnchorSide = "bottom";
-  @property({ reflect: true }) align: AnchorAlign = "center";
+  @property() side: AnchorSide = "bottom";
+  @property() align: AnchorAlign = "center";
 
   private listening = false;
   /** @ignore */

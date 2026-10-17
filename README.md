@@ -17,6 +17,22 @@ import "@phsa.tec/design-system-react/button";
 <phsa-button variant="outline" size="sm">Salvar</phsa-button>
 ```
 
+### React / Next.js
+
+Funciona direto no React 19, inclusive com SSR (Next): importe o componente num client component e use a tag.
+
+```tsx
+"use client";
+import "@phsa.tec/design-system-react/input";
+
+<phsa-input name="nome" value={nome} onInput={(e) => setNome(e.currentTarget.value)} />
+```
+
+- **Tipos**: importar um componente já tipa a tag no JSX (props, variantes e `e.currentTarget`). Requer `@types/react` 19.
+- **Eventos**: `onInput` e `onChange` funcionam como nos nativos. Eventos próprios (`phsa-change`, `phsa-select`) via `ref` + `addEventListener`.
+- **Métodos** (`show()`, `close()`...): via `ref`, tipado com a classe exportada (`import type { PhsaDialog } from ".../dialog"`).
+- **Reset de `<form>`**: como nos inputs nativos, não dispara `input`/`change`; estado controlado no React precisa ser limpo à parte (`onReset` no form).
+
 ## Customizar com classes
 
 Em projetos com **Tailwind v4**, classes passadas no componente funcionam como `className` e vencem os estilos do DS:
@@ -138,6 +154,9 @@ Cada componente deve ter uma story `Isolation` aplicando CSS hostil na página, 
 Componente novo = nova pasta em `src/components/<categoria>/`; o build e o `exports` do pacote pegam automaticamente. As categorias só organizam o repositório: o import público é plano (`/input`, não `/forms/input`), então o nome do componente precisa ser único — o build falha se repetir. Mover um componente de categoria não quebra quem usa.
 
 ### Observações
+
+- Os componentes não refletem atributos com valor padrão (`size="default"`, `variant`...) no host: o HTML do SSR tem que bater com o do cliente na hidratação do React.
+- `sideEffects` no `package.json` inclui `./src/styles/tokens.ts`: sem isso, o build descarta a injeção dos tokens (no Storybook funciona, porque o dev não faz tree-shaking).
 
 - O `postcss.config.js` converte os `@property` do Tailwind em valores iniciais, porque `@property` não funciona dentro de shadow root (sem isso, `shadow-*`, `ring-*` e transforms quebram).
 - O elemento raiz de cada componente usa a classe `phsa-root`, que corta a herança de fonte/cor/espaçamento vinda da página.

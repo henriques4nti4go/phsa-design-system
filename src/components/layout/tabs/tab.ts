@@ -19,7 +19,7 @@ export class PhsaTab extends PhsaElement {
   @property({ reflect: true }) value = "";
   @property({ type: Boolean, reflect: true }) disabled = false;
   /** @ignore */
-  @property({ type: Boolean, reflect: true }) selected = false;
+  @property({ attribute: false }) selected = false;
   /** Painel desta aba, ligado pelo `phsa-tabs`. @ignore */
   @property({ attribute: false }) panel: HTMLElement | null = null;
 

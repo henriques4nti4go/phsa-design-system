@@ -34,7 +34,7 @@ type Opts = {
 export class PhsaNumericInput extends PhsaFormControl {
   static styles = unsafeCSS(styles);
 
-  @property({ reflect: true }) size: NumericSize = "default";
+  @property() size: NumericSize = "default";
   @property() placeholder = "";
   @property() prefix = "";
   @property() suffix = "";
