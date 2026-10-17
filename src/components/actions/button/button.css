@@ -1,0 +1,15 @@
+/* Prefixo `ds:` nas classes internas: o `.bg-primary` do projeto nunca encosta nelas. */
+@import "tailwindcss/theme.css" layer(theme) prefix(ds);
+@import "../../../styles/theme.css";
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+
+@source "./button.ts";
+
+@layer components {
+  ::slotted(svg) {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+    pointer-events: none;
+  }
+}

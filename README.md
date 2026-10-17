@@ -1,339 +1,143 @@
-# PHSA Design System React
+# PHSA Design System
 
-A modern, **fully isolated** React component library built with TypeScript, Tailwind CSS, and Radix UI.
+Design system em Web Components ([Lit](https://lit.dev)) com Tailwind v4 compilado dentro de cada componente.
 
-## Features
+- **100% isolado**: cada componente renderiza em Shadow DOM; o CSS da página não entra e o do DS não sai.
+- **Zero config**: instalar e importar. Sem `tailwind.config`, sem `styles.css` global.
+- **Só o que usa**: um import por componente.
+- **Qualquer framework**: React 19, Vue, Svelte, Angular ou HTML puro.
 
-- **Zero Conflicts** - Fully isolated CSS, won't interfere with your project's styles
-- **Customizable** - Via CSS Variables
-- **Accessible** - Built with Radix UI primitives
-- **Dark Mode** - Native dark theme support
-- **TypeScript** - Full type support
+## Uso
 
-## Documentation
-
-[View Full Documentation](https://henriques4nti4go.github.io/phsa-design-system/)
-
-## Installation
-
-```bash
-npm install @phsa.tec/design-system-react
-# or
-yarn add @phsa.tec/design-system-react
-# or
-pnpm add @phsa.tec/design-system-react
+```ts
+import "@phsa.tec/design-system-react/button";
 ```
 
-## Basic Usage
-
-### Step 1: Add Styles to Your Project
-
-You have two options to add the design system styles:
-
-#### Option 1: Import CSS Directly (Quick Start)
-
-Import the CSS file at the **top** of your project's `globals.css` file:
-
-```css
-/* globals.css - Import at the top */
-@import "@phsa.tec/design-system-react/styles.css";
-
-/* Your other styles below */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+```html
+<phsa-button variant="outline" size="sm">Salvar</phsa-button>
 ```
 
-This will use the default styles. To customize the CSS variables, use Option 2.
+## Customizar com classes
 
-#### Option 2: Copy to globals.css (Recommended for Customization)
+Em projetos com **Tailwind v4**, classes passadas no componente funcionam como `className` e vencem os estilos do DS:
 
-Copy the design system styles to your project's `globals.css` (or main CSS file) and customize the CSS variables:
-
-```css
-/* globals.css or your main CSS file */
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap");
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@layer base {
-  :root {
-    --background: oklch(100% 0 0);
-    --foreground: oklch(25% 0.01 150);
-    --card: oklch(100% 0 0);
-    --card-foreground: oklch(25% 0.01 150);
-    --popover: oklch(100% 0 0);
-    --popover-foreground: oklch(25% 0.01 150);
-    --primary: oklch(42% 0.15 145);
-    --primary-foreground: oklch(98% 0 0);
-    --secondary: oklch(96% 0.02 150);
-    --secondary-foreground: oklch(25% 0.01 150);
-    --muted: oklch(96% 0.02 150);
-    --muted-foreground: oklch(45% 0.01 150);
-    --accent: oklch(96% 0.02 150);
-    --accent-foreground: oklch(25% 0.01 150);
-    --success: oklch(42% 0.15 145);
-    --success-foreground: oklch(98% 0 0);
-    --warning: oklch(50% 0.18 48);
-    --destructive: oklch(60% 0.20 0);
-    --destructive-foreground: oklch(98% 0 0);
-    --border: oklch(88% 0.03 150);
-    --input: oklch(88% 0.03 150);
-    --ring: oklch(42% 0.15 145);
-    --radius: 0.5rem;
-    --sidebar-background: oklch(98% 0.04 150);
-    --sidebar-foreground: oklch(30% 0.01 150);
-    --sidebar-primary: oklch(42% 0.15 145);
-    --sidebar-primary-foreground: oklch(98% 0 0);
-    --sidebar-accent: oklch(95% 0.04 150);
-    --sidebar-accent-foreground: oklch(25% 0.01 150);
-    --sidebar-border: oklch(90% 0.04 150);
-    --sidebar-ring: oklch(42% 0.15 145);
-  }
-
-  .dark {
-    --background: oklch(4% 0.01 150);
-    --foreground: oklch(95% 0.02 150);
-    --card: oklch(4% 0.01 150);
-    --card-foreground: oklch(95% 0.02 150);
-    --popover: oklch(4% 0.01 150);
-    --popover-foreground: oklch(95% 0.02 150);
-    --primary: oklch(48% 0.16 145);
-    --primary-foreground: oklch(8% 0.01 150);
-    --secondary: oklch(12% 0.02 150);
-    --secondary-foreground: oklch(95% 0.02 150);
-    --muted: oklch(12% 0.02 150);
-    --muted-foreground: oklch(60% 0.02 150);
-    --accent: oklch(12% 0.02 150);
-    --accent-foreground: oklch(95% 0.02 150);
-    --destructive: oklch(31% 0.12 0);
-    --destructive-foreground: oklch(98% 0 0);
-    --border: oklch(18% 0.02 150);
-    --input: oklch(18% 0.02 150);
-    --ring: oklch(48% 0.16 145);
-    --sidebar-background: oklch(8% 0.01 150);
-    --sidebar-foreground: oklch(90% 0.02 150);
-    --sidebar-primary: oklch(48% 0.16 145);
-    --sidebar-primary-foreground: oklch(8% 0.01 150);
-    --sidebar-accent: oklch(15% 0.02 150);
-    --sidebar-accent-foreground: oklch(90% 0.02 150);
-    --sidebar-border: oklch(15% 0.02 150);
-    --sidebar-ring: oklch(48% 0.16 145);
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
+```html
+<phsa-button class="h-12 rounded-full bg-emerald-600 hover:bg-emerald-700">Começar</phsa-button>
 ```
-
-**Tip:** Customize the CSS variables (`--primary`, `--background`, etc.) to match your brand colors and design preferences.
-
-### Step 2: Use Components
 
 ```tsx
-// Import components
-import { Button, Card } from "@phsa.tec/design-system-react";
-
-function App() {
-  return (
-    <Card>
-      <Button>Click me</Button>
-    </Card>
-  );
-}
+<phsa-button className="w-full">Salvar</phsa-button> // React 19
 ```
 
-## Customization
+Como funciona (ponte de utilities):
 
-The design system uses **OKLCH** color format for better color consistency and wider gamut support. All styles are in your `globals.css` file, so you can customize any variable or style you want.
+- O DS copia **só** a `@layer utilities` do CSS da página para dentro dos shadow roots (uma folha compartilhada, atualizada quando entra CSS novo). Preflight, base e CSS global continuam do lado de fora.
+- As classes internas do DS têm prefixo (`ds:bg-primary`), então o `.bg-primary` do projeto nunca encosta nelas — só vale o que você passa na tag.
+- O host é `display: contents` e o `class` é repassado ao elemento raiz interno.
 
-### Customizing Colors
+Limitações: precisa de Tailwind v4 no projeto (sem ele, o `class` é ignorado); CSS de outro domínio não pode ser lido; variants que olham ancestrais (`group-*`, `dark:` por classe) não atravessam o shadow.
 
-Simply modify the CSS variables in your `globals.css`:
+## Tema
+
+Os tokens são custom properties `--phsa-*`, que atravessam o Shadow DOM. Para customizar, sobrescreva no projeto:
 
 ```css
-/* globals.css */
 :root {
-  /* Primary colors - using OKLCH format */
-  --primary: oklch(42% 0.15 145); /* Lightness Chroma Hue */
-  --primary-foreground: oklch(98% 0 0);
-  
-  /* Change to your brand colors */
-  --secondary: oklch(96% 0.02 150);
-  --secondary-foreground: oklch(25% 0.01 150);
-
-  /* Feedback colors */
-  --destructive: oklch(60% 0.20 0);
-  --success: oklch(42% 0.15 145);
-  --warning: oklch(50% 0.18 48);
-
-  /* Neutral colors */
-  --background: oklch(100% 0 0);
-  --foreground: oklch(25% 0.01 150);
-  --muted: oklch(96% 0.02 150);
-  --muted-foreground: oklch(45% 0.01 150);
-  --border: oklch(88% 0.03 150);
-
-  /* Other */
-  --radius: 0.5rem;
-  --font-family: "Roboto", sans-serif;
-}
-
-/* Dark mode */
-.dark {
-  --background: oklch(4% 0.01 150);
-  --foreground: oklch(95% 0.02 150);
-  --primary: oklch(48% 0.16 145);
-  /* ... customize any other variables */
+  --phsa-primary: oklch(0.55 0.22 264);
+  --phsa-radius: 0.375rem;
 }
 ```
 
-**Tip:** You can use online OKLCH color pickers or convert from HSL/HEX to OKLCH. The format is `oklch(lightness% chroma hue)` where:
-- Lightness: 0-100%
-- Chroma: 0-0.4 (saturation)
-- Hue: 0-360 (color angle)
+Dark mode: classe `.dark` ou atributo `data-theme="dark"` em qualquer ancestral (normalmente o `<html>`).
 
-## Available CSS Variables
+## Componentes
 
-### Colors
+| Tag | Import | Atributos |
+|---|---|---|
+| `<phsa-button>` | `/button` | `variant` (default, secondary, outline, destructive, ghost, link), `size` (default, sm, lg, icon), `disabled`, `type` (submit, button, reset) |
+| `<phsa-input>` | `/input` | `size` (default, sm, lg), `type`, `value`, `placeholder`, `name`, `disabled`, `required`, `readonly`, `invalid` |
+| `<phsa-textarea>` | `/textarea` | `size`, `rows`, `value`, `placeholder`, `name`, `disabled`, `required`, `readonly`, `invalid` |
+| `<phsa-checkbox>` | `/checkbox` | `checked`, `value` (enviado só se marcado; padrão `on`), `name`, `disabled`, `required`, `invalid` |
+| `<phsa-switch>` | `/switch` | igual ao checkbox, visual de interruptor |
+| `<phsa-radio>` | `/radio` | `value`, `checked`, `disabled` — filho de `<phsa-radio-group>` |
+| `<phsa-radio-group>` | `/radio-group` | `value`, `name`, `orientation` (vertical, horizontal), `disabled`, `required`, `invalid` |
+| `<phsa-select>` | `/select` | filhos `<option>` / `<optgroup>`; `value`, `multiple`, `searchable`, `placeholder`, `size`, `name`, `disabled`, `required`, `readonly`, `invalid` |
+| `<phsa-numeric-input>` | `/numeric-input` | `value` canônico (`1234.5`); `prefix`, `suffix`, `thousand-separator`, `decimal-separator`, `decimal-scale`, `allow-negative`, `min`, `max` |
+| `<phsa-pattern-input>` | `/pattern-input` | `format` (`#` dígito, `A` letra, `*` ambos); `value` sem a máscara; `mask`, `allow-empty` |
+| `<phsa-date-picker>` | `/date-picker` | `mode` (single, range, multiple), `value` (`YYYY-MM-DD`, intervalo com `/`, várias com vírgula), `min`, `max`, `disabled-dates` |
+| `<phsa-field>` | `/field` | `label`, `description`, `error` — envolve um campo; sem `error`, mostra a validação nativa no submit |
+| `<phsa-badge>` | `/badge` | `variant` (default, secondary, destructive, outline, success, warning, info) |
+| `<phsa-separator>` | `/separator` | `orientation` (horizontal, vertical), `decorative` |
+| `<phsa-alert>` | `/alert` | `variant` (default, destructive, success, warning, info), `heading`, `description`, `dismissible` |
+| `<phsa-dialog>` | `/dialog` | `open`, `heading`, `description`; `show()` / `close()`; fecha no overlay, no Escape e no botão |
+| `<phsa-alert-dialog>` | `/alert-dialog` | confirmação: `confirm-label`, `cancel-label`, `variant` (default, destructive); não fecha no overlay |
+| `<phsa-toaster>` | `/toast` | `position` (top-right, top-left, bottom-right, bottom-left); `toast()` / `toast.success()` / `toast.error()` / `toast.warning()` / `toast.info()` |
+| `<phsa-card>` | `/card` | `heading`, `description`; slot `media` para a imagem no topo; slot `footer` para ações |
+| `<phsa-tabs>` | `/tabs` | `value`, `orientation` (horizontal, vertical); filhos `phsa-tab` (slot `tab`) e `phsa-tab-panel` |
+| `<phsa-popover>` | `/popover` | `open`, `side` (top, right, bottom, left), `align` (start, center, end); `show()` / `hide()` / `toggle()` |
+| `<phsa-dropdown-menu>` | `/dropdown-menu` | igual ao popover; filhos `phsa-dropdown-item` (`value`, `disabled`, `variant`) e `phsa-dropdown-separator` |
+| `<phsa-tooltip>` | `/tooltip` | `text`, `side`; aparece no hover e no foco do slot `trigger` |
+| `<phsa-table>` | `/table` | `caption`; filhos `phsa-column` (`label`, `sortable`), `phsa-row` e `phsa-cell` |
+| `<phsa-combobox>` | `/combobox` | filhos `<option>` / `<optgroup>`; `value` da opção, `placeholder`, `size`, `name`, `disabled`, `required`, `readonly`, `invalid` |
+| `<phsa-command>` | `/command` | `placeholder`; filhos `phsa-command-group` (`label`), `phsa-command-item` (`value`, `disabled`) e `phsa-command-separator`; evento `phsa-select` |
 
-| Variable | Description |
-|----------|-------------|
-| `--primary` | Primary color |
-| `--primary-foreground` | Text on primary color |
-| `--secondary` | Secondary color |
-| `--secondary-foreground` | Text on secondary color |
-| `--destructive` | Error/danger color |
-| `--success` | Success color |
-| `--warning` | Warning color |
-| `--muted` | Muted color |
-| `--muted-foreground` | Muted text |
-| `--background` | Page background |
-| `--foreground` | Main text |
-| `--border` | Border color |
-| `--input` | Input color |
-| `--ring` | Focus ring color |
-
-### Layout
-
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `--radius` | Base border radius | `0.5rem` |
-| `--font-family` | Font family | `"Roboto"` |
-
-### Spacing
-
-| Variable | Description |
-|----------|-------------|
-| `--spacing-xs` | Extra small |
-| `--spacing-sm` | Small |
-| `--spacing-md` | Medium |
-| `--spacing-lg` | Large |
-| `--spacing-xl` | Extra large |
-
-## Available Components
-
-### Layout
-- `Card`, `CardHeader`, `CardContent`, `CardFooter`
-- `Sheet`, `SheetContent`, `SheetHeader`
-- `Tabs`, `TabsList`, `TabsTrigger`, `TabsContent`
-- `Separator`
-
-### Forms
-- `Button`
-- `Input`
-- `Select`, `SelectTrigger`, `SelectContent`, `SelectItem`
-- `Checkbox`
-- `Switch`
-- `Label`
-
-### Data Display
-- `DataTable`
-- `Badge`
-- `Avatar`
-
-### Feedback
-- `Dialog`, `DialogContent`, `DialogHeader`
-- `AlertDialog`
-- `Toast`, `Toaster`
-- `Alert`
-- `Spinner`
-
-### Navigation
-- `DropdownMenu`
-- `Command`
-- `Popover`
-
-## Dark Mode
-
-Add the `dark` class to the root element:
-
-```tsx
-// With next-themes
-import { ThemeProvider } from "next-themes";
-
-function App() {
-  return (
-    <ThemeProvider attribute="class" defaultTheme="system">
-      {/* Your app */}
-    </ThemeProvider>
-  );
-}
+```html
+<phsa-field label="E-mail" description="Usaremos para o login">
+  <phsa-input name="email" type="email" required></phsa-input>
+</phsa-field>
 ```
 
-## Compatibility
+Campos de formulário funcionam com o `<form>` da página como os nativos: `FormData`, `required`/validação, `reset`, `<fieldset disabled>` e eventos `input`/`change`.
 
-- Projects **without** Tailwind CSS
-- Projects **with** Tailwind CSS (no conflicts)
-- Next.js, Vite, Create React App
-- React 18+
-
-## Package Exports
-
-```typescript
-// Components
-import { Button, Card } from "@phsa.tec/design-system-react";
+```html
+<phsa-dialog id="perfil" heading="Editar perfil" description="Altere os dados visíveis para o time.">
+  <phsa-button slot="footer" type="button" variant="outline">Cancelar</phsa-button>
+  <phsa-button slot="footer" type="button">Salvar</phsa-button>
+</phsa-dialog>
 ```
 
-```css
-/* globals.css - Import at the top (Option 1: Quick start) */
-@import "@phsa.tec/design-system-react/styles.css";
+```ts
+import "@phsa.tec/design-system-react/toast";
+import { toast } from "@phsa.tec/design-system-react/toast";
 
-/* Or copy the full styles to your globals.css (Option 2: For customization) */
-/* See "Basic Usage" section above for details */
+toast.success("Dados salvos", { description: "O perfil foi atualizado." });
 ```
 
-## Development
+## Desenvolvimento
 
-```bash
-# Install dependencies
-yarn install
-
-# Storybook
-yarn storybook
-
-# Build library
-yarn build:lib
-
-# Watch mode
-yarn build:lib:watch
-
-# Tests
-yarn test
+```sh
+npm install
+npm run dev              # Storybook em http://localhost:6006
+npm run build            # dist/components/<nome>/index.js + .d.ts + custom-elements.json
+npm run build-storybook  # storybook-static/ (publicado no GitHub Pages pelo CI, na master)
 ```
 
-## License
+### Estrutura
 
-MIT
+```
+src/
+  styles/
+    tokens.css   # --phsa-* (injetados uma vez no documento, especificidade zero)
+    theme.css    # mapeia tokens → utilitários Tailwind (bg-primary, rounded-md...)
+    base.css     # preflight + reset do elemento raiz, dentro do shadow
+    host-utilities.ts  # ponte: utilities do Tailwind do projeto → shadow roots
+  core/
+    phsa-element.ts    # base dos componentes (estilos + repasse do class)
+    form-control.ts    # base dos campos de formulário (ElementInternals, validação, reset)
+  components/<categoria>/<nome>/   # ex.: actions/button, forms/input
+    <nome>.ts    # estende PhsaElement (ou PhsaFormControl); classes internas com prefixo `ds:`
+    <nome>.css   # Tailwind só deste componente (@source "./<nome>.ts")
+    index.ts     # customElements.define
+    <nome>.stories.ts
+```
 
----
+A tabela de atributos, slots e parts no Storybook vem do `custom-elements.json`, gerado do código (JSDoc) pelo `cem analyze`. Membros internos levam `/** @ignore */`.
 
-Built by the PHSA team
+Cada componente deve ter uma story `Isolation` aplicando CSS hostil na página, para provar que ele não é afetado.
+
+Componente novo = nova pasta em `src/components/<categoria>/`; o build e o `exports` do pacote pegam automaticamente. As categorias só organizam o repositório: o import público é plano (`/input`, não `/forms/input`), então o nome do componente precisa ser único — o build falha se repetir. Mover um componente de categoria não quebra quem usa.
+
+### Observações
+
+- O `postcss.config.js` converte os `@property` do Tailwind em valores iniciais, porque `@property` não funciona dentro de shadow root (sem isso, `shadow-*`, `ring-*` e transforms quebram).
+- O elemento raiz de cada componente usa a classe `phsa-root`, que corta a herança de fonte/cor/espaçamento vinda da página.

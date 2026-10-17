@@ -1,0 +1,29 @@
+/* Base compartilhada por todos os componentes, aplicada dentro de cada shadow root. */
+/* `host` = utilities do projeto (ponte), sempre por último. */
+@layer properties, theme, base, components, utilities, host;
+
+@import "tailwindcss/theme.css" layer(theme) prefix(ds);
+@import "./theme.css";
+@import "tailwindcss/preflight.css" layer(base);
+
+@layer base {
+  /* O host não gera caixa: o `class` passado no componente vale para o elemento raiz. */
+  :host {
+    display: contents !important;
+  }
+
+  :host([hidden]) {
+    display: none !important;
+  }
+
+  /* Elemento raiz de cada componente: corta tudo que herdaria da página. */
+  .phsa-root {
+    all: initial;
+    box-sizing: border-box;
+    font-family: var(--phsa-font-sans);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--phsa-foreground);
+    -webkit-font-smoothing: antialiased;
+  }
+}

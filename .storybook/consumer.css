@@ -1,0 +1,5 @@
+/* Simula o Tailwind de um projeto que usa o DS. As classes das stories entram na ponte do shadow. */
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+
+@source "../src/**/*.stories.ts";

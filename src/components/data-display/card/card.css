@@ -1,0 +1,27 @@
+/* Prefixo `ds:` nas classes internas: o `.bg-background` do projeto nunca encosta nelas. */
+@import "tailwindcss/theme.css" layer(theme) prefix(ds);
+@import "../../../styles/theme.css";
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+
+@source "./card.ts";
+
+@layer components {
+  /* Herda o raio do card, inclusive quando o projeto zera com `rounded-none`. */
+  .media {
+    display: block;
+    border-start-start-radius: inherit;
+    border-start-end-radius: inherit;
+  }
+
+  .media slot {
+    display: block;
+    height: 100%;
+  }
+
+  slot[name="media"]::slotted(*) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}

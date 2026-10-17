@@ -1,0 +1,75 @@
+/* Prefixo `ds:` nas classes internas: o `.bg-background` do projeto nunca encosta nelas. */
+@import "tailwindcss/theme.css" layer(theme) prefix(ds);
+@import "../../../styles/theme.css";
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+
+@source "./toast.ts";
+
+/* Fora de layer: o `overflow` e o fundo do popover nativo não voltam por cima. */
+[part="region"] {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  overflow: visible;
+  box-shadow: none;
+}
+
+[data-leaving] [part="toast"] {
+  pointer-events: none;
+}
+
+@layer components {
+  [part="region"] {
+    width: min(24rem, calc(100vw - 2rem));
+    height: auto;
+  }
+
+  [part="region"][data-side="right"] {
+    --phsa-toast-x: 1rem;
+  }
+
+  [part="region"][data-side="left"] {
+    --phsa-toast-x: -1rem;
+  }
+
+  [part="region"] > [data-toast-item] {
+    min-height: 0;
+    animation: phsa-toast-in 200ms ease-out both;
+  }
+
+  [part="region"] > [data-toast-item]:not(:last-child) {
+    margin-bottom: 0.75rem;
+  }
+
+  [part="region"] > [data-toast-item][data-leaving] {
+    overflow: hidden;
+    pointer-events: none;
+    animation: none;
+  }
+
+  [part="region"] > [data-toast-item][data-leave-ready] {
+    transition:
+      height 240ms cubic-bezier(0.4, 0, 0.2, 1),
+      margin-bottom 240ms cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 180ms ease;
+  }
+
+  [part="toast"] {
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.05), 0 4px 10px rgb(0 0 0 / 0.08);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [part="region"] > [data-toast-item] {
+      animation: none;
+    }
+  }
+}
+
+@keyframes phsa-toast-in {
+  from {
+    opacity: 0;
+    translate: var(--phsa-toast-x, 1rem) 0;
+  }
+}
+

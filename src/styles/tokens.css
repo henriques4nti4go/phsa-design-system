@@ -1,0 +1,53 @@
+/*
+ * Tokens globais do design system. Só define custom properties `--phsa-*`,
+ * que atravessam o Shadow DOM — não estiliza nada da página.
+ * `:where()` zera a especificidade: qualquer `:root { --phsa-* }` do projeto vence.
+ */
+:where(:root) {
+  --phsa-font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --phsa-radius: 0.625rem;
+  --phsa-background: oklch(1 0 0);
+  --phsa-foreground: oklch(0.145 0 0);
+  --phsa-primary: oklch(0.205 0 0);
+  --phsa-primary-foreground: oklch(0.985 0 0);
+  --phsa-secondary: oklch(0.97 0 0);
+  --phsa-secondary-foreground: oklch(0.205 0 0);
+  --phsa-muted: oklch(0.97 0 0);
+  --phsa-muted-foreground: oklch(0.556 0 0);
+  --phsa-accent: oklch(0.97 0 0);
+  --phsa-accent-foreground: oklch(0.205 0 0);
+  --phsa-destructive: oklch(0.577 0.245 27.325);
+  --phsa-destructive-foreground: oklch(0.985 0 0);
+  --phsa-success: oklch(0.52 0.15 150);
+  --phsa-success-foreground: oklch(0.985 0 0);
+  --phsa-warning: oklch(0.55 0.14 65);
+  --phsa-warning-foreground: oklch(0.985 0 0);
+  --phsa-info: oklch(0.5 0.15 255);
+  --phsa-info-foreground: oklch(0.985 0 0);
+  --phsa-border: oklch(0.922 0 0);
+  --phsa-input: oklch(0.922 0 0);
+  --phsa-ring: oklch(0.708 0 0);
+}
+
+:where(.dark, [data-theme="dark"]) {
+  --phsa-background: oklch(0.145 0 0);
+  --phsa-foreground: oklch(0.985 0 0);
+  --phsa-primary: oklch(0.922 0 0);
+  --phsa-primary-foreground: oklch(0.205 0 0);
+  --phsa-secondary: oklch(0.269 0 0);
+  --phsa-secondary-foreground: oklch(0.985 0 0);
+  --phsa-muted: oklch(0.269 0 0);
+  --phsa-muted-foreground: oklch(0.708 0 0);
+  --phsa-accent: oklch(0.269 0 0);
+  --phsa-accent-foreground: oklch(0.985 0 0);
+  --phsa-destructive: oklch(0.704 0.191 22.216);
+  --phsa-success: oklch(0.75 0.16 150);
+  --phsa-success-foreground: oklch(0.2 0 0);
+  --phsa-warning: oklch(0.8 0.14 80);
+  --phsa-warning-foreground: oklch(0.2 0 0);
+  --phsa-info: oklch(0.75 0.12 255);
+  --phsa-info-foreground: oklch(0.2 0 0);
+  --phsa-border: oklch(1 0 0 / 10%);
+  --phsa-input: oklch(1 0 0 / 15%);
+  --phsa-ring: oklch(0.556 0 0);
+}

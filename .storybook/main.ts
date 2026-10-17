@@ -1,34 +1,16 @@
-import type { StorybookConfig } from "@storybook/nextjs-vite";
-import { mergeConfig } from "vite";
-import tailwindcss from "@tailwindcss/postcss";
-import autoprefixer from "autoprefixer";
-
-const basePath = process.env.STORYBOOK_BASE_PATH || '';
+import type { StorybookConfig } from "@storybook/web-components-vite";
 
 const config: StorybookConfig = {
-  stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
-  addons: [
-    "@storybook/addon-onboarding",
-    "@chromatic-com/storybook",
-    "@storybook/addon-docs"
-  ],
-  framework: {
-    name: "@storybook/nextjs-vite",
-    options: {},
+  // Título de cada story = categoria/nome da pasta (ex.: "Forms/Input").
+  stories: [{ directory: "../src/components", files: "**/*.stories.ts" }],
+  addons: ["@storybook/addon-docs"],
+  framework: "@storybook/web-components-vite",
+  // O vite.config.ts é do build da lib; o Storybook só aproveita o pipeline de CSS.
+  viteFinal(config) {
+    delete config.build?.lib;
+    delete config.build?.rollupOptions;
+    return config;
   },
-  staticDirs: ["../public"],
-  async viteFinal(config) {
-    return mergeConfig(config, {
-      css: {
-        postcss: {
-          plugins: [
-            tailwindcss,
-            autoprefixer,
-          ],
-        },
-      },
-    });
-  },
-  ...(basePath ? { base: basePath } : {}),
 };
+
 export default config;

@@ -1,0 +1,12 @@
+/* Prefixo `ds:` nas classes internas: o `.border-input` do projeto nunca encosta nelas. */
+@import "tailwindcss/theme.css" layer(theme) prefix(ds);
+@import "../../../styles/theme.css";
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+
+@source "./combobox.ts";
+
+/* O popover nativo traz `inset: 0` e `margin: auto`. Sem isso o painel estica na viewport. */
+[part="popup"] {
+  inset: auto;
+  margin: 0;
+}

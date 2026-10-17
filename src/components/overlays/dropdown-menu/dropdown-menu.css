@@ -1,0 +1,12 @@
+/* Prefixo `ds:` nas classes internas: o `.bg-background` do projeto nunca encosta nelas. */
+@import "tailwindcss/theme.css" layer(theme) prefix(ds);
+@import "../../../styles/theme.css";
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+
+@source "./dropdown-menu.ts";
+
+/* O popover nativo traz `inset: 0` e `margin: auto`. Sem isso o painel estica na viewport. */
+[part="popup"] {
+  inset: auto;
+  margin: 0;
+}

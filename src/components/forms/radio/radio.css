@@ -1,0 +1,6 @@
+/* Prefixo `ds:` nas classes internas: o `.border-primary` do projeto nunca encosta nelas. */
+@import "tailwindcss/theme.css" layer(theme) prefix(ds);
+@import "../../../styles/theme.css";
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+
+@source "./radio.ts";

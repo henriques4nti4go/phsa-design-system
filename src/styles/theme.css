@@ -1,0 +1,29 @@
+/* Mapeia os tokens para utilitários do Tailwind (bg-primary, rounded-md...). */
+@theme inline {
+  --font-sans: var(--phsa-font-sans);
+  --radius-sm: calc(var(--phsa-radius) - 4px);
+  --radius-md: calc(var(--phsa-radius) - 2px);
+  --radius-lg: var(--phsa-radius);
+  --radius-xl: calc(var(--phsa-radius) + 4px);
+  --color-background: var(--phsa-background);
+  --color-foreground: var(--phsa-foreground);
+  --color-primary: var(--phsa-primary);
+  --color-primary-foreground: var(--phsa-primary-foreground);
+  --color-secondary: var(--phsa-secondary);
+  --color-secondary-foreground: var(--phsa-secondary-foreground);
+  --color-muted: var(--phsa-muted);
+  --color-muted-foreground: var(--phsa-muted-foreground);
+  --color-accent: var(--phsa-accent);
+  --color-accent-foreground: var(--phsa-accent-foreground);
+  --color-destructive: var(--phsa-destructive);
+  --color-destructive-foreground: var(--phsa-destructive-foreground);
+  --color-success: var(--phsa-success);
+  --color-success-foreground: var(--phsa-success-foreground);
+  --color-warning: var(--phsa-warning);
+  --color-warning-foreground: var(--phsa-warning-foreground);
+  --color-info: var(--phsa-info);
+  --color-info-foreground: var(--phsa-info-foreground);
+  --color-border: var(--phsa-border);
+  --color-input: var(--phsa-input);
+  --color-ring: var(--phsa-ring);
+}
