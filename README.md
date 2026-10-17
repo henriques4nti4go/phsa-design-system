@@ -2,6 +2,8 @@
 
 **Fully isolated UI components built as Web Components ([Lit](https://lit.dev)), styled with Tailwind CSS v4 — install, import, done.**
 
+📖 **[Storybook — live docs and playground](https://henriques4nti4go.github.io/phsa-design-system/)**
+
 Every component renders inside its own Shadow DOM with its own compiled Tailwind styles. Your app's CSS can't break the components, and the components' CSS never leaks into your app. There is no Tailwind config to extend, no global stylesheet to import and no build plugin to set up.
 
 ```tsx
@@ -191,7 +193,7 @@ Each component is imported from its own entry point: `@phsa.tec/design-system-re
 | `<phsa-badge>` | `/badge` | `variant` (default, secondary, destructive, outline, success, warning, info) |
 | `<phsa-table>` | `/table` | `caption`; `phsa-column` (`label`, `sortable`), `phsa-row` and `phsa-cell` children |
 
-The full API of every component (attributes, properties, events, slots and CSS parts) is in Storybook, generated from the source.
+The full API of every component (attributes, properties, events, slots and CSS parts) is in [Storybook](https://henriques4nti4go.github.io/phsa-design-system/), generated from the source.
 
 ## Examples
 
