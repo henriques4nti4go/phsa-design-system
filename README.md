@@ -67,7 +67,7 @@ import { Button, Field, Input, Tabs, Tab, TabPanel } from "@phsa.tec/design-syst
   <Input value={name} onInput={(e) => setName((e.target as HTMLInputElement).value)} />
 </Field>
 
-<Tabs onPhsaChange={(e) => setTab(e.detail.value)}>
+<Tabs onPhsaChange={(e) => setTab((e as CustomEvent<{ value: string }>).detail.value)}>
   <Tab value="account">Account</Tab>
   <TabPanel value="account">…</TabPanel>
 </Tabs>
