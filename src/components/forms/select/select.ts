@@ -468,7 +468,8 @@ export class PhsaSelect extends PhsaFormControl {
     `;
   }
 
-  render() {
+  /** @ignore */
+  protected renderControl() {
     const options = this.visibleOptions();
     const active = options.length ? Math.min(this.active, options.length - 1) : 0;
     const single = this.value ? this.labelFor(this.value) : this.placeholder;
@@ -578,7 +579,6 @@ export class PhsaSelect extends PhsaFormControl {
           ?disabled=${this.isDisabled}
           ?readonly=${this.readOnly}
         />
-        ${this.renderDescription()}
       </div>
     `;
   }

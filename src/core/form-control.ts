@@ -1,5 +1,5 @@
 import { LitElement, html, nothing } from "lit";
-import { property } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import { PhsaElement } from "./phsa-element";
 
 type NativeControl = HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
@@ -8,6 +8,13 @@ type NativeControl = HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
  * Base de todos os campos de formulário. O controle nativo fica no shadow e não enxerga
  * o `<form>` da página; esta classe faz a ponte via `ElementInternals`: valor, validação,
  * reset, `disabled` herdado de `<fieldset>` e restauração de estado.
+ *
+ * Também renderiza label, descrição e erros em volta do controle (`renderControl()`).
+ * Sem `error`/`errors`, mostra a mensagem de validação nativa depois do submit ou do blur.
+ *
+ * @csspart label - O label.
+ * @csspart description - O texto de descrição.
+ * @csspart error - Cada mensagem de erro.
  */
 export abstract class PhsaFormControl extends PhsaElement {
   /** @ignore */
@@ -23,15 +30,20 @@ export abstract class PhsaFormControl extends PhsaElement {
   /** Estado visual de erro (`aria-invalid`). Não bloqueia o envio sozinho. */
   @property({ type: Boolean, reflect: true }) invalid = false;
 
+  /** Texto do label. */
+  @property() label = "";
+  /** Texto de apoio abaixo do campo. */
+  @property() description = "";
+  /** Mensagem de erro. Tem prioridade sobre a validação nativa. */
+  @property() error = "";
+  /** Várias mensagens de erro (como atributo, um array JSON). Somam-se a `error`. */
+  @property({ type: Array }) errors: string[] = [];
+
   /**
-   * Preenchidos pelo `<phsa-field>` para acessibilidade.
+   * Mensagem da validação nativa, mostrada quando não há `error`/`errors`.
    * @ignore
    */
-  @property({ attribute: false }) fieldLabel = "";
-  /** @ignore */
-  @property({ attribute: false }) fieldDescription = "";
-  /** @ignore */
-  @property({ attribute: false }) fieldError = "";
+  @state() private nativeError = "";
 
   /** @ignore */
   protected internals = this.attachInternals();
@@ -47,7 +59,10 @@ export abstract class PhsaFormControl extends PhsaElement {
   /** @ignore */
   private revealedInvalid = false;
   /** @ignore */
-  private readonly onInvalid = () => this.setRevealed(true);
+  private readonly onInvalid = () => {
+    this.setRevealed(true);
+    this.nativeError = this.validationMessage;
+  };
 
   /** O elemento nativo (`input`, `textarea`, `select`) dentro do shadow. */
   protected abstract get control(): NativeControl | null;
@@ -91,6 +106,7 @@ export abstract class PhsaFormControl extends PhsaElement {
   formResetCallback() {
     this.value = this.defaultValue;
     this.setRevealed(false);
+    this.nativeError = "";
     this.resetControl(this.defaultValue);
     this.syncFormState();
   }
@@ -113,7 +129,24 @@ export abstract class PhsaFormControl extends PhsaElement {
 
   /** @ignore */
   protected get showInvalid() {
-    return this.invalid || this.revealedInvalid || Boolean(this.fieldError);
+    return this.invalid || this.revealedInvalid || this.messages.length > 0;
+  }
+
+  /**
+   * Erros mostrados: os passados pelo consumidor ou, sem eles, o da validação nativa.
+   * @ignore
+   */
+  protected get messages() {
+    const given = [this.error, ...(Array.isArray(this.errors) ? this.errors : [])].filter(Boolean);
+    return given.length ? given : this.nativeError ? [this.nativeError] : [];
+  }
+
+  /**
+   * Nome acessível do controle (o `<label>` visível fica fora dele, no mesmo shadow).
+   * @ignore
+   */
+  protected get fieldLabel() {
+    return this.label;
   }
 
   /**
@@ -175,7 +208,7 @@ export abstract class PhsaFormControl extends PhsaElement {
   }
 
   /**
-   * Chamado pelo `<phsa-field>` ao clicar no label.
+   * Clique no label.
    * @ignore
    */
   activateFromLabel() {
@@ -196,6 +229,7 @@ export abstract class PhsaFormControl extends PhsaElement {
     this.syncControlValue();
     this.syncFormState();
     if (this.revealedInvalid && this.internals.validity.valid) this.setRevealed(false);
+    if (this.nativeError) this.nativeError = this.internals.validity.valid ? "" : this.validationMessage;
   }
 
   /** @ignore */
@@ -211,22 +245,51 @@ export abstract class PhsaFormControl extends PhsaElement {
   }
 
   /**
-   * `aria-describedby` do controle quando há descrição ou erro vindos do `<phsa-field>`.
+   * `aria-describedby` do controle: descrição e erros visíveis, no mesmo shadow.
    * @ignore
    */
   protected get describedBy() {
-    const ids = [this.fieldError && "phsa-error", this.fieldDescription && "phsa-description"];
+    const ids = [this.messages.length && "phsa-error", this.description && "phsa-description"];
     return ids.filter(Boolean).join(" ") || undefined;
   }
 
   /**
-   * Textos referenciados pelo `aria-describedby`, escondidos (o `<phsa-field>` já os mostra).
+   * Label acima do controle. Checkbox/switch mostram o label ao lado, dentro do controle.
    * @ignore
    */
-  protected renderDescription() {
+  protected labelAbove = true;
+
+  /**
+   * O controle em si; label, descrição e erros ficam por conta do `render()` da base.
+   * @ignore
+   */
+  protected abstract renderControl(): unknown;
+
+  render() {
+    const messages = this.messages;
     return html`
-      ${this.fieldError ? html`<span id="phsa-error" hidden>${this.fieldError}</span>` : nothing}
-      ${this.fieldDescription ? html`<span id="phsa-description" hidden>${this.fieldDescription}</span>` : nothing}
+      <div class="phsa-root ${this.labelAbove ? "ds:flex ds:w-full" : "ds:inline-flex"} ds:flex-col ds:gap-1.5">
+        ${this.labelAbove && this.label
+          ? html`<label
+              part="label"
+              aria-hidden="true"
+              class="ds:text-sm ds:leading-none ds:font-medium ds:text-foreground"
+              @click=${this.activateFromLabel}
+              >${this.label}</label
+            >`
+          : nothing}
+        ${this.renderControl()}
+        ${this.description
+          ? html`<p id="phsa-description" part="description" class="ds:m-0 ds:text-xs ds:text-muted-foreground">
+              ${this.description}
+            </p>`
+          : nothing}
+        ${messages.length
+          ? html`<div id="phsa-error" class="ds:flex ds:flex-col ds:gap-0.5">
+              ${messages.map((message) => html`<p part="error" class="ds:m-0 ds:text-xs ds:font-medium ds:text-destructive">${message}</p>`)}
+            </div>`
+          : nothing}
+      </div>
     `;
   }
 

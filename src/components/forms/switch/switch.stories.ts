@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/web-components-vite";
 import { html } from "lit";
 import "../../actions/button";
-import "../field";
 import "./index";
 
 type Args = { label: string; checked: boolean; disabled: boolean; invalid: boolean };
@@ -27,11 +26,9 @@ export const Disabled: Story = { args: { disabled: true, checked: true } };
 export const Invalid: Story = { args: { invalid: true } };
 
 /** Clicar no label do field alterna o switch. */
-export const WithField: Story = {
+export const WithLabel: Story = {
   render: () => html`
-    <phsa-field label="Alertas" description="E-mail quando houver novidade.">
-      <phsa-switch name="alertas" value="sim"></phsa-switch>
-    </phsa-field>
+    <phsa-switch label="Alertas" description="E-mail quando houver novidade." name="alertas" value="sim"></phsa-switch>
   `,
 };
 

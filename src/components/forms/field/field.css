@@ -1,6 +1,0 @@
-/* Prefixo `ds:` nas classes internas: o `.text-sm` do projeto nunca encosta nelas. */
-@import "tailwindcss/theme.css" layer(theme) prefix(ds);
-@import "../../../styles/theme.css";
-@import "tailwindcss/utilities.css" layer(utilities) source(none);
-
-@source "./field.ts";

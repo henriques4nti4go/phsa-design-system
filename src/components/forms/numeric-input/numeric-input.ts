@@ -209,7 +209,8 @@ export class PhsaNumericInput extends PhsaFormControl {
     this.handleBlur();
   }
 
-  render() {
+  /** @ignore */
+  protected renderControl() {
     return html`
       <input
         part="input"
@@ -238,7 +239,6 @@ export class PhsaNumericInput extends PhsaFormControl {
         ?disabled=${this.isDisabled}
         ?readonly=${this.readOnly}
       />
-      ${this.renderDescription()}
     `;
   }
 }

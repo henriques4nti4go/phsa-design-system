@@ -21,7 +21,8 @@ export class PhsaCheckbox extends PhsaToggle {
     if (event.key === "Enter") event.preventDefault();
   }
 
-  render() {
+  /** @ignore */
+  protected renderControl() {
     return html`
       <button
         part="control"
@@ -30,7 +31,6 @@ export class PhsaCheckbox extends PhsaToggle {
         id="phsa-control"
         class="phsa-root ds:group ds:inline-flex ds:cursor-pointer ds:items-center ds:gap-2 ds:border-0 ds:bg-transparent ds:p-0 ds:text-left ds:text-sm ds:font-medium ds:text-foreground ds:select-none ds:focus-visible:outline-none ds:disabled:cursor-not-allowed ds:disabled:opacity-50 ${this.hostClass}"
         aria-checked=${this.checked ? "true" : "false"}
-        aria-labelledby=${ifDefined(this.labelledBy)}
         aria-describedby=${ifDefined(this.describedBy)}
         aria-invalid=${ifDefined(this.showInvalid ? "true" : undefined)}
         aria-required=${ifDefined(this.required ? "true" : undefined)}
@@ -42,7 +42,7 @@ export class PhsaCheckbox extends PhsaToggle {
           class="ds:flex ds:size-4 ds:shrink-0 ds:items-center ds:justify-center ds:rounded-sm ds:border ds:shadow-sm ds:ring-offset-background ds:group-focus-visible:ring-2 ds:group-focus-visible:ring-offset-2 ${this.checked ? "ds:bg-primary ds:text-primary-foreground" : "ds:bg-background"} ${this.showInvalid ? "ds:border-destructive ds:group-focus-visible:ring-destructive" : "ds:border-primary ds:group-focus-visible:ring-ring"}"
           >${this.checked ? check : ""}</span
         >
-        <slot @slotchange=${this.onSlot}></slot>
+        ${this.renderText()}
       </button>
       <input
         data-control
@@ -53,7 +53,6 @@ export class PhsaCheckbox extends PhsaToggle {
         ?required=${this.required}
         ?disabled=${this.isDisabled}
       />
-      ${this.renderLabel()} ${this.renderDescription()}
     `;
   }
 }

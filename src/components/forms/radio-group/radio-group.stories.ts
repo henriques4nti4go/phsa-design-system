@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/web-components-vite";
 import { html } from "lit";
 import "../../actions/button";
-import "../field";
 import "../radio";
 import { RADIO_ORIENTATIONS, type RadioOrientation } from "./radio-group";
 import "./index";
@@ -48,11 +47,9 @@ export const DisabledOption: Story = {
 
 export const Invalid: Story = { args: { invalid: true, value: "" } };
 
-export const WithField: Story = {
+export const WithLabel: Story = {
   render: () => html`
-    <phsa-field label="Plano" description="Dá para mudar depois.">
-      <phsa-radio-group name="plano" required>${options()}</phsa-radio-group>
-    </phsa-field>
+    <phsa-radio-group label="Plano" description="Dá para mudar depois." name="plano" required>${options()}</phsa-radio-group>
   `,
 };
 

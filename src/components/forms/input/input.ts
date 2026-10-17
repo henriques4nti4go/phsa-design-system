@@ -74,7 +74,8 @@ export class PhsaInput extends PhsaFormControl {
     super.resetControl(this.isFile ? "" : defaultValue);
   }
 
-  render() {
+  /** @ignore */
+  protected renderControl() {
     return html`
       <input
         part="input"
@@ -101,7 +102,6 @@ export class PhsaInput extends PhsaFormControl {
         @change=${this.handleChange}
         @blur=${this.handleBlur}
       />
-      ${this.renderDescription()}
     `;
   }
 }

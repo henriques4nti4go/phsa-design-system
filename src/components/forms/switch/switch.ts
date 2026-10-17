@@ -13,7 +13,8 @@ import styles from "./switch.css?inline";
 export class PhsaSwitch extends PhsaToggle {
   static styles = unsafeCSS(styles);
 
-  render() {
+  /** @ignore */
+  protected renderControl() {
     return html`
       <button
         part="control"
@@ -22,7 +23,6 @@ export class PhsaSwitch extends PhsaToggle {
         id="phsa-control"
         class="phsa-root ds:group ds:inline-flex ds:cursor-pointer ds:items-center ds:gap-2 ds:border-0 ds:bg-transparent ds:p-0 ds:text-left ds:text-sm ds:font-medium ds:text-foreground ds:select-none ds:focus-visible:outline-none ds:disabled:cursor-not-allowed ds:disabled:opacity-50 ${this.hostClass}"
         aria-checked=${this.checked ? "true" : "false"}
-        aria-labelledby=${ifDefined(this.labelledBy)}
         aria-describedby=${ifDefined(this.describedBy)}
         aria-invalid=${ifDefined(this.showInvalid ? "true" : undefined)}
         aria-required=${ifDefined(this.required ? "true" : undefined)}
@@ -36,7 +36,7 @@ export class PhsaSwitch extends PhsaToggle {
             class="ds:pointer-events-none ds:block ds:size-4 ds:rounded-full ds:bg-background ds:shadow-sm ds:transition-transform ${this.checked ? "ds:translate-x-4" : "ds:translate-x-0"}"
           ></span>
         </span>
-        <slot @slotchange=${this.onSlot}></slot>
+        ${this.renderText()}
       </button>
       <input
         data-control
@@ -47,7 +47,6 @@ export class PhsaSwitch extends PhsaToggle {
         ?required=${this.required}
         ?disabled=${this.isDisabled}
       />
-      ${this.renderLabel()} ${this.renderDescription()}
     `;
   }
 }

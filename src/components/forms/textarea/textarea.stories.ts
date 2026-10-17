@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/web-components-vite";
 import { html } from "lit";
 import "../../actions/button";
-import "../field";
 import { TEXTAREA_SIZES, type TextareaSize } from "./textarea";
 import "./index";
 
@@ -60,12 +59,10 @@ export const ReadOnly: Story = { args: { readOnly: true, value: "Só leitura" } 
 
 export const Invalid: Story = { args: { invalid: true, value: "texto rejeitado" } };
 
-export const WithField: Story = {
+export const WithLabel: Story = {
   render: () => html`
     <div style="max-width:20rem">
-      <phsa-field label="Mensagem" description="Conte o que aconteceu.">
-        <phsa-textarea name="mensagem" rows="4" required minlength="10"></phsa-textarea>
-      </phsa-field>
+      <phsa-textarea label="Mensagem" description="Conte o que aconteceu." name="mensagem" rows="4" required minlength="10"></phsa-textarea>
     </div>
   `,
 };

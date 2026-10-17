@@ -39,15 +39,12 @@ Import each component you use once (its import registers the custom element), th
 
 ```html
 <script type="module">
-  import "@phsa.tec/design-system-react/field";
   import "@phsa.tec/design-system-react/input";
   import "@phsa.tec/design-system-react/button";
 </script>
 
 <form>
-  <phsa-field label="Email" description="We'll use it to sign you in">
-    <phsa-input name="email" type="email" required></phsa-input>
-  </phsa-field>
+  <phsa-input name="email" type="email" label="Email" description="We'll use it to sign you in" required></phsa-input>
   <phsa-button type="submit">Sign in</phsa-button>
 </form>
 ```
@@ -61,11 +58,9 @@ There are two ways to use the components in React. Both render the same isolated
 ```tsx
 "use client";
 
-import { Button, Field, Input, Tabs, Tab, TabPanel } from "@phsa.tec/design-system-react/react";
+import { Button, Input, Tabs, Tab, TabPanel } from "@phsa.tec/design-system-react/react";
 
-<Field label="Name">
-  <Input value={name} onInput={(e) => setName((e.target as HTMLInputElement).value)} />
-</Field>
+<Input label="Name" value={name} errors={errors} onInput={(e) => setName((e.target as HTMLInputElement).value)} />
 
 <Tabs onPhsaChange={(e) => setTab((e as CustomEvent<{ value: string }>).detail.value)}>
   <Tab value="account">Account</Tab>
@@ -171,9 +166,19 @@ Each component is imported from its own entry point: `@phsa.tec/design-system-re
 
 ### Forms
 
+Every form field accepts `label`, `description`, `error` (a single message) and `errors` (a list — a JSON array when set as an attribute). Without `error`/`errors`, a field shows the browser's own validation message after a submit attempt or when it loses focus, and clears it once the value is valid. On checkboxes and switches, `label` is the text next to the control.
+
+```html
+<phsa-input label="Password" type="password" errors='["At least 8 characters", "Must include a number"]'></phsa-input>
+```
+
+```tsx
+<Input label="Name" error={formErrors.name} />
+<Input label="Password" errors={["At least 8 characters", "Must include a number"]} />
+```
+
 | Tag | Import | Attributes |
 |---|---|---|
-| `<phsa-field>` | `/field` | `label`, `description`, `error` — wraps a field; without `error`, shows the native validation message on submit |
 | `<phsa-input>` | `/input` | `size` (default, sm, lg), `type`, `value`, `placeholder`, `name`, `disabled`, `required`, `readonly`, `invalid` and the native input constraints |
 | `<phsa-textarea>` | `/textarea` | `size`, `rows`, `value`, `placeholder`, `name`, `disabled`, `required`, `readonly`, `invalid` |
 | `<phsa-checkbox>` | `/checkbox` | `checked`, `value` (submitted only when checked, defaults to `on`), `name`, `disabled`, `required`, `invalid` |
@@ -218,24 +223,17 @@ The full API of every component (attributes, properties, events, slots and CSS p
 
 ## Examples
 
-**Form with validation** — `phsa-field` shows the browser's own validation messages after a submit attempt, and clears them as the user fixes the value:
+**Form with validation** — fields show the browser's own validation messages after a submit attempt, and clear them as the user fixes the value:
 
 ```html
 <form>
-  <phsa-field label="Name">
-    <phsa-input name="name" required minlength="3"></phsa-input>
-  </phsa-field>
+  <phsa-input name="name" label="Name" required minlength="3"></phsa-input>
+  <phsa-pattern-input name="phone" label="Phone" format="(##) #####-####"></phsa-pattern-input>
 
-  <phsa-field label="Phone">
-    <phsa-pattern-input name="phone" format="(##) #####-####"></phsa-pattern-input>
-  </phsa-field>
-
-  <phsa-field label="Plan">
-    <phsa-radio-group name="plan" required>
-      <phsa-radio value="free">Free</phsa-radio>
-      <phsa-radio value="pro">Pro</phsa-radio>
-    </phsa-radio-group>
-  </phsa-field>
+  <phsa-radio-group name="plan" label="Plan" required>
+    <phsa-radio value="free">Free</phsa-radio>
+    <phsa-radio value="pro">Pro</phsa-radio>
+  </phsa-radio-group>
 
   <phsa-checkbox name="terms" required>I accept the terms</phsa-checkbox>
   <phsa-button type="submit">Create account</phsa-button>
@@ -290,7 +288,7 @@ src/
   react/                # generated React wrappers (scripts/build-react.mjs, from custom-elements.json)
   core/
     phsa-element.ts     # base class: shared styles + class forwarding
-    form-control.ts     # base class for form fields (ElementInternals, validation, reset)
+    form-control.ts     # base class for form fields (ElementInternals, validation, reset, label/errors)
     toggle.ts           # shared checkbox/switch behavior
     anchored.ts         # shared overlay positioning (popover, dropdown, tooltip)
     jsx.ts              # JSX types for every <phsa-*> tag

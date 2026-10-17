@@ -196,7 +196,8 @@ export class PhsaRadioGroup extends PhsaFormControl {
     radio.focus();
   };
 
-  render() {
+  /** @ignore */
+  protected renderControl() {
     return html`
       <div
         part="group"
@@ -221,7 +222,6 @@ export class PhsaRadioGroup extends PhsaFormControl {
           ?required=${this.required}
           ?disabled=${this.isDisabled}
         />
-        ${this.renderDescription()}
       </div>
     `;
   }

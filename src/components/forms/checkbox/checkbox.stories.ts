@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/web-components-vite";
 import { html } from "lit";
 import "../../actions/button";
-import "../field";
 import "./index";
 
 type Args = { label: string; checked: boolean; disabled: boolean; required: boolean; invalid: boolean };
@@ -28,11 +27,9 @@ export const Disabled: Story = { args: { disabled: true, checked: true } };
 
 export const Invalid: Story = { args: { invalid: true } };
 
-export const WithField: Story = {
+export const WithLabel: Story = {
   render: () => html`
-    <phsa-field label="Termos" description="Obrigatório para continuar." error="">
-      <phsa-checkbox name="termos" value="sim" required>Li e aceito</phsa-checkbox>
-    </phsa-field>
+    <phsa-checkbox description="Obrigatório para continuar." name="termos" value="sim" required>Li e aceito</phsa-checkbox>
   `,
 };
 

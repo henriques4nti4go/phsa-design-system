@@ -420,7 +420,8 @@ export class PhsaCombobox extends PhsaFormControl {
     }
   }
 
-  render() {
+  /** @ignore */
+  protected renderControl() {
     const options = this.visibleOptions();
     const active = options.length ? Math.min(this.active, options.length - 1) : 0;
     const current = options[active];
@@ -511,7 +512,6 @@ export class PhsaCombobox extends PhsaFormControl {
             `
           : nothing}
         <input data-control class="ds:sr-only" tabindex="-1" aria-hidden="true" ?required=${this.required} ?disabled=${this.isDisabled} ?readonly=${this.readOnly} />
-        ${this.renderDescription()}
       </div>
     `;
   }

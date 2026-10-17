@@ -107,12 +107,51 @@ export const Invalid: Story = {
 };
 
 /** Clicar no `<label for>` foca o campo, como no `<input>` nativo. */
+/** `label` e `description` no próprio campo. */
 export const WithLabel: Story = {
   render: () => html`
-    <label for="email" style="display:flex;flex-direction:column;gap:.25rem;max-width:20rem;font-size:.875rem">
-      Email
-      <phsa-input id="email" type="email" placeholder="voce@exemplo.com" autocomplete="email"></phsa-input>
-    </label>
+    <div style="max-width:20rem">
+      <phsa-input label="E-mail" description="Usaremos para o login." type="email" placeholder="voce@exemplo.com"></phsa-input>
+    </div>
+  `,
+};
+
+/** `error` (uma mensagem) e `errors` (várias). Como atributo, `errors` é um array JSON. */
+export const WithErrors: Story = {
+  render: () => html`
+    <div style="display:flex;flex-direction:column;gap:1rem;max-width:20rem">
+      <phsa-input label="Nome" value="Pa" error="Informe o nome completo."></phsa-input>
+      <phsa-input
+        label="Senha"
+        type="password"
+        value="abc"
+        errors='["Mínimo de 8 caracteres.", "Precisa ter um número."]'
+      ></phsa-input>
+    </div>
+  `,
+};
+
+/** Sem `error`, o campo mostra a mensagem de validação do browser ao enviar e a limpa quando o valor fica válido. */
+export const NativeValidation: Story = {
+  render: () => html`
+    <form
+      novalidate
+      style="display:flex;flex-direction:column;gap:1rem;max-width:20rem"
+      @submit=${(event: SubmitEvent) => {
+        event.preventDefault();
+        const form = event.target as HTMLFormElement;
+        // checkValidity() dispara `invalid` em cada campo inválido, e eles mostram a mensagem.
+        if (form.checkValidity()) form.querySelector("output")!.textContent = "enviado";
+      }}
+    >
+      <phsa-input name="nome" label="Nome" required minlength="3"></phsa-input>
+      <phsa-input name="email" label="E-mail" type="email" required></phsa-input>
+      <div style="display:flex;gap:.5rem">
+        <phsa-button type="submit">Enviar</phsa-button>
+        <phsa-button type="reset" variant="outline">Limpar</phsa-button>
+      </div>
+      <output></output>
+    </form>
   `,
 };
 

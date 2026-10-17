@@ -4,3 +4,4 @@
 @import "tailwindcss/utilities.css" layer(utilities) source(none);
 
 @source "./input.ts";
+@source "../../../core/form-control.ts";

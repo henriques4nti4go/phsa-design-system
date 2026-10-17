@@ -4,6 +4,7 @@
 @import "tailwindcss/utilities.css" layer(utilities) source(none);
 
 @source "./combobox.ts";
+@source "../../../core/form-control.ts";
 
 /* O popover nativo traz `inset: 0` e `margin: auto`. Sem isso o painel estica na viewport. */
 [part="popup"] {

@@ -4,3 +4,4 @@
 @import "tailwindcss/utilities.css" layer(utilities) source(none);
 
 @source "./radio-group.ts";
+@source "../../../core/form-control.ts";

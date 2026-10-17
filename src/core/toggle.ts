@@ -92,18 +92,15 @@ export abstract class PhsaToggle extends PhsaFormControl {
     this.syncControlValue();
   }
 
+  /** @ignore */
+  protected override labelAbove = false;
+
   /**
-   * Nome acessível: label do `<phsa-field>` seguido do texto do slot (o próprio botão).
+   * Texto ao lado da caixa: o slot ou, sem ele, o `label`.
    * @ignore
    */
-  protected get labelledBy() {
-    if (!this.fieldLabel) return undefined;
-    return this.slotted ? "phsa-label phsa-control" : "phsa-label";
-  }
-
-  /** @ignore */
-  protected renderLabel() {
-    return this.fieldLabel ? html`<span id="phsa-label" hidden>${this.fieldLabel}</span>` : nothing;
+  protected renderText() {
+    return html`<slot @slotchange=${this.onSlot}></slot>${!this.slotted && this.label ? this.label : nothing}`;
   }
 
   /** @ignore */

@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/web-components-vite";
 import { html } from "lit";
 import "../../actions/button";
-import "../field";
 import "./index";
 
 type Args = { format: string; placeholder: string; allowEmpty: boolean; mask: string; disabled: boolean; invalid: boolean };
@@ -39,12 +38,10 @@ export const WithMask: Story = { args: { allowEmpty: true } };
 
 export const Invalid: Story = { args: { invalid: true, format: "###.###.###-##" } };
 
-export const WithField: Story = {
+export const WithLabel: Story = {
   render: () => html`
     <div style="max-width:20rem">
-      <phsa-field label="CPF" description="Só números no envio.">
-        <phsa-pattern-input name="cpf" format="###.###.###-##" placeholder="000.000.000-00" required></phsa-pattern-input>
-      </phsa-field>
+      <phsa-pattern-input label="CPF" description="Só números no envio." name="cpf" format="###.###.###-##" placeholder="000.000.000-00" required></phsa-pattern-input>
     </div>
   `,
 };

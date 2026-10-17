@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/web-components-vite";
 import { html } from "lit";
 import "../../actions/button";
-import "../field";
 import { SELECT_SIZES, type SelectSize } from "./select";
 import "./index";
 
@@ -85,12 +84,10 @@ export const Disabled: Story = { args: { disabled: true } };
 
 export const Invalid: Story = { args: { invalid: true } };
 
-export const WithField: Story = {
+export const WithLabel: Story = {
   render: () => html`
     <div style="max-width:20rem">
-      <phsa-field label="Estado" description="Onde você mora.">
-        <phsa-select name="uf" required searchable>${states}</phsa-select>
-      </phsa-field>
+      <phsa-select label="Estado" description="Onde você mora." name="uf" required searchable>${states}</phsa-select>
     </div>
   `,
 };

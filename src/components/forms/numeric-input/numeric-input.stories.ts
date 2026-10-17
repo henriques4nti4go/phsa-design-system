@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/web-components-vite";
 import { html } from "lit";
 import "../../actions/button";
-import "../field";
 import "./index";
 
 type Args = {
@@ -60,12 +59,10 @@ export const Integer: Story = {
 
 export const Invalid: Story = { args: { invalid: true, prefix: "R$ " } };
 
-export const WithField: Story = {
+export const WithLabel: Story = {
   render: () => html`
     <div style="max-width:20rem">
-      <phsa-field label="Valor" description="Em reais.">
-        <phsa-numeric-input name="valor" prefix="R$ " decimal-scale="2" required min="0"></phsa-numeric-input>
-      </phsa-field>
+      <phsa-numeric-input label="Valor" description="Em reais." name="valor" prefix="R$ " decimal-scale="2" required min="0"></phsa-numeric-input>
     </div>
   `,
 };

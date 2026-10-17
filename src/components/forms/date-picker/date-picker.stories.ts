@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/web-components-vite";
 import { html } from "lit";
 import "../../actions/button";
-import "../field";
 import { DATE_MODES, DATE_SIZES, type DateMode, type DatePickerSize } from "./date-picker";
 import "./index";
 
@@ -57,12 +56,10 @@ export const Disabled: Story = { args: { disabled: true, value: "2026-10-17" } }
 
 export const Invalid: Story = { args: { invalid: true } };
 
-export const WithField: Story = {
+export const WithLabel: Story = {
   render: () => html`
     <div style="max-width:20rem">
-      <phsa-field label="Nascimento" description="Dia, mês e ano.">
-        <phsa-date-picker name="nascimento" required max="2026-10-17"></phsa-date-picker>
-      </phsa-field>
+      <phsa-date-picker label="Nascimento" description="Dia, mês e ano." name="nascimento" required max="2026-10-17"></phsa-date-picker>
     </div>
   `,
 };

@@ -34,7 +34,8 @@ export class PhsaTextarea extends PhsaFormControl {
     return this.renderRoot?.querySelector("textarea") ?? null;
   }
 
-  render() {
+  /** @ignore */
+  protected renderControl() {
     return html`
       <textarea
         part="textarea"
@@ -53,7 +54,6 @@ export class PhsaTextarea extends PhsaFormControl {
         @change=${this.handleChange}
         @blur=${this.handleBlur}
       ></textarea>
-      ${this.renderDescription()}
     `;
   }
 }

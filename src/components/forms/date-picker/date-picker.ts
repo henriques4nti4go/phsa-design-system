@@ -413,7 +413,8 @@ export class PhsaDatePicker extends PhsaFormControl {
     });
   }
 
-  render() {
+  /** @ignore */
+  protected renderControl() {
     const label = this.buttonLabel();
     const monthLabel = new Intl.DateTimeFormat(this.locale, { month: "long", year: "numeric" }).format(
       new Date(this.year, this.month, 1),
@@ -509,7 +510,6 @@ export class PhsaDatePicker extends PhsaFormControl {
             `
           : nothing}
         <input data-control class="ds:sr-only" tabindex="-1" aria-hidden="true" ?required=${this.required} ?disabled=${this.isDisabled} ?readonly=${this.readOnly} />
-        ${this.renderDescription()}
       </div>
     `;
   }

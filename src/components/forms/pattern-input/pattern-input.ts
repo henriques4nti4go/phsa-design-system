@@ -132,7 +132,8 @@ export class PhsaPatternInput extends PhsaFormControl {
     visible.setSelectionRange(pos, pos);
   }
 
-  render() {
+  /** @ignore */
+  protected renderControl() {
     return html`
       <input
         part="input"
@@ -161,7 +162,6 @@ export class PhsaPatternInput extends PhsaFormControl {
         ?disabled=${this.isDisabled}
         ?readonly=${this.readOnly}
       />
-      ${this.renderDescription()}
     `;
   }
 }
