@@ -46,3 +46,6 @@ next-env.d.ts
 
 # gerado pelo cem analyze
 /custom-elements.json
+
+# gerado por scripts/build-react.mjs
+/src/react

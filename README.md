@@ -54,7 +54,28 @@ Import each component you use once (its import registers the custom element), th
 
 ### React / Next.js
 
-React 19 supports custom elements natively, so there are no wrappers. In Next.js, import components from a client component:
+There are two ways to use the components in React. Both render the same isolated Web Component.
+
+**React components** — import from `/react` for regular PascalCase components, with every component event available as a prop. Works with React 18 and 19:
+
+```tsx
+"use client";
+
+import { Button, Field, Input, Tabs, Tab, TabPanel } from "@phsa.tec/design-system-react/react";
+
+<Field label="Name">
+  <Input value={name} onInput={(e) => setName((e.target as HTMLInputElement).value)} />
+</Field>
+
+<Tabs onPhsaChange={(e) => setTab(e.detail.value)}>
+  <Tab value="account">Account</Tab>
+  <TabPanel value="account">…</TabPanel>
+</Tabs>
+```
+
+Only the components you import end up in your bundle: each wrapper is its own module, so bundlers drop the ones you don't use. Event props follow the event names: `close` → `onClose`, `phsa-confirm` → `onPhsaConfirm`, plus `onInput` / `onChange` on every component.
+
+**Custom element tags** — React 19 also supports custom elements natively, so you can use the tags directly after importing the component:
 
 ```tsx
 "use client";
@@ -266,6 +287,7 @@ src/
     theme.css           # maps tokens to Tailwind utilities (bg-primary, rounded-md, ...)
     base.css            # preflight + root reset, inside each shadow root
     host-utilities.ts   # bridge: host project's Tailwind utilities → shadow roots
+  react/                # generated React wrappers (scripts/build-react.mjs, from custom-elements.json)
   core/
     phsa-element.ts     # base class: shared styles + class forwarding
     form-control.ts     # base class for form fields (ElementInternals, validation, reset)
@@ -293,4 +315,5 @@ Adding a component means adding a folder under `src/components/<category>/`; the
 
 - `postcss.config.js` converts Tailwind's `@property` rules into plain initial values, because `@property` doesn't work inside shadow roots (without it, `shadow-*`, `ring-*` and transforms break).
 - `package.json` `sideEffects` includes `./src/styles/tokens.ts`; without it the library build tree-shakes the token injection away (Storybook's dev server doesn't tree-shake, so it wouldn't show there).
-- Component docs in Storybook come from `custom-elements.json`, generated from the source and JSDoc by `cem analyze`.
+- Component docs in Storybook come from `custom-elements.json`, generated from the source and JSDoc by `cem analyze`. The same manifest generates the React wrappers in `src/react/` (git-ignored) on every `analyze`.
+- Parent components (tabs, radio group, table, command) observe their children's attributes, because frameworks may set child properties after the parent's first render.

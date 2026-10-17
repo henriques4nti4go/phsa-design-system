@@ -12,3 +12,6 @@ for (const { name, category } of findComponents()) {
     `export * from "../types/components/${category}/${name}/index";\n`,
   );
 }
+
+mkdirSync(resolve(dist, "react"), { recursive: true });
+writeFileSync(resolve(dist, "react", "index.d.ts"), `export * from "../types/react/index";\n`);

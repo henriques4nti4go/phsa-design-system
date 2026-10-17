@@ -10,15 +10,23 @@ export default defineConfig({
     target: "es2022",
     lib: {
       formats: ["es"],
-      entry: Object.fromEntries(
-        findComponents().map(({ name, category }) => [
-          `${name}/index`,
-          resolve(import.meta.dirname, `src/components/${category}/${name}/index.ts`),
-        ]),
-      ),
+      entry: {
+        ...Object.fromEntries(
+          findComponents().map(({ name, category }) => [
+            `${name}/index`,
+            resolve(import.meta.dirname, `src/components/${category}/${name}/index.ts`),
+          ]),
+        ),
+        // Wrappers React: um entry por componente, para o `/react` só reexportar
+        // e o bundler do projeto descartar os que não forem usados.
+        "react/index": resolve(import.meta.dirname, "src/react/index.ts"),
+        ...Object.fromEntries(
+          findComponents().map(({ name }) => [`react/${name}`, resolve(import.meta.dirname, `src/react/${name}.ts`)]),
+        ),
+      },
     },
     rollupOptions: {
-      external: [/^lit/],
+      external: [/^lit/, /^@lit\//, "react"],
       output: { chunkFileNames: "chunks/[name]-[hash].js" },
     },
   },

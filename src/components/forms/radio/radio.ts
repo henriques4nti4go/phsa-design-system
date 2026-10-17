@@ -13,7 +13,7 @@ import styles from "./radio.css?inline";
 export class PhsaRadio extends PhsaElement {
   static styles = unsafeCSS(styles);
 
-  @property() value = "";
+  @property({ reflect: true }) value = "";
   @property({ type: Boolean, reflect: true }) checked = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
 

@@ -21,8 +21,8 @@
   ],
   "scripts": {
     "dev": "npm run analyze && storybook dev -p 6006",
-    "analyze": "cem analyze",
-    "build": "vite build && tsc -p tsconfig.build.json && node scripts/build-types.mjs && npm run analyze",
+    "analyze": "cem analyze && node scripts/build-react.mjs",
+    "build": "npm run analyze && vite build && tsc -p tsconfig.build.json && node scripts/build-types.mjs",
     "build-storybook": "npm run analyze && storybook build",
     "typecheck": "npm run analyze && tsc --noEmit",
     "prepublishOnly": "npm run build"
@@ -47,6 +47,7 @@
     "ui-components"
   ],
   "dependencies": {
+    "@lit/react": "^1.0.8",
     "lit": "^3.3.3"
   },
   "devDependencies": {
@@ -68,10 +69,14 @@
   },
   "customElements": "custom-elements.json",
   "peerDependencies": {
-    "@types/react": ">=19"
+    "@types/react": ">=19",
+    "react": ">=18"
   },
   "peerDependenciesMeta": {
     "@types/react": {
+      "optional": true
+    },
+    "react": {
       "optional": true
     }
   }

@@ -25,8 +25,21 @@ export class PhsaTabs extends PhsaElement {
   @property() value = "";
   @property() orientation: TabsOrientation = "horizontal";
 
-  /** @ignore */
-  private silent = false;
+  /**
+   * Frameworks podem definir o `value` das abas depois do primeiro render (ex.: wrappers React).
+   * @ignore
+   */
+  private readonly observer = new MutationObserver(() => this.onSlotChange());
+
+  override connectedCallback() {
+    super.connectedCallback();
+    this.observer.observe(this, { subtree: true, attributes: true, attributeFilter: ["value", "disabled"] });
+  }
+
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+    this.observer.disconnect();
+  }
 
   constructor() {
     super();
@@ -46,9 +59,9 @@ export class PhsaTabs extends PhsaElement {
 
   protected override updated(changed: PropertyValues) {
     super.updated(changed);
-    const silent = this.silent;
-    this.silent = false;
-    if (!silent && typeof changed.get("value") === "string") {
+    // Vindo de "" é a escolha automática da primeira aba: não é mudança do usuário.
+    const previous = changed.get("value");
+    if (typeof previous === "string" && previous !== "") {
       this.dispatchEvent(new CustomEvent("phsa-change", { bubbles: true, composed: true, detail: { value: this.value } }));
     }
     this.sync();
@@ -72,7 +85,6 @@ export class PhsaTabs extends PhsaElement {
     if (this.value) return;
     const first = this.tabs().find((tab) => !tab.disabled);
     if (!first) return;
-    this.silent = true;
     this.value = first.value;
   }
 
@@ -87,11 +99,11 @@ export class PhsaTabs extends PhsaElement {
     const tabs = this.tabs();
     const panels = this.panels();
     for (const tab of tabs) {
-      tab.selected = tab.value === this.value;
+      tab.selected = !!this.value && tab.value === this.value;
       tab.panel = panels.find((panel) => panel.value === tab.value) ?? null;
     }
     for (const panel of panels) {
-      panel.selected = panel.value === this.value;
+      panel.selected = !!this.value && panel.value === this.value;
       panel.tab = tabs.find((tab) => tab.value === panel.value) ?? null;
     }
     const list = this.renderRoot.querySelector<HTMLElement>("[part=list]");
