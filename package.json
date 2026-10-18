@@ -17,7 +17,8 @@
   "sideEffects": [
     "./dist/*/index.js",
     "./dist/chunks/*.js",
-    "./src/styles/tokens.ts"
+    "./src/styles/tokens.ts",
+    "./src/components/*/*/index.ts"
   ],
   "scripts": {
     "dev": "npm run analyze && storybook dev -p 6006",

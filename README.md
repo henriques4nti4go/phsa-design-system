@@ -312,6 +312,6 @@ Adding a component means adding a folder under `src/components/<category>/`; the
 ### Implementation notes
 
 - `postcss.config.js` converts Tailwind's `@property` rules into plain initial values, because `@property` doesn't work inside shadow roots (without it, `shadow-*`, `ring-*` and transforms break).
-- `package.json` `sideEffects` includes `./src/styles/tokens.ts`; without it the library build tree-shakes the token injection away (Storybook's dev server doesn't tree-shake, so it wouldn't show there).
+- `package.json` `sideEffects` includes `./src/styles/tokens.ts` and `./src/components/*/*/index.ts`; without them production builds tree-shake the token injection and the `customElements.define` calls away (the library build and the static Storybook break, while Storybook's dev server doesn't tree-shake, so it wouldn't show there).
 - Component docs in Storybook come from `custom-elements.json`, generated from the source and JSDoc by `cem analyze`. The same manifest generates the React wrappers in `src/react/` (git-ignored) on every `analyze`.
 - Parent components (tabs, radio group, table, command) observe their children's attributes, because frameworks may set child properties after the parent's first render.
