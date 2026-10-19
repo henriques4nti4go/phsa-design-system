@@ -1,0 +1,21 @@
+@import "tailwindcss/theme.css" layer(theme) prefix(ds);
+@import "../../../styles/theme.css";
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+
+@source "./collapsible.ts";
+
+@layer components {
+  .chevron {
+    transition: transform 200ms ease;
+  }
+
+  :host([open]) .chevron {
+    transform: rotate(90deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .chevron {
+      transition: none;
+    }
+  }
+}

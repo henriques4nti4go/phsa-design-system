@@ -1,0 +1,23 @@
+@import "tailwindcss/theme.css" layer(theme) prefix(ds);
+@import "../../../styles/theme.css";
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+
+@source "./skeleton.ts";
+
+@keyframes phsa-skeleton-pulse {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@layer components {
+  .is-animated {
+    animation: phsa-skeleton-pulse 2s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .is-animated {
+      animation: none;
+    }
+  }
+}

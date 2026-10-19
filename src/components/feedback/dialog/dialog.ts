@@ -1,4 +1,4 @@
-import { html, nothing, unsafeCSS, type PropertyValues, type TemplateResult } from "lit";
+import { html, nothing, unsafeCSS, type CSSResultGroup, type PropertyValues, type TemplateResult } from "lit";
 import { property, state } from "lit/decorators.js";
 import { PhsaElement } from "../../../core/phsa-element";
 import styles from "./dialog.css?inline";
@@ -21,6 +21,9 @@ function unlockScroll() {
 
 const closeIcon = html`<svg class="ds:size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" /></svg>`;
 
+export type DialogSize = "sm" | "default" | "lg" | "xl" | "full";
+export const DIALOG_SIZES: DialogSize[] = ["sm", "default", "lg", "xl", "full"];
+
 /**
  * Janela modal. `show()` abre na camada de cima; fecha no overlay, no Escape e no botão.
  * `close` sai com `detail.reason` (`""` no overlay, `"cancel"` no Escape).
@@ -34,12 +37,14 @@ const closeIcon = html`<svg class="ds:size-4" viewBox="0 0 24 24" fill="none" st
  * @fires close - Quando a janela fecha. `detail.reason` explica o motivo. Não borbulha, como o do `<dialog>`.
  */
 export class PhsaDialog extends PhsaElement {
-  static styles = unsafeCSS(styles);
+  static styles: CSSResultGroup = unsafeCSS(styles);
 
   @property({ type: Boolean, reflect: true }) open = false;
   /** Título. Não é `title` para não virar tooltip nativo no host. */
   @property() heading = "";
   @property() description = "";
+  @property() size: DialogSize = "default";
+  @property({ type: Boolean, attribute: "responsive-fullscreen" }) responsiveFullscreen = false;
 
   /** @ignore */
   @state() private titleSlotted = false;
@@ -68,6 +73,11 @@ export class PhsaDialog extends PhsaElement {
   /** @ignore */
   protected get showClose() {
     return true;
+  }
+
+  /** Marcador de layout usado por variações como `phsa-sheet`. */
+  protected get placement(): string | null {
+    return null;
   }
 
   /** @ignore */
@@ -227,6 +237,9 @@ export class PhsaDialog extends PhsaElement {
         <dialog
           role=${this.dialogRole ?? nothing}
           closedby=${this.closedBy === "any" ? "closerequest" : this.closedBy}
+          data-placement=${this.placement ?? nothing}
+          data-size=${this.size}
+          ?data-responsive-fullscreen=${this.responsiveFullscreen}
           aria-labelledby=${titled ? "phsa-title" : nothing}
           aria-describedby=${described ? "phsa-desc" : nothing}
           @close=${this.onDialogClose}

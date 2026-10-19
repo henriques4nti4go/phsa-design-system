@@ -116,6 +116,19 @@ export const WithLabel: Story = {
   `,
 };
 
+export const Affixes: Story = {
+  render: () => html`
+    <div style="display:flex;flex-direction:column;gap:.75rem;max-width:20rem">
+      <phsa-input label="Site" prefix="https://" suffix=".com" placeholder="empresa"></phsa-input>
+      <phsa-input label="Busca" clearable value="design system">
+        <svg slot="prefix" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path>
+        </svg>
+      </phsa-input>
+    </div>
+  `,
+};
+
 /** `error` (uma mensagem) e `errors` (várias). Como atributo, `errors` é um array JSON. */
 export const WithErrors: Story = {
   render: () => html`

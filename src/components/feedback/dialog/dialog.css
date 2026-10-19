@@ -41,6 +41,29 @@ dialog:not([open]) {
       scale 200ms ease;
   }
 
+  dialog[data-size="sm"] [part="panel"] {
+    width: min(24rem, 100%);
+  }
+
+  dialog[data-size="lg"] [part="panel"] {
+    width: min(42rem, 100%);
+  }
+
+  dialog[data-size="xl"] [part="panel"] {
+    width: min(56rem, 100%);
+  }
+
+  dialog[data-size="full"] {
+    padding: 0;
+  }
+
+  dialog[data-size="full"] [part="panel"] {
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    border-radius: 0;
+  }
+
   dialog[data-shown] [part="panel"] {
     opacity: 1;
     scale: 1;
@@ -69,6 +92,19 @@ dialog:not([open]) {
     [part="panel"],
     dialog::backdrop {
       transition: none;
+    }
+  }
+
+  @media (max-width: 639px) {
+    dialog[data-responsive-fullscreen] {
+      padding: 0;
+    }
+
+    dialog[data-responsive-fullscreen] [part="panel"] {
+      width: 100%;
+      height: 100%;
+      max-height: none;
+      border-radius: 0;
     }
   }
 }

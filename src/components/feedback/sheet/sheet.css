@@ -1,0 +1,90 @@
+@import "tailwindcss/theme.css" layer(theme) prefix(ds);
+@import "../../../styles/theme.css";
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+
+@source "./sheet.ts";
+
+@layer components {
+  dialog[data-placement] {
+    padding: 0;
+    overflow: hidden;
+  }
+
+  dialog[data-placement="right"] {
+    place-items: stretch end;
+  }
+
+  dialog[data-placement="left"] {
+    place-items: stretch start;
+  }
+
+  dialog[data-placement="top"] {
+    place-items: start stretch;
+  }
+
+  dialog[data-placement="bottom"] {
+    place-items: end stretch;
+  }
+
+  dialog[data-placement] [part="panel"] {
+    border-radius: 0;
+    opacity: 1;
+    scale: 1;
+    transition: transform 200ms ease;
+  }
+
+  dialog[data-placement="right"] [part="panel"],
+  dialog[data-placement="left"] [part="panel"] {
+    width: min(28rem, 100vw);
+    height: 100%;
+    max-height: none;
+  }
+
+  dialog[data-placement="top"] [part="panel"],
+  dialog[data-placement="bottom"] [part="panel"] {
+    width: 100%;
+    max-height: min(80vh, 40rem);
+  }
+
+  dialog[data-placement="right"] [part="panel"] {
+    transform: translateX(100%);
+  }
+
+  dialog[data-placement="left"] [part="panel"] {
+    transform: translateX(-100%);
+  }
+
+  dialog[data-placement="top"] [part="panel"] {
+    transform: translateY(-100%);
+  }
+
+  dialog[data-placement="bottom"] [part="panel"] {
+    transform: translateY(100%);
+  }
+
+  dialog[data-shown][data-placement] [part="panel"] {
+    transform: translate(0);
+  }
+
+  dialog[data-closing][data-placement="right"] [part="panel"] {
+    transform: translateX(100%);
+  }
+
+  dialog[data-closing][data-placement="left"] [part="panel"] {
+    transform: translateX(-100%);
+  }
+
+  dialog[data-closing][data-placement="top"] [part="panel"] {
+    transform: translateY(-100%);
+  }
+
+  dialog[data-closing][data-placement="bottom"] [part="panel"] {
+    transform: translateY(100%);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    dialog[data-placement] [part="panel"] {
+      transition: none;
+    }
+  }
+}

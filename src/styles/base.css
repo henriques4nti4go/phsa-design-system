@@ -19,6 +19,8 @@
   /* Elemento raiz de cada componente: corta tudo que herdaria da página. */
   .phsa-root {
     all: initial;
+    /* `visibility` precisa herdar: dentro de um painel fechado (visibility: hidden) o componente some junto. */
+    visibility: inherit;
     box-sizing: border-box;
     font-family: var(--phsa-font-sans);
     font-size: 0.875rem;

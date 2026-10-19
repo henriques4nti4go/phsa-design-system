@@ -1,12 +1,20 @@
 import { html, nothing, svg, unsafeCSS, type PropertyValues } from "lit";
 import { property } from "lit/decorators.js";
+import "../skeleton";
 import { PhsaElement } from "../../../core/phsa-element";
 import type { PhsaCell } from "./cell";
 import type { PhsaColumn } from "./column";
 import type { PhsaRow } from "./row";
 import styles from "./table.css?inline";
 
-type SortState = { index: number; direction: "asc" | "desc" };
+export type SortDirection = "asc" | "desc" | "";
+export const SORT_DIRECTIONS: SortDirection[] = ["", "asc", "desc"];
+
+const aligns = {
+  left: "ds:text-left",
+  center: "ds:text-center",
+  right: "ds:text-right",
+};
 
 /**
  * Tabela. Colunas e linhas ficam na luz; cada célula entra num `<td>` pelo slot `c-linha-coluna`.
@@ -17,7 +25,11 @@ type SortState = { index: number; direction: "asc" | "desc" };
  * use `cell.remove()` ou recrie a linha.
  *
  * @tag phsa-table
+ * @slot empty - Estado vazio customizado.
  * @csspart table - O `<table>` nativo.
+ * @csspart selection - Os controles de seleção.
+ * @fires phsa-sort - Ao pedir ordenação. `detail.key` e `detail.direction` descrevem o novo estado.
+ * @fires phsa-selection-change - Ao mudar a seleção. `detail.values` contém os valores selecionados.
  */
 export class PhsaTable extends PhsaElement {
   static styles = unsafeCSS(styles);
@@ -25,11 +37,17 @@ export class PhsaTable extends PhsaElement {
   /** Legenda. Renderizada como `<caption>` quando não está vazia. */
   @property({ reflect: true }) caption = "";
 
-  /** @ignore */
-  private sortState: SortState | null = null;
+  @property({ attribute: "sort-key" }) sortKey = "";
+  @property({ attribute: "sort-direction" }) sortDirection: SortDirection = "";
+  @property({ type: Boolean, reflect: true }) selectable = false;
+  @property({ type: Boolean, reflect: true }) loading = false;
+  @property({ type: Boolean, reflect: true, attribute: "sticky-header" }) stickyHeader = false;
 
   /** @ignore */
   private columns: PhsaColumn[] = [];
+
+  /** @ignore */
+  private rows: PhsaRow[] = [];
 
   /** @ignore */
   private entries: PhsaCell[][] = [];
@@ -51,7 +69,7 @@ export class PhsaTable extends PhsaElement {
       childList: true,
       subtree: true,
       attributes: true,
-      attributeFilter: ["label", "sortable"],
+      attributeFilter: ["key", "label", "sortable", "align", "width", "value", "selected", "disabled"],
     });
   }
 
@@ -63,6 +81,18 @@ export class PhsaTable extends PhsaElement {
   protected override willUpdate(changed: PropertyValues) {
     super.willUpdate(changed);
     this.syncFromLightDom();
+    if (!this.columns.some((column, index) => column.sortable && this.columnKey(column, index) === this.sortKey)) {
+      this.sortKey = "";
+      this.sortDirection = "";
+    }
+  }
+
+  protected override updated(changed: PropertyValues) {
+    super.updated(changed);
+    const checkbox = this.renderRoot.querySelector<HTMLInputElement>("[data-select-all]");
+    if (!checkbox) return;
+    const enabled = this.rows.filter((row) => !row.disabled);
+    checkbox.indeterminate = enabled.some((row) => row.selected) && !enabled.every((row) => row.selected);
   }
 
   /**
@@ -74,6 +104,7 @@ export class PhsaTable extends PhsaElement {
   private syncFromLightDom() {
     const columns = [...this.querySelectorAll<PhsaColumn>("phsa-column")].filter((column) => column.closest("phsa-table") === this);
     const rows = [...this.querySelectorAll(":scope > phsa-row")] as PhsaRow[];
+    this.rows = rows;
     const used = new Set<PhsaCell>();
     let moved = false;
     const move = (cell: PhsaCell, parent: Element) => {
@@ -100,7 +131,6 @@ export class PhsaTable extends PhsaElement {
     });
 
     this.columns = columns;
-    if (this.sortState && !columns[this.sortState.index]?.sortable) this.sortState = null;
 
     // Células que sobraram (linha removida ou coluna a menos) voltam para a linha de origem.
     for (const cell of [...this.querySelectorAll<PhsaCell>(":scope > phsa-cell")]) {
@@ -118,36 +148,42 @@ export class PhsaTable extends PhsaElement {
   /** @ignore */
   private rowOrder() {
     const indices = this.entries.map((_, index) => index);
-    const sort = this.sortState;
-    if (!sort) return indices;
+    const columnIndex = this.columns.findIndex(
+      (column, index) => column.sortable && this.columnKey(column, index) === this.sortKey,
+    );
+    if (columnIndex < 0 || !this.sortDirection) return indices;
     return [...indices].sort((a, b) => {
-      const left = this.entries[a][sort.index]?.textContent ?? "";
-      const right = this.entries[b][sort.index]?.textContent ?? "";
+      const left = this.entries[a][columnIndex]?.textContent ?? "";
+      const right = this.entries[b][columnIndex]?.textContent ?? "";
       const compared = left.localeCompare(right, "pt", { numeric: true, sensitivity: "base" });
-      return sort.direction === "asc" ? compared : -compared;
+      return this.sortDirection === "asc" ? compared : -compared;
     });
   }
 
   /** @ignore */
-  private toggleSort(index: number) {
-    const sort = this.sortState;
-    if (!sort || sort.index !== index) this.sortState = { index, direction: "asc" };
-    else if (sort.direction === "asc") this.sortState = { index, direction: "desc" };
-    else this.sortState = null;
-    this.requestUpdate();
+  private columnKey(column: PhsaColumn, index: number) {
+    return column.key || String(index);
   }
 
   /** @ignore */
-  private columnSort(index: number): "ascending" | "descending" | "none" {
-    const sort = this.sortState;
-    if (!sort || sort.index !== index) return "none";
-    return sort.direction === "asc" ? "ascending" : "descending";
+  private toggleSort(column: PhsaColumn, index: number) {
+    const key = this.columnKey(column, index);
+    const direction: SortDirection =
+      this.sortKey !== key ? "asc" : this.sortDirection === "asc" ? "desc" : this.sortDirection === "desc" ? "" : "asc";
+    this.sortKey = direction ? key : "";
+    this.sortDirection = direction;
+    this.dispatchEvent(new CustomEvent("phsa-sort", { bubbles: true, composed: true, detail: { key, direction } }));
   }
 
   /** @ignore */
-  private chevron(index: number) {
-    const sort = this.sortState;
-    const direction = sort?.index === index ? sort.direction : null;
+  private columnSort(column: PhsaColumn, index: number): "ascending" | "descending" | "none" {
+    if (this.sortKey !== this.columnKey(column, index) || !this.sortDirection) return "none";
+    return this.sortDirection === "asc" ? "ascending" : "descending";
+  }
+
+  /** @ignore */
+  private chevron(column: PhsaColumn, index: number) {
+    const direction = this.sortKey === this.columnKey(column, index) ? this.sortDirection : "";
     if (direction === "asc") {
       return svg`<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" fill="none"><path d="M3 7.5 6 4.5 9 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>`;
     }
@@ -157,26 +193,84 @@ export class PhsaTable extends PhsaElement {
     return svg`<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" fill="none"><path d="M2.5 4.25 6 1.75 9.5 4.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M2.5 7.75 6 10.25 9.5 7.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>`;
   }
 
+  /** @ignore */
+  private rowValue(row: PhsaRow, index: number) {
+    return row.value || String(index);
+  }
+
+  /** @ignore */
+  private emitSelection() {
+    const values = this.rows
+      .map((row, index) => ({ row, value: this.rowValue(row, index) }))
+      .filter(({ row }) => row.selected)
+      .map(({ value }) => value);
+    this.dispatchEvent(new CustomEvent("phsa-selection-change", { bubbles: true, composed: true, detail: { values } }));
+  }
+
+  /** @ignore */
+  private toggleRow(row: PhsaRow) {
+    if (row.disabled) return;
+    row.selected = !row.selected;
+    this.requestUpdate();
+    this.emitSelection();
+  }
+
+  /** @ignore */
+  private toggleAll(checked: boolean) {
+    for (const row of this.rows) {
+      if (!row.disabled) row.selected = checked;
+    }
+    this.requestUpdate();
+    this.emitSelection();
+  }
+
   render() {
     const order = this.rowOrder();
-    const span = Math.max(this.columns.length, 1);
+    const span = Math.max(this.columns.length + (this.selectable ? 1 : 0), 1);
+    const enabledRows = this.rows.filter((row) => !row.disabled);
+    const allSelected = enabledRows.length > 0 && enabledRows.every((row) => row.selected);
+    const headingClass = this.stickyHeader ? "ds:sticky ds:top-0 ds:z-10 ds:bg-background" : "";
     return html`
-      <div class="phsa-root ds:block ds:w-full ds:overflow-x-auto ds:rounded-lg ds:border ds:border-border ds:bg-background ds:text-foreground ${this.hostClass}">
+      <div
+        class="phsa-root ds:block ds:w-full ds:overflow-auto ds:rounded-lg ds:border ds:border-border ds:bg-background ds:text-foreground ${this.hostClass}"
+        aria-busy=${this.loading ? "true" : "false"}
+      >
         <table part="table" class="ds:w-full ds:border-collapse ds:text-sm ds:caption-bottom">
           ${this.caption ? html`<caption class="ds:mt-2 ds:text-left ds:text-sm ds:text-muted-foreground">${this.caption}</caption>` : nothing}
-          <thead>
+          <thead class=${headingClass}>
             <tr class="ds:border-b ds:border-border">
+              ${this.selectable
+                ? html`
+                    <th scope="col" class="ds:h-10 ds:w-10 ds:px-3 ds:align-middle">
+                      <input
+                        data-select-all
+                        part="selection"
+                        type="checkbox"
+                        class="ds:size-4 ds:accent-primary"
+                        aria-label="Selecionar todas as linhas"
+                        .checked=${allSelected}
+                        ?disabled=${this.loading || enabledRows.length === 0}
+                        @change=${(event: Event) => this.toggleAll((event.target as HTMLInputElement).checked)}
+                      />
+                    </th>
+                  `
+                : nothing}
               ${this.columns.map(
                 (column, index) => html`
-                  <th scope="col" aria-sort=${column.sortable ? this.columnSort(index) : nothing} class="ds:h-10 ds:px-3 ds:text-left ds:align-middle ds:font-medium ds:text-muted-foreground">
+                  <th
+                    scope="col"
+                    aria-sort=${column.sortable ? this.columnSort(column, index) : nothing}
+                    style=${column.width ? `width:${column.width}` : nothing}
+                    class="ds:h-10 ds:px-3 ds:align-middle ds:font-medium ds:text-muted-foreground ${aligns[column.align] ?? aligns.left}"
+                  >
                     ${column.sortable
                       ? html`
                           <button
                             type="button"
                             class="ds:inline-flex ds:items-center ds:gap-1 ds:cursor-pointer ds:border-0 ds:bg-transparent ds:p-0 ds:text-inherit"
-                            @click=${() => this.toggleSort(index)}
+                            @click=${() => this.toggleSort(column, index)}
                           >
-                            ${column.label} ${this.chevron(index)}
+                            ${column.label} ${this.chevron(column, index)}
                           </button>
                         `
                       : column.label}
@@ -186,21 +280,56 @@ export class PhsaTable extends PhsaElement {
             </tr>
           </thead>
           <tbody>
-            ${order.length
+            ${this.loading
+              ? Array.from({ length: 3 }, (_, rowIndex) => html`
+                  <tr class="ds:border-b ds:border-border">
+                    ${this.selectable
+                      ? html`<td class="ds:w-10 ds:p-3"><phsa-skeleton variant="rectangular" class="size-4"></phsa-skeleton></td>`
+                      : nothing}
+                    ${this.columns.map(
+                      (_, colIndex) => html`
+                        <td class="ds:p-3"><phsa-skeleton variant="text" class=${colIndex === 0 ? "w-32" : "w-20"}></phsa-skeleton></td>
+                      `,
+                    )}
+                  </tr>
+                `)
+              : order.length
               ? order.map((rowIndex, visualIndex) => {
                   const last = visualIndex === order.length - 1;
+                  const row = this.rows[rowIndex];
                   return html`
-                    <tr class="ds:border-b ds:border-border ds:transition-colors ds:hover:bg-muted/50 ${last ? "is-last" : ""}">
-                      ${this.columns.map((_, colIndex) => {
+                    <tr class="ds:border-b ds:border-border ds:transition-colors ds:hover:bg-muted/50 ${row?.selected ? "ds:bg-muted/60" : ""} ${row?.disabled ? "ds:opacity-60" : ""} ${last ? "is-last" : ""}">
+                      ${this.selectable
+                        ? html`
+                            <td class="ds:w-10 ds:p-3 ds:align-middle">
+                              <input
+                                part="selection"
+                                type="checkbox"
+                                class="ds:size-4 ds:accent-primary"
+                                aria-label="Selecionar linha ${this.rowValue(row, rowIndex)}"
+                                .checked=${row.selected}
+                                ?disabled=${row.disabled}
+                                @change=${() => this.toggleRow(row)}
+                              />
+                            </td>
+                          `
+                        : nothing}
+                      ${this.columns.map((column, colIndex) => {
                         const cell = this.entries[rowIndex][colIndex];
-                        return html`<td class="ds:p-3 ds:align-middle">${cell ? html`<slot name="c-${rowIndex}-${colIndex}"></slot>` : nothing}</td>`;
+                        return html`
+                          <td class="ds:p-3 ds:align-middle ${aligns[column.align] ?? aligns.left}">
+                            ${cell ? html`<slot name="c-${rowIndex}-${colIndex}"></slot>` : nothing}
+                          </td>
+                        `;
                       })}
                     </tr>
                   `;
                 })
               : html`
                   <tr class="is-last">
-                    <td colspan=${span} class="ds:p-6 ds:text-center ds:text-sm ds:text-muted-foreground">Nenhum registro.</td>
+                    <td colspan=${span} class="ds:p-6 ds:text-center ds:text-sm ds:text-muted-foreground">
+                      <slot name="empty">Nenhum registro.</slot>
+                    </td>
                   </tr>
                 `}
           </tbody>

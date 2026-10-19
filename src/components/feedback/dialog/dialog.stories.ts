@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/web-components-vite";
 import { html } from "lit";
 import "../../actions/button";
-import { PhsaDialog } from "./dialog";
+import { DIALOG_SIZES, PhsaDialog } from "./dialog";
 import "./index";
 
 const meta = {
@@ -50,6 +50,32 @@ export const Reasons: Story = {
       <phsa-dialog heading="Motivo" description="Feche de um jeito diferente e veja o motivo." @close=${onClose}></phsa-dialog>
     `;
   },
+};
+
+export const Sizes: Story = {
+  render: () => html`
+    <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+      ${DIALOG_SIZES.map(
+        (size) => html`
+          <span>
+            <phsa-button type="button" variant="outline" @click=${open}>${size}</phsa-button>
+            <phsa-dialog size=${size} heading="Dialog ${size}" description="Exemplo do tamanho ${size}.">
+              <p style="margin:0">Conteúdo do dialog.</p>
+            </phsa-dialog>
+          </span>
+        `,
+      )}
+    </div>
+  `,
+};
+
+export const ResponsiveFullscreen: Story = {
+  render: () => html`
+    <phsa-button type="button" @click=${open}>Abrir responsivo</phsa-button>
+    <phsa-dialog responsive-fullscreen heading="Responsivo" description="Em telas pequenas, ocupa toda a viewport.">
+      <p style="margin:0">Redimensione a viewport para conferir.</p>
+    </phsa-dialog>
+  `,
 };
 
 export const CustomClasses: Story = {

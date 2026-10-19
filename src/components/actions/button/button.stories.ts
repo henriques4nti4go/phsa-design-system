@@ -8,6 +8,7 @@ type Args = {
   variant: ButtonVariant;
   size: ButtonSize;
   disabled: boolean;
+  loading: boolean;
   type: "submit" | "button" | "reset";
 };
 
@@ -19,15 +20,15 @@ const meta = {
   title: "Actions/Button",
   component: "phsa-button",
   tags: ["autodocs"],
-  args: { label: "Button", variant: "default", size: "default", disabled: false, type: "submit" },
+  args: { label: "Button", variant: "default", size: "default", disabled: false, loading: false, type: "submit" },
   argTypes: {
     label: { control: "text", description: "Conteúdo do slot padrão." },
     variant: { control: "select", options: BUTTON_VARIANTS },
     size: { control: "select", options: BUTTON_SIZES },
     type: { control: "select", options: ["submit", "button", "reset"] },
   },
-  render: ({ label, variant, size, disabled, type }) => html`
-    <phsa-button variant=${variant} size=${size} type=${type} ?disabled=${disabled}>${label}</phsa-button>
+  render: ({ label, variant, size, disabled, loading, type }) => html`
+    <phsa-button variant=${variant} size=${size} type=${type} ?disabled=${disabled} ?loading=${loading}>${label}</phsa-button>
   `,
 } satisfies Meta<Args>;
 
@@ -58,6 +59,10 @@ export const WithIcon: Story = {
 
 export const Disabled: Story = {
   args: { disabled: true },
+};
+
+export const Loading: Story = {
+  args: { loading: true, label: "Salvando" },
 };
 
 /** `type="submit"` e `type="reset"` funcionam com o `<form>` da página, como o `<button>` nativo. */

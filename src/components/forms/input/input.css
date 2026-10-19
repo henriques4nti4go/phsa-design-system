@@ -5,3 +5,10 @@
 
 @source "./input.ts";
 @source "../../../core/form-control.ts";
+
+@layer components {
+  ::slotted(svg) {
+    width: 1rem;
+    height: 1rem;
+  }
+}

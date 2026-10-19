@@ -162,7 +162,8 @@ Each component is imported from its own entry point: `@phsa.tec/design-system-re
 
 | Tag | Import | Attributes |
 |---|---|---|
-| `<phsa-button>` | `/button` | `variant` (default, secondary, outline, destructive, ghost, link), `size` (default, sm, lg, icon), `disabled`, `type` (submit, button, reset) |
+| `<phsa-button>` | `/button` | `variant` (default, secondary, outline, destructive, ghost, link), `size` (default, sm, lg, icon), `disabled`, `loading`, `type` (submit, button, reset) |
+| `<phsa-toggle>` | `/toggle` | `pressed`, `value`, `variant`, `size`, `disabled`; includes `phsa-toggle-group` with `type` (single, multiple) |
 
 ### Forms
 
@@ -179,7 +180,7 @@ Every form field accepts `label`, `description`, `error` (a single message) and 
 
 | Tag | Import | Attributes |
 |---|---|---|
-| `<phsa-input>` | `/input` | `size` (default, sm, lg), `type`, `value`, `placeholder`, `name`, `disabled`, `required`, `readonly`, `invalid` and the native input constraints |
+| `<phsa-input>` | `/input` | `size` (default, sm, lg), `type`, `value`, `placeholder`, `prefix`, `suffix`, `clearable`, `name`, `disabled`, `required`, `readonly`, `invalid` and the native input constraints |
 | `<phsa-textarea>` | `/textarea` | `size`, `rows`, `value`, `placeholder`, `name`, `disabled`, `required`, `readonly`, `invalid` |
 | `<phsa-checkbox>` | `/checkbox` | `checked`, `value` (submitted only when checked, defaults to `on`), `name`, `disabled`, `required`, `invalid` |
 | `<phsa-switch>` | `/switch` | Same as checkbox, rendered as a toggle switch |
@@ -190,15 +191,24 @@ Every form field accepts `label`, `description`, `error` (a single message) and 
 | `<phsa-numeric-input>` | `/numeric-input` | Canonical `value` (`1234.5`) with formatted display; `prefix`, `suffix`, `thousand-separator`, `decimal-separator`, `decimal-scale`, `allow-negative`, `min`, `max` |
 | `<phsa-pattern-input>` | `/pattern-input` | `format` (`#` digit, `A` letter, `*` either), e.g. `(##) #####-####`; `value` without the mask; `mask`, `allow-empty` |
 | `<phsa-date-picker>` | `/date-picker` | `mode` (single, range, multiple), `value` (`YYYY-MM-DD`, ranges as `start/end`, multiple comma-separated), `min`, `max`, `disabled-dates` |
+| `<phsa-file-upload>` | `/file-upload` | `files`, `accept`, `multiple`, `name`, `disabled`, `required`; supports drag and drop |
+| `<phsa-slider>` | `/slider` | `value`, `min`, `max`, `step`, `show-value`, `name`, `disabled` |
+| `<phsa-time-picker>` | `/time-picker` | `value`, `min`, `max`, `step`, `size`, `name`, `disabled`, `required`, `readonly` |
+| `<phsa-otp-input>` | `/otp-input` | `value`, `length`, `type` (numeric, alphanumeric), `mask`, `name`, `disabled`, `required` |
+| `<phsa-rating>` | `/rating` | `value`, `max`, `clearable`, `readonly`, `name`, `disabled`, `required` |
+| `<phsa-range-slider>` | `/range-slider` | `value` (`mínimo/máximo`), `min`, `max`, `step`, `show-values`, `name`, `disabled` |
 
 ### Feedback
 
 | Tag | Import | Attributes |
 |---|---|---|
 | `<phsa-alert>` | `/alert` | `variant` (default, destructive, success, warning, info), `heading`, `description`, `dismissible` |
-| `<phsa-dialog>` | `/dialog` | `open`, `heading`, `description`; `show()` / `close()`; closes on backdrop click, Escape and the close button |
+| `<phsa-dialog>` | `/dialog` | `open`, `heading`, `description`, `size` (sm, default, lg, xl, full), `responsive-fullscreen`; `show()` / `close()` |
 | `<phsa-alert-dialog>` | `/alert-dialog` | Confirmation dialog: `confirm-label`, `cancel-label`, `variant` (default, destructive); doesn't close on backdrop click |
-| `<phsa-toaster>` | `/toast` | `position` (top-right, top-left, bottom-right, bottom-left); `toast()`, `toast.success()`, `toast.error()`, `toast.warning()`, `toast.info()` |
+| `<phsa-toaster>` | `/toast` | `position` (top-right, top-left, bottom-right, bottom-left); helpers accept `duration` and `action` |
+| `<phsa-progress>` | `/progress` | `value`, `max`, `label`; without `value`, displays indeterminate progress |
+| `<phsa-spinner>` | `/spinner` | `size` (sm, default, lg), `label` |
+| `<phsa-sheet>` | `/sheet` | Side panel with `side` (right, left, top, bottom), the dialog slots and `show()` / `close()` |
 
 ### Overlays
 
@@ -208,6 +218,17 @@ Every form field accepts `label`, `description`, `error` (a single message) and 
 | `<phsa-dropdown-menu>` | `/dropdown-menu` | Same as popover; `phsa-dropdown-item` (`value`, `disabled`, `variant`) and `phsa-dropdown-separator` children |
 | `<phsa-tooltip>` | `/tooltip` | `text`, `side`; shown on hover and focus of the `trigger` slot |
 | `<phsa-command>` | `/command` | `placeholder`; `phsa-command-group` (`label`), `phsa-command-item` (`value`, `disabled`) and `phsa-command-separator` children; `phsa-select` event |
+| `<phsa-context-menu>` | `/context-menu` | Opens at the pointer with right click; uses `phsa-dropdown-item` and emits `phsa-select` |
+| `<phsa-hover-card>` | `/hover-card` | `open`, `side`, `align`; shown on hover and focus of the `trigger` slot |
+
+### Navigation
+
+| Tag | Import | Attributes |
+|---|---|---|
+| `<phsa-breadcrumb>` | `/breadcrumb` | `label`; `phsa-breadcrumb-item` children support `href`, `target`, `current` |
+| `<phsa-pagination>` | `/pagination` | `page`, `page-count`, `sibling-count`, `disabled`; emits `phsa-change` |
+| `<phsa-menubar>` | `/menubar` | `label`; `phsa-menubar-menu` children with `label` use `phsa-dropdown-item` |
+| `<phsa-navigation-menu>` | `/navigation-menu` | `label`; `phsa-navigation-menu-item` children with `href` or `label` + panel |
 
 ### Layout & data display
 
@@ -215,9 +236,17 @@ Every form field accepts `label`, `description`, `error` (a single message) and 
 |---|---|---|
 | `<phsa-card>` | `/card` | `heading`, `description`; `media` slot for a top image, `footer` slot for actions |
 | `<phsa-tabs>` | `/tabs` | `value`, `orientation` (horizontal, vertical); `phsa-tab` and `phsa-tab-panel` children |
+| `<phsa-accordion>` | `/accordion` | `type` (single, multiple), `value`; `phsa-accordion-item` children |
+| `<phsa-stepper>` | `/stepper` | `value`, `orientation` (horizontal, vertical); `phsa-step` children with `value`, `heading`, `description`, `disabled` |
 | `<phsa-separator>` | `/separator` | `orientation` (horizontal, vertical), `decorative` |
+| `<phsa-collapsible>` | `/collapsible` | `open`, `heading`, `disabled`; `toggle()` |
+| `<phsa-aspect-ratio>` | `/aspect-ratio` | `ratio` (`16/9` or a number) |
+| `<phsa-scroll-area>` | `/scroll-area` | `orientation` (vertical, horizontal, both); size via host classes (`h-48`, …) |
 | `<phsa-badge>` | `/badge` | `variant` (default, secondary, destructive, outline, success, warning, info) |
-| `<phsa-table>` | `/table` | `caption`; `phsa-column` (`label`, `sortable`), `phsa-row` and `phsa-cell` children |
+| `<phsa-table>` | `/table` | `caption`, `loading`, `selectable`, `sort-key`, `sort-direction`, `sticky-header`; columns support `key`, `label`, `sortable`, `align`, `width`; rows support `value`, `selected`, `disabled` |
+| `<phsa-skeleton>` | `/skeleton` | `variant` (text, circular, rectangular), `animated` |
+| `<phsa-avatar>` | `/avatar` | `src`, `alt`, `name`, `size`, `shape`; includes `phsa-avatar-group` |
+| `<phsa-empty-state>` | `/empty-state` | `heading`, `description`; slots for icon, content and actions |
 
 The full API of every component (attributes, properties, events, slots and CSS parts) is in [Storybook](https://henriques4nti4go.github.io/phsa-design-system/), generated from the source.
 

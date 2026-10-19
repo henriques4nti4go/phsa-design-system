@@ -1,0 +1,36 @@
+@import "tailwindcss/theme.css" layer(theme) prefix(ds);
+@import "../../../styles/theme.css";
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+
+@source "./progress.ts";
+
+@keyframes phsa-progress-slide {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(250%);
+  }
+}
+
+@layer components {
+  [part="indicator"] {
+    transition: width 200ms ease;
+  }
+
+  .is-indeterminate {
+    width: 40%;
+    animation: phsa-progress-slide 1.4s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [part="indicator"] {
+      transition: none;
+    }
+
+    .is-indeterminate {
+      animation: none;
+      transform: translateX(75%);
+    }
+  }
+}

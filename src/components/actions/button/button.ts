@@ -1,4 +1,4 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { LitElement, html, nothing, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { PhsaElement } from "../../../core/phsa-element";
 import styles from "./button.css?inline";
@@ -40,6 +40,8 @@ export class PhsaButton extends PhsaElement {
   @property() variant: ButtonVariant = "default";
   @property() size: ButtonSize = "default";
   @property({ type: Boolean, reflect: true }) disabled = false;
+  @property({ type: Boolean, reflect: true }) loading = false;
+  @property({ attribute: "loading-label" }) loadingLabel = "Carregando";
   /** Igual ao `<button>` nativo: dentro de um `<form>`, o padrão é `submit`. */
   @property() type: "button" | "submit" | "reset" = "submit";
 
@@ -49,7 +51,7 @@ export class PhsaButton extends PhsaElement {
   // O <button> interno está no shadow e não enxerga o <form> da página.
   private handleClick() {
     const form = this.internals.form;
-    if (this.disabled || !form) return;
+    if (this.disabled || this.loading || !form) return;
     if (this.type === "submit") form.requestSubmit();
     if (this.type === "reset") form.reset();
   }
@@ -59,9 +61,19 @@ export class PhsaButton extends PhsaElement {
       <button
         part="button"
         class="phsa-root ds:inline-flex ds:cursor-pointer ds:items-center ds:justify-center ds:gap-2 ds:whitespace-nowrap ds:rounded-md ds:font-medium ds:transition-colors ds:focus-visible:outline-none ds:focus-visible:ring-2 ds:focus-visible:ring-ring ds:focus-visible:ring-offset-2 ds:disabled:pointer-events-none ds:disabled:opacity-50 ${variants[this.variant] ?? variants.default} ${sizes[this.size] ?? sizes.default} ${this.hostClass}"
-        ?disabled=${this.disabled}
+        aria-busy=${this.loading ? "true" : "false"}
+        aria-label=${this.loading ? this.loadingLabel : nothing}
+        ?disabled=${this.disabled || this.loading}
         @click=${this.handleClick}
       >
+        ${this.loading
+          ? html`
+              <svg class="loading-icon ds:size-4 ds:shrink-0" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="3" opacity=".25"></circle>
+                <path d="M12 3a9 9 0 0 1 9 9" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path>
+              </svg>
+            `
+          : ""}
         <slot></slot>
       </button>
     `;

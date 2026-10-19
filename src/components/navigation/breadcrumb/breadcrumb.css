@@ -1,0 +1,12 @@
+@import "tailwindcss/theme.css" layer(theme) prefix(ds);
+@import "../../../styles/theme.css";
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+
+@source "./breadcrumb.ts";
+@source "./breadcrumb-item.ts";
+
+@layer components {
+  :host(:first-child) .separator {
+    display: none;
+  }
+}

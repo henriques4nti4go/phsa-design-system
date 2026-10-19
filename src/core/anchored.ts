@@ -155,6 +155,16 @@ export class PhsaAnchored extends PhsaElement {
     return this.renderRoot?.querySelector<HTMLSlotElement>('slot[name="trigger"]') ?? null;
   }
 
+  /** Caixa usada no posicionamento. Subclasses podem fornecer uma âncora virtual. @ignore */
+  protected anchorBounds() {
+    return anchorRect(this.triggerSlot());
+  }
+
+  /** Reposiciona um painel aberto depois que sua âncora virtual muda. @ignore */
+  protected reposition() {
+    if (this.open) this.positionLayer();
+  }
+
   override connectedCallback() {
     super.connectedCallback();
     // Tirar do DOM fecha o popover nativo; ao voltar, reabre se `open` ainda vale.
@@ -197,6 +207,8 @@ export class PhsaAnchored extends PhsaElement {
       layer.style.display = shown ? "" : "none";
       return;
     }
+    // A classe de display do painel vence o `display: none` do popover fechado; quem esconde é o visibility.
+    if (!shown) layer.style.visibility = "hidden";
     if (!layer.isConnected) return;
     const current = layer.matches(":popover-open");
     if (shown && !current) layer.showPopover();
@@ -206,7 +218,7 @@ export class PhsaAnchored extends PhsaElement {
   /** @ignore */
   private positionLayer() {
     const layer = this.layer();
-    const rect = anchorRect(this.triggerSlot());
+    const rect = this.anchorBounds();
     if (!layer || !rect || rect.width === 0) return;
     const side = (ANCHOR_SIDES as readonly string[]).includes(this.side) ? this.side : "bottom";
     const align = (ANCHOR_ALIGNS as readonly string[]).includes(this.align) ? this.align : "center";
