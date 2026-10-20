@@ -139,6 +139,7 @@ Design tokens are CSS custom properties, which pierce the Shadow DOM. Override a
 | `--phsa-primary`, `--phsa-secondary`, `--phsa-muted`, `--phsa-accent` | Brand and neutral colors (each with a `-foreground` pair) |
 | `--phsa-destructive`, `--phsa-success`, `--phsa-warning`, `--phsa-info` | Status colors (each with a `-foreground` pair) |
 | `--phsa-border`, `--phsa-input`, `--phsa-ring` | Borders, field borders and focus ring |
+| `--phsa-color-scheme` | `light` or `dark`: native UI inside the components (autofill, scrollbars) |
 
 Tokens are injected with zero specificity (`:where(:root)`), so any rule you write wins. Tokens can also be scoped: set them on a container to theme just that part of the page.
 

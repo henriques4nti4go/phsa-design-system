@@ -26,6 +26,17 @@
     font-size: 0.875rem;
     line-height: 1.5;
     color: var(--phsa-foreground);
+    /* O `all: initial` zera o color-scheme: sem isso, autofill, calendário nativo e barras de rolagem ficam claros no tema escuro. */
+    color-scheme: var(--phsa-color-scheme, normal);
     -webkit-font-smoothing: antialiased;
+  }
+
+  /* O autofill do navegador pinta o fundo do campo de claro: mantém o fundo e a cor do tema. */
+  input:autofill,
+  textarea:autofill,
+  select:autofill {
+    -webkit-text-fill-color: var(--phsa-foreground);
+    caret-color: var(--phsa-foreground);
+    transition: background-color 600000s 0s, color 600000s 0s;
   }
 }

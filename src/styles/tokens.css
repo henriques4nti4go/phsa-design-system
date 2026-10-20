@@ -28,6 +28,7 @@
   --phsa-border: #dce3f0;
   --phsa-input: #dce3f0;
   --phsa-ring: #0153fd;
+  --phsa-color-scheme: light;
 }
 
 /* Escuro: fundo navy, superfícies e bordas nos tons navy da marca, primária em azul claro (sky). */
@@ -52,4 +53,5 @@
   --phsa-border: #22306a;
   --phsa-input: #22306a;
   --phsa-ring: #6e9bff;
+  --phsa-color-scheme: dark;
 }
