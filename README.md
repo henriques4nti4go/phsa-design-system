@@ -26,10 +26,10 @@ Component libraries built on top of a utility framework usually leak in both dir
 ## Installation
 
 ```sh
-npm install @phsa.tec/design-system-react@alpha
+npm install @phsa.tec/design-system-react
 ```
 
-> **Note:** 1.0 is in alpha. Versions `0.x` are the previous React/shadcn implementation and have a different API.
+> **Note:** versions `0.x` are the previous React/shadcn implementation and have a different API.
 
 ## Quick start
 
