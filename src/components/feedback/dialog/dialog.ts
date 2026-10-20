@@ -249,7 +249,7 @@ export class PhsaDialog extends PhsaElement {
           @pointerdown=${this.onPointerDown}
           @click=${this.onBackdrop}
         >
-          <div part="panel" class="ds:relative ds:grid ds:gap-4 ds:rounded-lg ds:border ds:border-border ds:bg-background ds:p-6 ds:text-foreground ds:shadow-lg ${this.hostClass}">
+          <div part="panel" class="ds:relative ds:grid ds:grid-cols-[minmax(0,1fr)] ds:gap-4 ds:rounded-lg ds:border ds:border-border ds:bg-background ds:p-6 ds:text-foreground ds:shadow-lg ${this.hostClass}">
           <div class="ds:flex ds:flex-col ds:gap-1.5 ${titled || described ? "" : "ds:hidden"}">
             <h2 id="phsa-title" class="ds:text-lg ds:leading-none ds:font-semibold ds:tracking-tight ${titled ? "" : "ds:hidden"}">
               <slot name="title" @slotchange=${(event: Event) => this.onSlot(event, "titleSlotted")}>${this.heading}</slot>

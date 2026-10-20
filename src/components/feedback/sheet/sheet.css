@@ -38,6 +38,8 @@
     width: min(28rem, 100vw);
     height: 100%;
     max-height: none;
+    /* Altura fixa: sem isso o grid estica as linhas e abre um vão entre o título e o conteúdo. */
+    align-content: start;
   }
 
   dialog[data-placement="top"] [part="panel"],
