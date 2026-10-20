@@ -63,7 +63,7 @@ import { Button, Input, Tabs, Tab, TabPanel } from "@phsa.tec/design-system-reac
 <Input label="Name" value={name} errors={errors} onInput={(e) => setName((e.target as HTMLInputElement).value)} />
 
 <Tabs onPhsaChange={(e) => setTab((e as CustomEvent<{ value: string }>).detail.value)}>
-  <Tab value="account">Account</Tab>
+  <Tab slot="tab" value="account">Account</Tab>
   <TabPanel value="account">…</TabPanel>
 </Tabs>
 ```

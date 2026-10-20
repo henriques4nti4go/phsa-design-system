@@ -4,50 +4,52 @@
  * `:where()` zera a especificidade: qualquer `:root { --phsa-* }` do projeto vence.
  */
 :where(:root) {
+  /* Paleta PHSA TEC: azul da marca sobre navy. */
   --phsa-font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --phsa-radius: 0.625rem;
-  --phsa-background: oklch(1 0 0);
-  --phsa-foreground: oklch(0.145 0 0);
-  --phsa-primary: oklch(0.205 0 0);
-  --phsa-primary-foreground: oklch(0.985 0 0);
-  --phsa-secondary: oklch(0.97 0 0);
-  --phsa-secondary-foreground: oklch(0.205 0 0);
-  --phsa-muted: oklch(0.97 0 0);
-  --phsa-muted-foreground: oklch(0.556 0 0);
-  --phsa-accent: oklch(0.97 0 0);
-  --phsa-accent-foreground: oklch(0.205 0 0);
+  --phsa-background: #ffffff;
+  --phsa-foreground: #070f2b;
+  --phsa-primary: #0153fd;
+  --phsa-primary-foreground: #ffffff;
+  --phsa-secondary: #e6eeff;
+  --phsa-secondary-foreground: #0153fd;
+  --phsa-muted: #eef2f9;
+  --phsa-muted-foreground: #44506b;
+  --phsa-accent: #e6eeff;
+  --phsa-accent-foreground: #0153fd;
   --phsa-destructive: oklch(0.577 0.245 27.325);
   --phsa-destructive-foreground: oklch(0.985 0 0);
   --phsa-success: oklch(0.52 0.15 150);
   --phsa-success-foreground: oklch(0.985 0 0);
   --phsa-warning: oklch(0.55 0.14 65);
   --phsa-warning-foreground: oklch(0.985 0 0);
-  --phsa-info: oklch(0.5 0.15 255);
-  --phsa-info-foreground: oklch(0.985 0 0);
-  --phsa-border: oklch(0.922 0 0);
-  --phsa-input: oklch(0.922 0 0);
-  --phsa-ring: oklch(0.708 0 0);
+  --phsa-info: #0153fd;
+  --phsa-info-foreground: #ffffff;
+  --phsa-border: #dce3f0;
+  --phsa-input: #dce3f0;
+  --phsa-ring: #0153fd;
 }
 
+/* Escuro: fundo navy, superfícies e bordas nos tons navy da marca, primária em azul claro (sky). */
 :where(.dark, [data-theme="dark"]) {
-  --phsa-background: oklch(0.145 0 0);
-  --phsa-foreground: oklch(0.985 0 0);
-  --phsa-primary: oklch(0.922 0 0);
-  --phsa-primary-foreground: oklch(0.205 0 0);
-  --phsa-secondary: oklch(0.269 0 0);
-  --phsa-secondary-foreground: oklch(0.985 0 0);
-  --phsa-muted: oklch(0.269 0 0);
-  --phsa-muted-foreground: oklch(0.708 0 0);
-  --phsa-accent: oklch(0.269 0 0);
-  --phsa-accent-foreground: oklch(0.985 0 0);
+  --phsa-background: #070f2b;
+  --phsa-foreground: #f6f8fc;
+  --phsa-primary: #6e9bff;
+  --phsa-primary-foreground: #070f2b;
+  --phsa-secondary: #0f1b45;
+  --phsa-secondary-foreground: #c9d6f5;
+  --phsa-muted: #0f1b45;
+  --phsa-muted-foreground: #93a3c8;
+  --phsa-accent: #16245a;
+  --phsa-accent-foreground: #f6f8fc;
   --phsa-destructive: oklch(0.704 0.191 22.216);
   --phsa-success: oklch(0.75 0.16 150);
   --phsa-success-foreground: oklch(0.2 0 0);
   --phsa-warning: oklch(0.8 0.14 80);
   --phsa-warning-foreground: oklch(0.2 0 0);
-  --phsa-info: oklch(0.75 0.12 255);
-  --phsa-info-foreground: oklch(0.2 0 0);
-  --phsa-border: oklch(1 0 0 / 10%);
-  --phsa-input: oklch(1 0 0 / 15%);
-  --phsa-ring: oklch(0.556 0 0);
+  --phsa-info: #6e9bff;
+  --phsa-info-foreground: #070f2b;
+  --phsa-border: #22306a;
+  --phsa-input: #22306a;
+  --phsa-ring: #6e9bff;
 }

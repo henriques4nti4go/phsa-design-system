@@ -5,8 +5,7 @@
 @source "./breadcrumb.ts";
 @source "./breadcrumb-item.ts";
 
-@layer components {
-  :host(:first-child) .separator {
-    display: none;
-  }
+/* Fora de layer: dentro de `@layer components` perdia para o `ds:inline-flex` do separador (layer utilities). */
+:host(:first-child) .separator {
+  display: none;
 }
