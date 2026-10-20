@@ -27,7 +27,13 @@ export default defineConfig({
     },
     rollupOptions: {
       external: [/^lit/, /^@lit\//, "react"],
-      output: { chunkFileNames: "chunks/[name]-[hash].js" },
+      output: {
+        chunkFileNames: "chunks/[name]-[hash].js",
+        // Os wrappers React usam hooks: no Next (App Router), precisam ser módulos de cliente
+        // para funcionar direto em Server Components. O Rollup descarta diretivas do código-fonte,
+        // então ela entra como banner só nos arquivos de `react/`.
+        banner: (chunk) => (chunk.fileName.startsWith("react/") ? '"use client";' : ""),
+      },
     },
   },
 });

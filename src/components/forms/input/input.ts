@@ -109,7 +109,7 @@ export class PhsaInput extends PhsaFormControl {
     const canClear = this.clearable && Boolean(this.value) && !this.isFile;
     return html`
       <div
-        class="phsa-root ds:flex ds:w-full ds:min-w-0 ds:items-center ds:rounded-md ds:border ds:border-input ds:bg-transparent ds:shadow-sm ds:transition-colors ds:focus-within:ring-2 ds:focus-within:ring-ring ds:focus-within:ring-offset-2 ${this.showInvalid ? "ds:border-destructive ds:focus-within:ring-destructive" : ""} ${this.isDisabled ? "ds:cursor-not-allowed ds:opacity-50" : ""} ${sizes[this.size] ?? sizes.default} ${this.hostClass}"
+        class="phsa-root ds:flex ds:w-full ds:min-w-0 ds:items-center ds:rounded-md ds:border ds:bg-transparent ds:shadow-sm ds:transition-colors ds:focus-within:ring-2 ds:focus-within:ring-offset-2 ${this.showInvalid ? "ds:border-destructive ds:focus-within:ring-destructive" : "ds:border-input ds:focus-within:ring-ring"} ${this.isDisabled ? "ds:cursor-not-allowed ds:opacity-50" : ""} ${sizes[this.size] ?? sizes.default} ${this.hostClass}"
       >
         <span part="prefix" class="${prefixed ? "ds:inline-flex" : "ds:hidden"} ds:shrink-0 ds:items-center ds:pl-3 ds:text-muted-foreground">
           <slot name="prefix" @slotchange=${(event: Event) => this.onSlot(event, "prefixSlotted")}>${this.prefix}</slot>

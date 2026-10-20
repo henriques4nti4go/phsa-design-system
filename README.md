@@ -70,6 +70,8 @@ import { Button, Input, Tabs, Tab, TabPanel } from "@phsa.tec/design-system-reac
 
 Only the components you import end up in your bundle: each wrapper is its own module, so bundlers drop the ones you don't use. Event props follow the event names: `close` → `onClose`, `phsa-confirm` → `onPhsaConfirm`, plus `onInput` / `onChange` on every component.
 
+The `/react` components are client components (`"use client"` is built in), so they can be rendered directly in a Next.js Server Component. Add `"use client"` to your own file only when it uses state, effects or event handlers.
+
 **Custom element tags** — React 19 also supports custom elements natively, so you can use the tags directly after importing the component:
 
 ```tsx
