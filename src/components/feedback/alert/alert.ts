@@ -1,6 +1,8 @@
 import { html, nothing, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
 import { PhsaElement } from "../../../core/phsa-element";
+import { CircleAlert, CircleCheck, Info, TriangleAlert, X } from "lucide";
+import { icon, type IconNode } from "../../../core/icon";
 import styles from "./alert.css?inline";
 
 const variants = {
@@ -14,19 +16,17 @@ const variants = {
 export type AlertVariant = keyof typeof variants;
 export const ALERT_VARIANTS = Object.keys(variants) as AlertVariant[];
 
-const icon = (path: string) => html`
-  <svg class="ds:size-4 ds:shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-    <path d=${path} />
-  </svg>
-`;
+const variantIcon = (node: IconNode) => icon(node, "ds:size-4 ds:shrink-0");
 
-const icons: Record<AlertVariant, ReturnType<typeof icon>> = {
-  default: icon("M12 16v-4M12 8h.01M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0"),
-  info: icon("M12 16v-4M12 8h.01M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0"),
-  success: icon("M20 6 9 17l-5-5"),
-  warning: icon("m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3M12 9v4M12 17h.01"),
-  destructive: icon("M12 9v4M12 17h.01M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0"),
+const icons: Record<AlertVariant, ReturnType<typeof variantIcon>> = {
+  default: variantIcon(Info),
+  info: variantIcon(Info),
+  success: variantIcon(CircleCheck),
+  warning: variantIcon(TriangleAlert),
+  destructive: variantIcon(CircleAlert),
 };
+
+const closeIcon = variantIcon(X);
 
 /**
  * Faixa de aviso na página. `dismissible` esconde e dispara `dismiss`.
@@ -92,7 +92,7 @@ export class PhsaAlert extends PhsaElement {
                 aria-label="Fechar alerta"
                 @click=${this.dismiss}
               >
-                ${icon("M18 6 6 18M6 6l12 12")}
+                ${closeIcon}
               </button>
             `
           : nothing}

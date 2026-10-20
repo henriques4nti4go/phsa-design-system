@@ -2,13 +2,11 @@ import { html, nothing, unsafeCSS } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { property, state } from "lit/decorators.js";
 import { PhsaFormControl } from "../../../core/form-control";
+import { Upload } from "lucide";
+import { icon } from "../../../core/icon";
 import styles from "./file-upload.css?inline";
 
-const uploadIcon = html`
-  <svg class="ds:size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-    <path d="M12 16V4m0 0L7 9m5-5 5 5"></path><path d="M4 15v4h16v-4"></path>
-  </svg>
-`;
+const uploadIcon = icon(Upload, "ds:size-6");
 
 /**
  * Seletor de arquivos com suporte a arrastar e soltar.

@@ -1,9 +1,11 @@
 import { html, unsafeCSS } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { PhsaToggle } from "../../../core/toggle";
+import { Check } from "lucide";
+import { icon } from "../../../core/icon";
 import styles from "./checkbox.css?inline";
 
-const check = html`<svg class="ds:size-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>`;
+const check = icon(Check, "ds:size-3", { strokeWidth: 3 });
 
 /**
  * Caixa de seleção. No `<form>`, envia `value` (padrão `on`) só quando marcada.
@@ -39,7 +41,7 @@ export class PhsaCheckbox extends PhsaToggle {
         @keydown=${this.onKeydown}
       >
         <span
-          class="ds:flex ds:size-4 ds:shrink-0 ds:items-center ds:justify-center ds:rounded-sm ds:border ds:shadow-sm ds:ring-offset-background ds:group-focus-visible:ring-2 ds:group-focus-visible:ring-offset-2 ${this.checked ? "ds:bg-primary ds:text-primary-foreground" : "ds:bg-background"} ${this.showInvalid ? "ds:border-destructive ds:group-focus-visible:ring-destructive" : "ds:border-primary ds:group-focus-visible:ring-ring"}"
+          class="ds:flex ds:size-4 ds:shrink-0 ds:items-center ds:justify-center ds:rounded-sm ds:border ds:shadow-sm ds:ring-offset-background ds:group-focus-visible:ring-2 ds:group-focus-visible:ring-offset-2 ${this.checked ? "ds:bg-primary ds:text-primary-foreground" : "ds:bg-background"} ${this.showInvalid ? "ds:border-destructive ds:group-focus-visible:ring-destructive" : this.checked ? "ds:border-primary ds:group-focus-visible:ring-ring" : "ds:border-input ds:group-focus-visible:ring-ring"}"
           >${this.checked ? check : ""}</span
         >
         ${this.renderText()}

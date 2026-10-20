@@ -1,17 +1,14 @@
 import { html, nothing, unsafeCSS, type PropertyValues } from "lit";
 import { property, state } from "lit/decorators.js";
 import { PhsaElement } from "../../../core/phsa-element";
+import { Search } from "lucide";
+import { icon } from "../../../core/icon";
 import type { PhsaCommandItem } from "./command-item";
 import styles from "./command.css?inline";
 
 const fold = (value: string) => value.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
 
-const searchIcon = html`
-  <svg class="ds:size-4 ds:shrink-0 ds:opacity-50" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-    <circle cx="11" cy="11" r="8" />
-    <path d="m21 21-4.3-4.3" />
-  </svg>
-`;
+const searchIcon = icon(Search, "ds:size-4 ds:shrink-0 ds:opacity-50");
 
 type Block =
   | { kind: "group"; label: string; items: PhsaCommandItem[]; loose?: boolean }

@@ -1,13 +1,11 @@
 import { html, nothing, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { PhsaElement } from "../../../core/phsa-element";
+import { ChevronRight } from "lucide";
+import { icon } from "../../../core/icon";
 import styles from "./breadcrumb.css?inline";
 
-const separator = html`
-  <svg class="ds:size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-    <path d="m9 18 6-6-6-6"></path>
-  </svg>
-`;
+const separator = icon(ChevronRight, "ds:size-3.5");
 
 /**
  * Item de um `phsa-breadcrumb`.

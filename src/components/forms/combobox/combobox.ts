@@ -2,6 +2,8 @@ import { html, nothing, unsafeCSS, type PropertyValues } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { property, state } from "lit/decorators.js";
 import { PhsaFormControl } from "../../../core/form-control";
+import { Check, ChevronDown, X } from "lucide";
+import { icon } from "../../../core/icon";
 import styles from "./combobox.css?inline";
 
 const sizes = {
@@ -18,9 +20,9 @@ type Row = { kind: "group"; label: string } | { kind: "option"; opt: Opt; index:
 
 const fold = (value: string) => value.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
 
-const chevron = html`<svg class="ds:size-4 ds:shrink-0 ds:opacity-50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>`;
-const check = html`<svg class="ds:size-4 ds:shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>`;
-const closeIcon = html`<svg class="ds:size-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" /></svg>`;
+const chevron = icon(ChevronDown, "ds:size-4 ds:shrink-0 ds:opacity-50");
+const check = icon(Check, "ds:size-4 ds:shrink-0");
+const closeIcon = icon(X, "ds:size-3");
 
 /**
  * Campo de texto que filtra uma lista. Os filhos são `<option>` e `<optgroup>`, como no `<select>` nativo.

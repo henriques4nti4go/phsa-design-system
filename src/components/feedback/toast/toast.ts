@@ -2,6 +2,8 @@ import { html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
 import { repeat } from "lit/directives/repeat.js";
 import { PhsaElement } from "../../../core/phsa-element";
+import { CircleAlert, CircleCheck, Info, TriangleAlert, X } from "lucide";
+import { icon, type IconNode } from "../../../core/icon";
 import "../../actions/button";
 import styles from "./toast.css?inline";
 
@@ -131,19 +133,17 @@ toast.warning = (title: string, options?: Omit<ToastOptions, "variant">) => push
 toast.info = (title: string, options?: Omit<ToastOptions, "variant">) => push(title, { ...options, variant: "info" });
 toast.dismiss = dismissToast;
 
-const icon = (path: string) => html`
-  <svg class="ds:mt-0.5 ds:size-4 ds:shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-    <path d=${path} />
-  </svg>
-`;
+const variantIcon = (node: IconNode) => icon(node, "ds:mt-0.5 ds:size-4 ds:shrink-0");
 
-const icons: Record<ToastVariant, ReturnType<typeof icon>> = {
-  default: icon("M12 16v-4M12 8h.01M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0"),
-  info: icon("M12 16v-4M12 8h.01M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0"),
-  success: icon("M20 6 9 17l-5-5"),
-  warning: icon("m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3M12 9v4M12 17h.01"),
-  error: icon("M12 9v4M12 17h.01M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0"),
+const icons: Record<ToastVariant, ReturnType<typeof variantIcon>> = {
+  default: variantIcon(Info),
+  info: variantIcon(Info),
+  success: variantIcon(CircleCheck),
+  warning: variantIcon(TriangleAlert),
+  error: variantIcon(CircleAlert),
 };
+
+const closeIcon = variantIcon(X);
 
 /**
  * Pilha de toasts. Um por página. Quem dispara é `toast()`.
@@ -395,7 +395,7 @@ export class PhsaToaster extends PhsaElement {
                 aria-label="Fechar notificação"
                 @click=${() => dismissToast(item.id)}
               >
-                ${icon("M18 6 6 18M6 6l12 12")}
+                ${closeIcon}
               </button>
               </div>
             </div>

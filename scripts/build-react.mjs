@@ -8,6 +8,10 @@ const root = resolve(import.meta.dirname, "..");
 const out = resolve(root, "src/react");
 const manifest = JSON.parse(readFileSync(resolve(root, "custom-elements.json"), "utf8"));
 
+// Componentes com wrapper React escrito à mão, no lugar do `createComponent`.
+// O `Icon` é um `<svg>` comum: sai no HTML do SSR sem esperar o custom element.
+const manual = { "phsa-icon": { component: "Icon", from: "icon-react" } };
+
 // Eventos internos (filho → pai), não fazem sentido como prop.
 const internal = new Set(["phsa-radio", "phsa-tab-select"]);
 
@@ -28,6 +32,14 @@ for (const { name, category } of findComponents()) {
   const folder = `src/components/${category}/${name}/`;
   const elements = declarations.filter((d) => d.path.startsWith(folder));
   if (!elements.length) continue;
+
+  const custom = elements.map((e) => manual[e.tagName]).filter(Boolean);
+  if (custom.length) {
+    const exports = custom.map(({ component, from }) => `export { ${component}, type ${component}Props } from "../components/${category}/${name}/${from}";`);
+    writeFileSync(resolve(out, `${name}.ts`), [header, ...exports, ""].join("\n"));
+    barrel.push(...custom.map(({ component }) => `export { ${component}, type ${component}Props } from "./${name}";`));
+    continue;
+  }
 
   const lines = [
     header,

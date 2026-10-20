@@ -1,7 +1,11 @@
 import { html, nothing, unsafeCSS, type PropertyValues } from "lit";
 import { property, state } from "lit/decorators.js";
 import { PhsaElement } from "../../../core/phsa-element";
+import { User } from "lucide";
+import { icon } from "../../../core/icon";
 import styles from "./avatar.css?inline";
+
+const fallbackIcon = icon(User, "ds:size-1/2");
 
 const sizes = {
   sm: "ds:size-8 ds:text-xs",
@@ -67,11 +71,7 @@ export class PhsaAvatar extends PhsaElement {
             `
           : html`
               <span part="fallback" aria-hidden="true">
-                ${initials || html`
-                  <svg class="ds:size-1/2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path>
-                  </svg>
-                `}
+                ${initials || fallbackIcon}
               </span>
             `}
       </span>

@@ -42,6 +42,8 @@ export class PhsaButton extends PhsaElement {
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) loading = false;
   @property({ attribute: "loading-label" }) loadingLabel = "Carregando";
+  /** Ocupa toda a largura disponível. */
+  @property({ type: Boolean }) block = false;
   /** Igual ao `<button>` nativo: dentro de um `<form>`, o padrão é `submit`. */
   @property() type: "button" | "submit" | "reset" = "submit";
 
@@ -60,7 +62,7 @@ export class PhsaButton extends PhsaElement {
     return html`
       <button
         part="button"
-        class="phsa-root ds:inline-flex ds:cursor-pointer ds:items-center ds:justify-center ds:gap-2 ds:whitespace-nowrap ds:rounded-md ds:font-medium ds:transition-colors ds:focus-visible:outline-none ds:focus-visible:ring-2 ds:focus-visible:ring-ring ds:focus-visible:ring-offset-2 ds:disabled:pointer-events-none ds:disabled:opacity-50 ${variants[this.variant] ?? variants.default} ${sizes[this.size] ?? sizes.default} ${this.hostClass}"
+        class="phsa-root ${this.block ? "ds:flex ds:w-full" : "ds:inline-flex"} ds:cursor-pointer ds:items-center ds:justify-center ds:gap-2 ds:whitespace-nowrap ds:rounded-md ds:font-medium ds:transition-colors ds:focus-visible:outline-none ds:focus-visible:ring-2 ds:focus-visible:ring-ring ds:focus-visible:ring-offset-2 ds:disabled:pointer-events-none ds:disabled:opacity-50 ${variants[this.variant] ?? variants.default} ${sizes[this.size] ?? sizes.default} ${this.hostClass}"
         aria-busy=${this.loading ? "true" : "false"}
         aria-label=${this.loading ? this.loadingLabel : nothing}
         ?disabled=${this.disabled || this.loading}

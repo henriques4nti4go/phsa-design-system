@@ -1,13 +1,11 @@
 import { LitElement, html, nothing, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { PhsaElement } from "../../../core/phsa-element";
+import { Check } from "lucide";
+import { icon } from "../../../core/icon";
 import styles from "./step.css?inline";
 
-const check = html`
-  <svg class="ds:size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true">
-    <path d="M20 6 9 17l-5-5"></path>
-  </svg>
-`;
+const check = icon(Check, "ds:size-3.5", { strokeWidth: 3 });
 
 /**
  * Etapa de um `phsa-stepper`.

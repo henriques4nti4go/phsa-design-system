@@ -1,13 +1,11 @@
 import { html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
 import { PhsaElement } from "../../../core/phsa-element";
+import { Inbox } from "lucide";
+import { icon } from "../../../core/icon";
 import styles from "./empty-state.css?inline";
 
-const defaultIcon = html`
-  <svg class="ds:size-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-    <path d="M3 7h18v13H3zM8 3h8l2 4H6z"></path><path d="M9 13h6"></path>
-  </svg>
-`;
+const defaultIcon = icon(Inbox, "ds:size-8", { strokeWidth: 1.5 });
 
 /**
  * Estado vazio para listas, buscas e primeiros usos.

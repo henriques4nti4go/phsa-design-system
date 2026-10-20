@@ -162,7 +162,7 @@ Each component is imported from its own entry point: `@phsa.tec/design-system-re
 
 | Tag | Import | Attributes |
 |---|---|---|
-| `<phsa-button>` | `/button` | `variant` (default, secondary, outline, destructive, ghost, link), `size` (default, sm, lg, icon), `disabled`, `loading`, `type` (submit, button, reset) |
+| `<phsa-button>` | `/button` | `variant` (default, secondary, outline, destructive, ghost, link), `size` (default, sm, lg, icon), `disabled`, `loading`, `block` (full width), `type` (submit, button, reset) |
 | `<phsa-toggle>` | `/toggle` | `pressed`, `value`, `variant`, `size`, `disabled`; includes `phsa-toggle-group` with `type` (single, multiple) |
 
 ### Forms
@@ -229,6 +229,50 @@ Every form field accepts `label`, `description`, `error` (a single message) and 
 | `<phsa-pagination>` | `/pagination` | `page`, `page-count`, `sibling-count`, `disabled`; emits `phsa-change` |
 | `<phsa-menubar>` | `/menubar` | `label`; `phsa-menubar-menu` children with `label` use `phsa-dropdown-item` |
 | `<phsa-navigation-menu>` | `/navigation-menu` | `label`; `phsa-navigation-menu-item` children with `href` or `label` + panel |
+| `<phsa-link>` | `/link` | `href`, `target`, `rel`, `variant` (default, muted, inherit), `size` (inherit, sm, default, lg); call `preventDefault()` on `click` to route client-side |
+
+### Page layout & typography
+
+Build whole pages without writing CSS. Spacing props use one scale: `none`, `xs`, `sm`, `md`, `lg`, `xl`, `2xl`.
+
+| Tag | Import | Attributes |
+|---|---|---|
+| `<phsa-stack>` | `/stack` | `direction` (column, row), `gap`, `align` (stretch, start, center, end, baseline), `justify` (start, center, end, between), `wrap`, `padding`, `background` (none, background, muted, primary, secondary, accent — with a matching text color), `radius`, `bordered`, `max-width` (xs … 6xl, centered), `min-height` (full, screen), `grow`, `hide-below` (sm, md, lg), `as` (div, main, section, header, footer, nav, aside, article) |
+| `<phsa-grid>` | `/grid` | `columns` (1–6, 12), `min-item-width` (auto-fit, e.g. `16rem`), `gap`, `align`, `stack-below` (sm, md, lg — one column below it), `min-height`, `as` |
+| `<phsa-text>` | `/text` | `variant` (display, h1, h2, h3, h4, lead, body, small — picks the element), `weight`, `tone` (inherit, default, muted, primary, destructive, success, warning, info), `align`, `truncate`, `as` |
+
+```tsx
+<Grid as="main" columns={2} stackBelow="md" minHeight="screen" gap="none">
+  <Stack background="primary" padding="2xl" hideBelow="md">…</Stack>
+  <Stack padding="xl" align="center" justify="center">
+    <Stack maxWidth="sm" gap="lg">
+      <Text variant="h1">Sign in</Text>
+      <Text tone="muted">Welcome back.</Text>
+      <Button block>Continue</Button>
+    </Stack>
+  </Stack>
+</Grid>
+```
+
+Text color is inherited by default, so a `phsa-text` inside a `phsa-stack` with `background="primary"` reads correctly without extra props.
+
+### Icons
+
+Every [Lucide](https://lucide.dev/icons) icon ships inside the package, one file per icon: only the icons you import reach the bundle, with no barrel to slow down the dev server and nothing extra to install or configure. The file name is the icon name on lucide.dev.
+
+| Tag | Import | Attributes |
+|---|---|---|
+| `<phsa-icon>` | `/icon` | `.icon` (property), `size` (xs 12px, sm 16px, md 20px, lg 24px, xl 32px), `tone` (inherit, default, muted, primary, destructive, success, warning, info), `stroke-width`, `label` (without it the icon is `aria-hidden`) |
+
+```tsx
+import { Icon } from "@phsa.tec/design-system-react/react";
+import { Mail } from "@phsa.tec/design-system-react/icons/mail";
+
+<Icon icon={Mail} size="md" tone="muted" />
+<Input label="E-mail"><Icon slot="prefix" icon={Mail} /></Input>
+```
+
+In React, `Icon` renders a plain `<svg>` (not a custom element), so it is in the server-rendered HTML and needs no JS to show. Size, color and stroke are inline styles, so global CSS like `svg { … }` does not change it. In plain HTML or Lit, set the property: `el.icon = Mail` or `<phsa-icon .icon=${Mail}>`.
 
 ### Layout & data display
 
@@ -238,7 +282,7 @@ Every form field accepts `label`, `description`, `error` (a single message) and 
 | `<phsa-tabs>` | `/tabs` | `value`, `orientation` (horizontal, vertical); `phsa-tab` and `phsa-tab-panel` children |
 | `<phsa-accordion>` | `/accordion` | `type` (single, multiple), `value`; `phsa-accordion-item` children |
 | `<phsa-stepper>` | `/stepper` | `value`, `orientation` (horizontal, vertical); `phsa-step` children with `value`, `heading`, `description`, `disabled` |
-| `<phsa-separator>` | `/separator` | `orientation` (horizontal, vertical), `decorative` |
+| `<phsa-separator>` | `/separator` | `orientation` (horizontal, vertical), `decorative`, `label` |
 | `<phsa-collapsible>` | `/collapsible` | `open`, `heading`, `disabled`; `toggle()` |
 | `<phsa-aspect-ratio>` | `/aspect-ratio` | `ratio` (`16/9` or a number) |
 | `<phsa-scroll-area>` | `/scroll-area` | `orientation` (vertical, horizontal, both); size via host classes (`h-48`, …) |

@@ -1,15 +1,14 @@
 import { html, nothing, unsafeCSS, type PropertyValues } from "lit";
 import { property } from "lit/decorators.js";
 import { PhsaElement } from "../../../core/phsa-element";
+import { ChevronLeft, ChevronRight } from "lucide";
+import { icon } from "../../../core/icon";
 import styles from "./pagination.css?inline";
 
 type PageToken = number | "start-ellipsis" | "end-ellipsis";
 
-const chevron = (path: string) => html`
-  <svg class="ds:size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-    <path d=${path}></path>
-  </svg>
-`;
+const previousIcon = icon(ChevronLeft, "ds:size-4");
+const nextIcon = icon(ChevronRight, "ds:size-4");
 
 /**
  * Navegação entre páginas.
@@ -104,7 +103,7 @@ export class PhsaPagination extends PhsaElement {
               aria-label="Página anterior"
               ?disabled=${this.disabled || current === 1}
               @click=${() => this.go(current - 1)}
-            >${chevron("m15 18-6-6 6-6")}</button>
+            >${previousIcon}</button>
           </li>
           ${this.tokens().map((token) =>
             typeof token === "number"
@@ -119,7 +118,7 @@ export class PhsaPagination extends PhsaElement {
               aria-label="Próxima página"
               ?disabled=${this.disabled || current === total}
               @click=${() => this.go(current + 1)}
-            >${chevron("m9 18 6-6-6-6")}</button>
+            >${nextIcon}</button>
           </li>
         </ul>
       </nav>

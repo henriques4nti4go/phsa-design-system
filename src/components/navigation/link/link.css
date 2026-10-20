@@ -1,0 +1,6 @@
+/* Prefixo `ds:` nas classes internas: as classes do projeto nunca encostam nelas. */
+@import "tailwindcss/theme.css" layer(theme) prefix(ds);
+@import "../../../styles/theme.css";
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+
+@source "./link.ts";

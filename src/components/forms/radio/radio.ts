@@ -54,7 +54,7 @@ export class PhsaRadio extends PhsaElement {
         @click=${this.choose}
       >
         <span
-          class="ds:flex ds:size-4 ds:shrink-0 ds:items-center ds:justify-center ds:rounded-full ds:border ds:shadow-sm ds:ring-offset-background ds:group-focus-visible:ring-2 ds:group-focus-visible:ring-offset-2 ${this.markedInvalid ? "ds:border-destructive ds:group-focus-visible:ring-destructive" : "ds:border-primary ds:group-focus-visible:ring-ring"}"
+          class="ds:flex ds:size-4 ds:shrink-0 ds:items-center ds:justify-center ds:rounded-full ds:border ds:shadow-sm ds:ring-offset-background ds:group-focus-visible:ring-2 ds:group-focus-visible:ring-offset-2 ${this.markedInvalid ? "ds:border-destructive ds:group-focus-visible:ring-destructive" : this.checked ? "ds:border-primary ds:group-focus-visible:ring-ring" : "ds:border-input ds:group-focus-visible:ring-ring"}"
         >
           <span class="ds:size-2 ds:rounded-full ds:bg-primary ${this.checked ? "" : "ds:invisible"}"></span>
         </span>

@@ -1,6 +1,8 @@
 import { html, nothing, unsafeCSS, type CSSResultGroup, type PropertyValues, type TemplateResult } from "lit";
 import { property, state } from "lit/decorators.js";
 import { PhsaElement } from "../../../core/phsa-element";
+import { X } from "lucide";
+import { icon } from "../../../core/icon";
 import styles from "./dialog.css?inline";
 
 // Trava de rolagem da página, contada por modal aberto.
@@ -19,7 +21,7 @@ function unlockScroll() {
   if (--scrollLocks === 0) document.body.style.overflow = savedOverflow;
 }
 
-const closeIcon = html`<svg class="ds:size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" /></svg>`;
+const closeIcon = icon(X, "ds:size-4");
 
 export type DialogSize = "sm" | "default" | "lg" | "xl" | "full";
 export const DIALOG_SIZES: DialogSize[] = ["sm", "default", "lg", "xl", "full"];

@@ -9,6 +9,10 @@
     "custom-elements.json"
   ],
   "exports": {
+    "./icons/*": {
+      "types": "./dist/icons/*.d.ts",
+      "default": "./dist/icons/*.js"
+    },
     "./*": {
       "types": "./dist/*/index.d.ts",
       "default": "./dist/*/index.js"
@@ -23,7 +27,7 @@
   "scripts": {
     "dev": "npm run analyze && storybook dev -p 6006",
     "analyze": "cem analyze && node scripts/build-react.mjs",
-    "build": "npm run analyze && vite build && tsc -p tsconfig.build.json && node scripts/build-types.mjs",
+    "build": "npm run analyze && vite build && tsc -p tsconfig.build.json && node scripts/build-types.mjs && node scripts/build-icons.mjs",
     "build-storybook": "npm run analyze && storybook build",
     "typecheck": "npm run analyze && tsc --noEmit",
     "prepublishOnly": "npm run build"
@@ -58,6 +62,7 @@
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^24.19.2",
     "@types/react": "^19.3.0",
+    "lucide": "^1.60.0",
     "postcss": "^8.5.30",
     "storybook": "^10.6.2",
     "tailwindcss": "^4.3.3",

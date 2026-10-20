@@ -1,14 +1,12 @@
 import { html, nothing, unsafeCSS, type PropertyValues } from "lit";
 import { property } from "lit/decorators.js";
 import { PhsaAnchored } from "../../../core/anchored";
+import { ChevronDown } from "lucide";
+import { icon } from "../../../core/icon";
 import type { PhsaNavigationMenu } from "./navigation-menu";
 import styles from "./navigation-menu-item.css?inline";
 
-const chevron = html`
-  <svg class="ds:ml-1 ds:size-3.5 ds:shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-    <path d="m6 9 6 6 6-6"></path>
-  </svg>
-`;
+const chevron = icon(ChevronDown, "ds:ml-1 ds:size-3.5 ds:shrink-0");
 
 const itemClass =
   "ds:inline-flex ds:h-9 ds:cursor-pointer ds:items-center ds:rounded-md ds:border-0 ds:px-3 ds:text-sm ds:font-medium ds:no-underline ds:outline-none ds:focus-visible:ring-2 ds:focus-visible:ring-ring ds:disabled:cursor-not-allowed ds:disabled:opacity-50";

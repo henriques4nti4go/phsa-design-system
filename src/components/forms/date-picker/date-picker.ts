@@ -2,6 +2,8 @@ import { html, nothing, unsafeCSS, type PropertyValues } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { property, state } from "lit/decorators.js";
 import { PhsaFormControl } from "../../../core/form-control";
+import { Calendar, ChevronLeft, ChevronRight } from "lucide";
+import { icon } from "../../../core/icon";
 import styles from "./date-picker.css?inline";
 
 const sizes = {
@@ -15,10 +17,10 @@ export type DateMode = "single" | "range" | "multiple";
 export const DATE_SIZES = Object.keys(sizes) as DatePickerSize[];
 export const DATE_MODES = ["single", "range", "multiple"] as const;
 
-const chevron = (path: string) =>
-  html`<svg class="ds:size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d=${path} /></svg>`;
+const previousIcon = icon(ChevronLeft, "ds:size-4");
+const nextIcon = icon(ChevronRight, "ds:size-4");
 
-const calendarIcon = html`<svg class="ds:size-4 ds:shrink-0 ds:opacity-70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" /></svg>`;
+const calendarIcon = icon(Calendar, "ds:size-4 ds:shrink-0 ds:opacity-70");
 
 /**
  * Calendário. `mode` é `single` (padrão), `range` ou `multiple`.
@@ -459,7 +461,7 @@ export class PhsaDatePicker extends PhsaFormControl {
                       @mousedown=${(event: Event) => event.preventDefault()}
                       @click=${() => this.shift(-1)}
                     >
-                      ${chevron("m15 18-6-6 6-6")}
+                      ${previousIcon}
                     </button>
                     <span class="ds:text-sm ds:font-medium">${title}</span>
                     <button
@@ -470,7 +472,7 @@ export class PhsaDatePicker extends PhsaFormControl {
                       @mousedown=${(event: Event) => event.preventDefault()}
                       @click=${() => this.shift(1)}
                     >
-                      ${chevron("m9 18 6-6-6-6")}
+                      ${nextIcon}
                     </button>
                   </div>
                   <div class="ds:grid ds:grid-cols-7 ds:gap-1 ds:text-center">

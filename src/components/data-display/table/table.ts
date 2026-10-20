@@ -2,6 +2,8 @@ import { html, nothing, svg, unsafeCSS, type PropertyValues } from "lit";
 import { property } from "lit/decorators.js";
 import "../skeleton";
 import { PhsaElement } from "../../../core/phsa-element";
+import { ChevronDown, ChevronUp, ChevronsUpDown } from "lucide";
+import { icon } from "../../../core/icon";
 import type { PhsaCell } from "./cell";
 import type { PhsaColumn } from "./column";
 import type { PhsaRow } from "./row";
@@ -184,13 +186,8 @@ export class PhsaTable extends PhsaElement {
   /** @ignore */
   private chevron(column: PhsaColumn, index: number) {
     const direction = this.sortKey === this.columnKey(column, index) ? this.sortDirection : "";
-    if (direction === "asc") {
-      return svg`<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" fill="none"><path d="M3 7.5 6 4.5 9 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>`;
-    }
-    if (direction === "desc") {
-      return svg`<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" fill="none"><path d="M3 4.5 6 7.5 9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>`;
-    }
-    return svg`<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" fill="none"><path d="M2.5 4.25 6 1.75 9.5 4.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M2.5 7.75 6 10.25 9.5 7.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>`;
+    const node = direction === "asc" ? ChevronUp : direction === "desc" ? ChevronDown : ChevronsUpDown;
+    return icon(node, "ds:size-3", { strokeWidth: 3 });
   }
 
   /** @ignore */

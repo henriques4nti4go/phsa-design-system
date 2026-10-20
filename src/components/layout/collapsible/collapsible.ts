@@ -1,13 +1,11 @@
 import { LitElement, html, unsafeCSS, type PropertyValues } from "lit";
 import { property } from "lit/decorators.js";
 import { PhsaElement } from "../../../core/phsa-element";
+import { ChevronRight } from "lucide";
+import { icon } from "../../../core/icon";
 import styles from "./collapsible.css?inline";
 
-const chevron = html`
-  <svg class="chevron ds:size-4 ds:shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-    <path d="m9 18 6-6-6-6"></path>
-  </svg>
-`;
+const chevron = icon(ChevronRight, "chevron ds:size-4 ds:shrink-0");
 
 /**
  * Seção que abre e fecha. O gatilho é o `heading` (ou o slot `trigger`).

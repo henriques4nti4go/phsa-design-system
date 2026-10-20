@@ -2,6 +2,8 @@ import { html, unsafeCSS, type PropertyValues } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { property, state } from "lit/decorators.js";
 import { PhsaFormControl } from "../../../core/form-control";
+import { Star } from "lucide";
+import { icon } from "../../../core/icon";
 import styles from "./rating.css?inline";
 
 /**
@@ -132,9 +134,7 @@ export class PhsaRating extends PhsaFormControl {
               }}
               @click=${() => this.choose(value)}
             >
-              <svg class="ds:size-6" viewBox="0 0 24 24" fill=${active ? "currentColor" : "none"} stroke="currentColor" stroke-width="2" aria-hidden="true">
-                <path d="m12 2 3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14l-5-4.87 6.91-1.01z"></path>
-              </svg>
+              ${icon(Star, "ds:size-6", { fill: active ? "currentColor" : "none" })}
             </button>
           `;
         })}
