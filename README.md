@@ -147,6 +147,8 @@ Tokens are injected with zero specificity (`:where(:root)`), so any rule you wri
 
 Add the `dark` class or `data-theme="dark"` to any ancestor (usually `<html>`).
 
+The default dark theme is a near-neutral gray, so the primary blue is the only strong color on screen. For the PHSA TEC brand look (navy surfaces), use the `navy` class or `data-theme="navy"` instead; it also wins when combined with `dark`.
+
 ### CSS parts
 
 Components expose their inner elements as [CSS parts](https://developer.mozilla.org/docs/Web/CSS/::part) for one-off tweaks (the part names are listed in Storybook's docs tab for each component):

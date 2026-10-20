@@ -4,7 +4,7 @@
  * `:where()` zera a especificidade: qualquer `:root { --phsa-* }` do projeto vence.
  */
 :where(:root) {
-  /* Paleta PHSA TEC: azul da marca sobre navy. */
+  /* Claro: azul da marca PHSA TEC sobre branco. */
   --phsa-font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --phsa-radius: 0.625rem;
   --phsa-background: #ffffff;
@@ -23,7 +23,7 @@
   --phsa-success-foreground: oklch(0.985 0 0);
   --phsa-warning: oklch(0.55 0.14 65);
   --phsa-warning-foreground: oklch(0.985 0 0);
-  --phsa-info: #0153fd;
+  --phsa-info: oklch(0.55 0.12 230);
   --phsa-info-foreground: #ffffff;
   --phsa-border: #dce3f0;
   --phsa-input: #dce3f0;
@@ -31,8 +31,39 @@
   --phsa-color-scheme: light;
 }
 
-/* Escuro: fundo navy, superfícies e bordas nos tons navy da marca, primária em azul claro (sky). */
+/*
+ * Escuro: cinza quase neutro com um toque frio. O azul da marca fica só no primário,
+ * que assim é a única cor forte da tela.
+ */
 :where(.dark, [data-theme="dark"]) {
+  --phsa-background: oklch(0.16 0.008 265);
+  --phsa-foreground: oklch(0.97 0.004 265);
+  --phsa-primary: #6e9bff;
+  --phsa-primary-foreground: #070f2b;
+  --phsa-secondary: oklch(0.235 0.01 265);
+  --phsa-secondary-foreground: oklch(0.97 0.004 265);
+  --phsa-muted: oklch(0.235 0.01 265);
+  --phsa-muted-foreground: oklch(0.71 0.014 265);
+  --phsa-accent: oklch(0.265 0.012 265);
+  --phsa-accent-foreground: oklch(0.97 0.004 265);
+  --phsa-destructive: oklch(0.704 0.191 22.216);
+  --phsa-success: oklch(0.75 0.16 150);
+  --phsa-success-foreground: oklch(0.2 0 0);
+  --phsa-warning: oklch(0.8 0.14 80);
+  --phsa-warning-foreground: oklch(0.2 0 0);
+  --phsa-info: oklch(0.78 0.11 215);
+  --phsa-info-foreground: oklch(0.2 0.03 230);
+  --phsa-border: oklch(0.275 0.012 265);
+  --phsa-input: oklch(0.31 0.014 265);
+  --phsa-ring: #6e9bff;
+  --phsa-color-scheme: dark;
+}
+
+/*
+ * Navy: tema escuro da marca PHSA TEC (landing, site de docs). Superfícies e bordas nos
+ * tons navy, primária em azul claro (sky). Vem depois do `.dark`, então vence quando os dois estão juntos.
+ */
+:where(.navy, [data-theme="navy"]) {
   --phsa-background: #070f2b;
   --phsa-foreground: #f6f8fc;
   --phsa-primary: #6e9bff;
@@ -48,8 +79,8 @@
   --phsa-success-foreground: oklch(0.2 0 0);
   --phsa-warning: oklch(0.8 0.14 80);
   --phsa-warning-foreground: oklch(0.2 0 0);
-  --phsa-info: #6e9bff;
-  --phsa-info-foreground: #070f2b;
+  --phsa-info: oklch(0.78 0.11 215);
+  --phsa-info-foreground: oklch(0.2 0.03 230);
   --phsa-border: #22306a;
   --phsa-input: #22306a;
   --phsa-ring: #6e9bff;
